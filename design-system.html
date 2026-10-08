@@ -722,7 +722,7 @@ tools/
           <div class="doc-type-spec"><b>Title</b> · 18/26 · 600 · −0,01em<br>Titre de carte, de section</div>
         </div>
         <div class="doc-type-row">
-          <div class="pg-body">Station Anisogoma · Bobo-Dioulasso</div>
+          <div class="pg-body">Station Est · Secteur Nord</div>
           <div class="doc-type-spec"><b>Body</b> · 14/20 · 400<br>Défaut, cellules de tableau</div>
         </div>
         <div class="doc-type-row">
@@ -1303,12 +1303,12 @@ document.addEventListener('pg:theme', e =&gt; e.detail.theme);</pre></div>
         <div class="doc-sub__title" style="margin-top:var(--space-9)">États</div>
         <div class="doc-demo">
           <div class="doc-states">
-            <div><div class="doc-state__name">Repos</div><input class="pg-input" value="Station Anisogoma"></div>
+            <div><div class="doc-state__name">Repos</div><input class="pg-input" value="Station Est"></div>
             <div><div class="doc-state__name">Vide</div><input class="pg-input" placeholder="Nom du client"></div>
-            <div><div class="doc-state__name">Survol</div><input class="pg-input" value="Station Anisogoma" style="border-color:var(--grey-400)"></div>
-            <div><div class="doc-state__name">Focus</div><input class="pg-input" value="Station Anisogoma" style="border-color:var(--grey-900);box-shadow:var(--focus-ring)"></div>
-            <div><div class="doc-state__name">Désactivé</div><input class="pg-input" value="Station Anisogoma" disabled></div>
-            <div><div class="doc-state__name">Lecture seule</div><input class="pg-input" value="Station Anisogoma" readonly></div>
+            <div><div class="doc-state__name">Survol</div><input class="pg-input" value="Station Est" style="border-color:var(--grey-400)"></div>
+            <div><div class="doc-state__name">Focus</div><input class="pg-input" value="Station Est" style="border-color:var(--grey-900);box-shadow:var(--focus-ring)"></div>
+            <div><div class="doc-state__name">Désactivé</div><input class="pg-input" value="Station Est" disabled></div>
+            <div><div class="doc-state__name">Lecture seule</div><input class="pg-input" value="Station Est" readonly></div>
             <div>
               <div class="doc-state__name">Erreur</div>
               <div class="pg-field pg-field--error">
@@ -1510,7 +1510,7 @@ document.addEventListener('pg:theme', e =&gt; e.detail.theme);</pre></div>
                 <tbody>
                   <tr data-pg-row-href="#c-table" class="is-flagged">
                     <td class="pg-cell--primary"><a href="#c-table">11/08/2026</a></td>
-                    <td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Anisogoma</span></td>
+                    <td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Station Est</span></td>
                     <td class="pg-cell--tight"><span class="pg-steps" title="Pompes et Stocks saisis, Caisse restante"><span class="pg-steps__track" aria-hidden="true"><span class="pg-steps__seg is-done"></span><span class="pg-steps__seg is-done"></span><span class="pg-steps__seg"></span></span><span class="pg-steps__label">2/3</span><span class="pg-visually-hidden">Pompes et Stocks saisis, Caisse restante</span></span></td>
                     <td><span class="pg-status pg-status--critical">Écart signalé</span></td>
                     <td class="pg-cell--num" data-sort-value="12480300">12 480 300</td>
@@ -1519,7 +1519,7 @@ document.addEventListener('pg:theme', e =&gt; e.detail.theme);</pre></div>
                   </tr>
                   <tr data-pg-row-href="#c-table">
                     <td class="pg-cell--primary"><a href="#c-table">10/08/2026</a></td>
-                    <td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Bobo</span></td>
+                    <td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Station Nord</span></td>
                     <td class="pg-cell--tight"><span class="pg-steps" title="Pompes saisi, Stocks et Caisse restants"><span class="pg-steps__track" aria-hidden="true"><span class="pg-steps__seg is-done"></span><span class="pg-steps__seg"></span><span class="pg-steps__seg"></span></span><span class="pg-steps__label">1/3</span><span class="pg-visually-hidden">Pompes saisi, Stocks et Caisse restants</span></span></td>
                     <td><span class="pg-status pg-status--warning">En cours</span></td>
                     <td class="pg-cell--num pg-cell--empty" data-sort-value="-1">—</td>
@@ -1634,7 +1634,7 @@ document.addEventListener('pg:theme', e =&gt; e.detail.theme);</pre></div>
           <p><strong>Une ligne cliquable doit contenir un vrai <code class="doc-code">&lt;a&gt;</code> dans sa cellule d'identité.</strong> Le clic sur la ligne est un confort&nbsp;; <b>le lien est le chemin</b>. Sans lui, la ligne n'existe pas pour qui navigue au clavier — et ouvrir une station, un journal ou un fournisseur en cliquant sa ligne est le geste le plus fréquent de l'application.</p>
         </div>
         <div class="doc-rule">
-          <p><strong>Pourquoi pas un <code class="doc-code">&lt;tr tabindex="0"&gt;</code>.</strong> Un lecteur d'écran annoncerait alors la ligne entière comme un seul lien&nbsp;: «&nbsp;11/08/2026 Anisogoma 2 sur 3 écart signalé 12 480 300 moins 32 350 litres&nbsp;». Le lien doit porter le libellé qui identifie la ligne, et lui seul. Le reste des cellules est du contenu, pas une destination.</p>
+          <p><strong>Pourquoi pas un <code class="doc-code">&lt;tr tabindex="0"&gt;</code>.</strong> Un lecteur d'écran annoncerait alors la ligne entière comme un seul lien&nbsp;: «&nbsp;11/08/2026 Station Est 2 sur 3 écart signalé 12 480 300 moins 32 350 litres&nbsp;». Le lien doit porter le libellé qui identifie la ligne, et lui seul. Le reste des cellules est du contenu, pas une destination.</p>
         </div>
         <div class="doc-rule">
           <p><strong>Le lien ne se distingue pas au repos</strong> — c'est la ligne entière qui est l'affordance. Il se souligne au survol et prend l'anneau au focus, et la ligne se lève avec lui&nbsp;: on doit voir <em>ce qu'on va ouvrir</em>, pas seulement que quelque chose a le focus.</p>
@@ -1649,7 +1649,7 @@ document.addEventListener('pg:theme', e =&gt; e.detail.theme);</pre></div>
           <div class="pg-empty-state">
             <svg class="pg-icon pg-icon--lg pg-empty-state__icon"><use href="#i-inbox"/></svg>
             <div class="pg-empty-state__title">Aucune déclaration sur cette période</div>
-            <p class="pg-empty-state__text">Le filtre porte sur août 2026 et sur la station Bobo. Élargissez la période, ou créez la déclaration du jour.</p>
+            <p class="pg-empty-state__text">Le filtre porte sur août 2026 et sur la station Station Nord. Élargissez la période, ou créez la déclaration du jour.</p>
             <div class="pg-empty-state__action pg-btn-group">
               <button class="pg-btn pg-btn--ghost pg-btn--sm">Réinitialiser les filtres</button>
               <button class="pg-btn pg-btn--secondary pg-btn--sm"><svg class="pg-icon"><use href="#i-plus"/></svg> Nouvelle déclaration</button>
@@ -1670,14 +1670,14 @@ document.addEventListener('pg:theme', e =&gt; e.detail.theme);</pre></div>
           <table class="doc-table">
             <thead><tr><th>Classe</th><th>Rendu</th><th>Règle</th></tr></thead>
             <tbody>
-              <tr><td><code>.pg-cell--primary</code></td><td class="pg-cell--primary">Station Anisogoma</td><td>L'identité de la ligne. Une seule par ligne.</td></tr>
+              <tr><td><code>.pg-cell--primary</code></td><td class="pg-cell--primary">Station Est</td><td>L'identité de la ligne. Une seule par ligne.</td></tr>
               <tr><td><code>.pg-cell--num</code></td><td class="pg-cell--num">32 349,63</td><td>DM Mono, aligné à droite, insécable</td></tr>
               <tr><td>+ <code>.pg-value__unit</code></td><td class="pg-cell--num">25 346<span class="pg-value__unit">L</span></td><td>L'unité recule ; le chiffre porte l'information</td></tr>
               <tr><td><code>.pg-cell--computed</code></td><td class="pg-cell--num pg-cell--computed">35 155</td><td>Calculé, non saisissable — recule d'un cran</td></tr>
               <tr><td><code>.pg-delta--negative</code></td><td class="pg-cell--num pg-delta--negative">−32 350</td><td>Le signe et la couleur avant la valeur</td></tr>
               <tr><td><code>.pg-delta--positive</code></td><td class="pg-cell--num pg-delta--positive">+62 539</td><td>—</td></tr>
               <tr><td><code>.pg-cell--empty</code></td><td class="pg-cell--num pg-cell--empty">—</td><td><strong>Jamais un 0.</strong> Rien et zéro sont deux informations différentes.</td></tr>
-              <tr><td><code>.pg-entity</code></td><td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Station Bobo</span></td><td>Logo compagnie enfermé dans un contenant neutre</td></tr>
+              <tr><td><code>.pg-entity</code></td><td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Station Nord</span></td><td>Logo compagnie enfermé dans un contenant neutre</td></tr>
               <tr><td><code>.pg-cell__sub</code></td><td>Gasoil<div class="pg-cell__sub">Capacité 25 346 L</div></td><td>Valeur + ligne secondaire</td></tr>
               <tr><td><code>.pg-bar</code></td><td><span class="pg-bar pg-bar--critical"><span class="pg-bar__fill" style="width:12%"></span><span class="pg-bar__label pg-num">12 %</span></span></td><td>Jauge en fond de cellule — niveaux, classements</td></tr>
             </tbody>
@@ -2206,7 +2206,7 @@ pgCharts.refresh(figure);
           <div class="doc-grid3">
             <div class="pg-card">
               <div class="pg-card__head">
-                <span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> <span class="pg-card__title">Anisogoma</span></span>
+                <span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> <span class="pg-card__title">Station Est</span></span>
                 <span class="pg-status pg-status--success">93 %</span>
               </div>
               <div class="pg-card__body">
@@ -2227,7 +2227,7 @@ pgCharts.refresh(figure);
 
             <div class="pg-card pg-card--critical">
               <div class="pg-card__head">
-                <span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> <span class="pg-card__title">Bobo</span></span>
+                <span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> <span class="pg-card__title">Station Nord</span></span>
                 <span class="pg-status pg-status--critical">60 %</span>
               </div>
               <div class="pg-card__body">
@@ -2278,7 +2278,7 @@ pgCharts.refresh(figure);
         </div>
 
         <div class="doc-rule">
-          <p><strong>Le remplissage reste neutre tant qu'il n'y a rien à signaler.</strong> Une cuve pleine n'est pas une bonne nouvelle, c'est la normale — elle n'a donc pas à être verte. Seuls l'ambre et le rouge apparaissent, quand un seuil est franchi. La carte porte le même état sur sa bordure : c'était déjà le bon réflexe de la carte « Station Bobo », sauf qu'il était noyé au milieu de dix bordures dorées décoratives.</p>
+          <p><strong>Le remplissage reste neutre tant qu'il n'y a rien à signaler.</strong> Une cuve pleine n'est pas une bonne nouvelle, c'est la normale — elle n'a donc pas à être verte. Seuls l'ambre et le rouge apparaissent, quand un seuil est franchi. La carte porte le même état sur sa bordure : c'était déjà le bon réflexe de la carte « Station Nord », sauf qu'il était noyé au milieu de dix bordures dorées décoratives.</p>
         </div>
 
         <div class="doc-snippet"><pre>&lt;div class="pg-tank pg-tank--critical" style="--level:12"&gt;
@@ -2324,7 +2324,7 @@ pgCharts.refresh(figure);
           <div class="pg-app" style="min-height:520px">
             <aside class="pg-sidebar" style="position:static;height:auto">
               <div class="pg-sidebar__brand">
-                <svg viewBox="0 0 120 24" style="height:20px"><rect width="120" height="24" rx="4" fill="#2A1A12"/><text x="60" y="16" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="700" fill="#fff">GROUPEN</text></svg>
+                <svg viewBox="0 0 120 24" style="height:20px"><rect width="120" height="24" rx="4" fill="#2A1A12"/><text x="60" y="16" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="700" fill="#fff">COMPAGNIE</text></svg>
               </div>
               <nav class="pg-sidebar__nav">
                 <div class="pg-nav-group">
@@ -2458,11 +2458,11 @@ pgCharts.refresh(figure);
               <div>
                 <h1 class="pg-page-header__title">Déclaration du 11/08/2026</h1>
                 <div class="pg-page-header__meta">
-                  <span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Station Anisogoma</span>
+                  <span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Station Est</span>
                   <span class="pg-page-header__meta-sep">·</span>
                   <span class="pg-status pg-status--critical">Écart signalé</span>
                   <span class="pg-page-header__meta-sep">·</span>
-                  <span>Saisie par Alex Ouedraogo</span>
+                  <span>Saisie par Aicha T.</span>
                 </div>
               </div>
               <div class="pg-page-header__actions">
@@ -2639,7 +2639,7 @@ form.addEventListener('pg:autosave', e =&gt; {
         </div>
 
         <div class="doc-sub__title" style="margin-top:var(--space-9)">Recherche globale</div>
-        <p class="doc-sub__note"><strong>Ctrl + K</strong>, ou le bouton ci-dessous. Tapez &laquo;&nbsp;sot&nbsp;&raquo;, &laquo;&nbsp;journal&nbsp;&raquo; ou &laquo;&nbsp;bobo&nbsp;&raquo;. Fl&egrave;ches pour naviguer, Entr&eacute;e pour ouvrir, &Eacute;chap pour fermer.</p>
+        <p class="doc-sub__note"><strong>Ctrl + K</strong>, ou le bouton ci-dessous. Tapez &laquo;&nbsp;sot&nbsp;&raquo;, &laquo;&nbsp;journal&nbsp;&raquo; ou &laquo;&nbsp;nord&nbsp;&raquo;. Fl&egrave;ches pour naviguer, Entr&eacute;e pour ouvrir, &Eacute;chap pour fermer.</p>
         <div class="doc-demo">
           <button class="pg-btn pg-btn--secondary" data-pg-palette>
             <svg class="pg-icon"><use href="#i-search"/></svg> Rechercher
@@ -2654,17 +2654,17 @@ form.addEventListener('pg:autosave', e =&gt; {
           </div>
           <div class="pg-palette__list">
             <div class="pg-palette__group">Stations</div>
-            <button class="pg-palette__item" data-pg-search="barka darsalamy station"><svg class="pg-icon"><use href="#i-station"/></svg><span class="pg-palette__label">Barka Darsalamy</span><span class="pg-palette__meta">STA-DAR</span></button>
-            <button class="pg-palette__item" data-pg-search="oryx bobo secteur station"><svg class="pg-icon"><use href="#i-station"/></svg><span class="pg-palette__label">Oryx Bobo secteur 05</span><span class="pg-palette__meta">STA-BOB</span></button>
-            <button class="pg-palette__item" data-pg-search="gaoua station barka"><svg class="pg-icon"><use href="#i-station"/></svg><span class="pg-palette__label">Gaoua station Barka</span><span class="pg-palette__meta">STA-GAO</span></button>
+            <button class="pg-palette__item" data-pg-search="barka darsalamy station"><svg class="pg-icon"><use href="#i-station"/></svg><span class="pg-palette__label">Station Centre-Ville</span><span class="pg-palette__meta">STA-001</span></button>
+            <button class="pg-palette__item" data-pg-search="station nord secteur station"><svg class="pg-icon"><use href="#i-station"/></svg><span class="pg-palette__label">Station Route Nationale</span><span class="pg-palette__meta">STA-BOB</span></button>
+            <button class="pg-palette__item" data-pg-search="gaoua station barka"><svg class="pg-icon"><use href="#i-station"/></svg><span class="pg-palette__label">Station du Marché</span><span class="pg-palette__meta">STA-GAO</span></button>
 
             <div class="pg-palette__group">Clients</div>
             <button class="pg-palette__item" data-pg-search="sotraco sa entreprise"><svg class="pg-icon"><use href="#i-users"/></svg><span class="pg-palette__label">SOTRACO SA</span><span class="pg-palette__meta">8 325 000 FCFA d&ucirc;s</span></button>
             <button class="pg-palette__item" data-pg-search="mairie ouagadougou administration"><svg class="pg-icon"><use href="#i-users"/></svg><span class="pg-palette__label">Mairie de Ouagadougou</span><span class="pg-palette__meta">6 659 000 FCFA d&ucirc;s</span></button>
 
             <div class="pg-palette__group">Journaux de station</div>
-            <button class="pg-palette__item" data-pg-search="journal 07/09/2026 barka darsalamy"><svg class="pg-icon"><use href="#i-file"/></svg><span class="pg-palette__label">Journal du 07/09/2026</span><span class="pg-palette__meta">Barka Darsalamy</span></button>
-            <button class="pg-palette__item" data-pg-search="journal 06/09/2026 oryx bobo"><svg class="pg-icon"><use href="#i-file"/></svg><span class="pg-palette__label">Journal du 06/09/2026</span><span class="pg-palette__meta">Oryx Bobo</span></button>
+            <button class="pg-palette__item" data-pg-search="journal 07/09/2026 barka darsalamy"><svg class="pg-icon"><use href="#i-file"/></svg><span class="pg-palette__label">Journal du 07/09/2026</span><span class="pg-palette__meta">Station Centre-Ville</span></button>
+            <button class="pg-palette__item" data-pg-search="journal 06/09/2026 station nord"><svg class="pg-icon"><use href="#i-file"/></svg><span class="pg-palette__label">Journal du 06/09/2026</span><span class="pg-palette__meta">Station Nord</span></button>
 
             <div class="pg-palette__group">Aller &agrave;</div>
             <button class="pg-palette__item" data-pg-search="comptabilite journal grand livre balance"><svg class="pg-icon"><use href="#i-book"/></svg><span class="pg-palette__label">Comptabilit&eacute;</span></button>
@@ -2736,8 +2736,8 @@ form.addEventListener('pg:autosave', e =&gt; {
 
         <div class="pg-menu pg-filter-panel" id="f-station" role="menu" hidden>
           <div class="pg-filter-panel__list">
-            <label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station Anisogoma</span></label>
-            <label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station Bobo</span></label>
+            <label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station Est</span></label>
+            <label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station Nord</span></label>
             <label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station Bolibana</span></label>
             <label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station Centre</span></label>
             <label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station MARKOUYA</span></label>
@@ -2825,7 +2825,7 @@ form.addEventListener('pg:autosave', e =&gt; {
               <div class="pg-form">
                 <div class="pg-field">
                   <label class="pg-field__label">Station <span class="pg-field__required">*</span></label>
-                  <select class="pg-select"><option>Station Anisogoma</option><option>Station Bobo</option></select>
+                  <select class="pg-select"><option>Station Est</option><option>Station Nord</option></select>
                 </div>
                 <div class="pg-field">
                   <label class="pg-field__label">Date <span class="pg-field__required">*</span></label>
@@ -3077,7 +3077,7 @@ zone.addEventListener('pg:files', e =&gt; {
               <aside class="pg-entry__rail">
                 <div class="pg-entry__rail-head">
                   <div class="pg-entry__rail-title">Journal du 07/09/2026</div>
-                  <div class="pg-entry__rail-sub">Barka Darsalamy</div>
+                  <div class="pg-entry__rail-sub">Station Centre-Ville</div>
                   <div class="pg-entry__progress">
                     <div class="pg-entry__progress-bar"><div class="pg-entry__progress-fill" style="width:28%"></div></div>
                     <div class="pg-entry__progress-text">38 / 135 champs</div>
@@ -3114,7 +3114,7 @@ zone.addEventListener('pg:files', e =&gt; {
                 <header class="pg-entry__head">
                   <div>
                     <div class="pg-entry__product">C1 &middot; Gasoil</div>
-                    <div class="pg-entry__meta">Capacit&eacute; 25 346 L &middot; Barka Darsalamy</div>
+                    <div class="pg-entry__meta">Capacit&eacute; 25 346 L &middot; Station Centre-Ville</div>
                   </div>
                   <span class="pg-autosave" data-state="queued" id="demo-save"><span class="pg-autosave__dot"></span><span data-pg-autosave-label>Hors ligne &mdash; 1 en attente</span></span>
                 </header>
@@ -3137,7 +3137,7 @@ zone.addEventListener('pg:files', e =&gt; {
 
                   <div class="pg-entry__field pg-entry__field--text" data-pg-entry-field="motif" data-pg-type="text">
                     <span class="pg-entry__label">Motif des sorties diverses<span class="pg-entry__hint">Champ texte &mdash; le clavier du syst&egrave;me prend le relais</span></span>
-                    <input class="pg-input" placeholder="Ex : transfert vers Gaoua">
+                    <input class="pg-input" placeholder="Ex : transfert vers la station Nord">
                   </div>
 
                   <div class="pg-entry__computed">
@@ -3264,13 +3264,13 @@ bloc.addEventListener('pg:entry-next-product', …);  <span class="c">// dernier
         </div>
         <div class="doc-demo">
           <div class="doc-row">
-            <button class="pg-btn pg-btn--secondary" onclick="pgToast({type:'success',titre:'Journal soumis',texte:'07/09/2026 &middot; Barka Darsalamy'})">Succ&egrave;s</button>
-            <button class="pg-btn pg-btn--secondary" onclick="pgToast({type:'warning',titre:'2 cuves sous seuil',texte:'Bobo &middot; Super &mdash; Centre &middot; Gasoil'})">Vigilance</button>
+            <button class="pg-btn pg-btn--secondary" onclick="pgToast({type:'success',titre:'Journal soumis',texte:'07/09/2026 &middot; Station Centre-Ville'})">Succ&egrave;s</button>
+            <button class="pg-btn pg-btn--secondary" onclick="pgToast({type:'warning',titre:'2 cuves sous seuil',texte:'Station Nord &middot; Super &mdash; Centre &middot; Gasoil'})">Vigilance</button>
             <button class="pg-btn pg-btn--secondary" onclick="pgToast({type:'success',titre:'Export pr&ecirc;t',texte:'rapport-septembre.pdf',action:'T&eacute;l&eacute;charger'})">Avec action</button>
           </div>
         </div>
         <div class="doc-snippet"><pre>pgToast({ type: 'success', titre: 'Journal soumis',
-          texte: '07/09/2026 &middot; Barka Darsalamy' });
+          texte: '07/09/2026 &middot; Station Centre-Ville' });
 
 <span class="c">Un toast porteur d'une action ne dispara&icirc;t pas tout seul :</span>
 <span class="c">on ne retire pas une action sous les doigts de l'utilisateur.</span>
@@ -3408,8 +3408,8 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
         </div>
         <div class="doc-demo doc-demo--plain">
           <div class="pg-kv" style="max-width:520px">
-            <div class="pg-kv__key">Code</div><div class="pg-kv__val">STA-DAR</div>
-            <div class="pg-kv__key">Compagnie</div><div class="pg-kv__val"><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> BARKA Energies</span></div>
+            <div class="pg-kv__key">Code</div><div class="pg-kv__val">STA-001</div>
+            <div class="pg-kv__key">Compagnie</div><div class="pg-kv__val"><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Compagnie Démo</span></div>
             <div class="pg-kv__key">Chef de station</div><div class="pg-kv__val pg-cell--empty">&mdash; non attribu&eacute;</div>
             <div class="pg-kv__key">
               Fonds de garantie
@@ -3543,8 +3543,8 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
                   <tr data-pg-row-href="#t-liste" class="is-flagged">
                     <td class="pg-cell--primary"><a href="#t-liste">07/09/2026</a></td>
                     <td class="pg-cell--tight pg-caption">Lundi</td>
-                    <td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Barka Darsalamy</span></td>
-                    <td class="pg-caption">Enzo F. KAMBOU</td>
+                    <td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Station Centre-Ville</span></td>
+                    <td class="pg-caption">Moussa D.</td>
                     <td class="pg-cell--num" data-sort-value="12480300">12 480 300</td>
                     <td class="pg-cell--num pg-delta--negative" data-sort-value="-32350">&minus;32 350 L</td>
                     <td class="pg-cell--num pg-delta--negative" data-sort-value="-14900">&minus;14 900</td>
@@ -3554,8 +3554,8 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
                   <tr data-pg-row-href="#t-liste">
                     <td class="pg-cell--primary"><a href="#t-liste">06/09/2026</a></td>
                     <td class="pg-cell--tight pg-caption">Dimanche</td>
-                    <td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:#0E9BA8;stroke:none"><rect x="4" y="4" width="16" height="16" rx="4"/></svg></span> Oryx Bobo secteur 05</span></td>
-                    <td class="pg-caption">Alex OUEDRAOGO</td>
+                    <td><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:#0E9BA8;stroke:none"><rect x="4" y="4" width="16" height="16" rx="4"/></svg></span> Station Route Nationale</span></td>
+                    <td class="pg-caption">Aïcha T.</td>
                     <td class="pg-cell--num pg-cell--empty" data-sort-value="-1">&mdash;</td>
                     <td class="pg-cell--num pg-cell--empty" data-sort-value="-1">&mdash;</td>
                     <td class="pg-cell--num pg-cell--empty" data-sort-value="-1">&mdash;</td>
@@ -3573,7 +3573,7 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
         </div>
 
         <div class="pg-menu pg-filter-panel" id="t-per" role="menu" hidden><div class="pg-filter-panel__list"><label class="pg-check"><input type="radio" name="tp"><span class="pg-check__label">7 derniers jours</span></label><label class="pg-check"><input type="radio" name="tp" checked><span class="pg-check__label">Septembre 2026</span></label></div></div>
-        <div class="pg-menu pg-filter-panel" id="t-sta" role="menu" hidden><div class="pg-filter-panel__list"><label class="pg-check"><input type="checkbox"><span class="pg-check__label">Barka Darsalamy</span></label><label class="pg-check"><input type="checkbox"><span class="pg-check__label">Oryx Bobo secteur 05</span></label></div></div>
+        <div class="pg-menu pg-filter-panel" id="t-sta" role="menu" hidden><div class="pg-filter-panel__list"><label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station Centre-Ville</span></label><label class="pg-check"><input type="checkbox"><span class="pg-check__label">Station Route Nationale</span></label></div></div>
         <div class="pg-menu pg-filter-panel" id="t-sta2" role="menu" hidden><div class="pg-filter-panel__list"><label class="pg-check"><input type="checkbox" checked><span class="pg-check__label">En cours</span></label><label class="pg-check"><input type="checkbox" checked><span class="pg-check__label">&Eacute;cart signal&eacute;</span></label></div></div>
       </div>
     </section>
@@ -3593,11 +3593,11 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
               <a href="#t-fiche" class="pg-page-header__back"><svg class="pg-icon"><use href="#i-left"/></svg> Toutes les stations</a>
               <div class="pg-page-header__top">
                 <div>
-                  <h1 class="pg-page-header__title">Barka Darsalamy</h1>
+                  <h1 class="pg-page-header__title">Station Centre-Ville</h1>
                   <div class="pg-page-header__meta">
-                    <span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> BARKA Energies</span>
-                    <span class="pg-page-header__meta-sep">&middot;</span><span>Darsalamy</span>
-                    <span class="pg-page-header__meta-sep">&middot;</span><span class="pg-num">STA-DAR</span>
+                    <span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> Compagnie Démo</span>
+                    <span class="pg-page-header__meta-sep">&middot;</span><span>Centre-Ville</span>
+                    <span class="pg-page-header__meta-sep">&middot;</span><span class="pg-num">STA-001</span>
                     <span class="pg-page-header__meta-sep">&middot;</span><span class="pg-cell--empty">Chef station non attribu&eacute;</span>
                   </div>
                 </div>
@@ -3662,7 +3662,7 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
             <header class="pg-page-header">
               <div class="pg-page-header__top">
                 <div>
-                  <h1 class="pg-page-header__title">Bonjour Enzo</h1>
+                  <h1 class="pg-page-header__title">Bonjour Karim</h1>
                   <div class="pg-page-header__meta"><span>Lundi 7 septembre 2026</span><span class="pg-page-header__meta-sep">&middot;</span><span><b class="pg-num">5</b> choses demandent votre attention</span></div>
                 </div>
               </div>
@@ -3678,7 +3678,7 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
             <div class="pg-section__head"><span class="pg-section__title">Niveau des cuves &middot; temps r&eacute;el</span></div>
             <div class="doc-grid2" style="margin-bottom:var(--space-8)">
               <div class="pg-card pg-card--critical">
-                <div class="pg-card__head"><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> <span class="pg-card__title">Barka Darsalamy</span></span><span class="pg-status pg-status--critical">12 %</span></div>
+                <div class="pg-card__head"><span class="pg-entity"><span class="pg-company"><svg viewBox="0 0 24 24" style="fill:var(--red-600);stroke:none"><circle cx="12" cy="12" r="9"/></svg></span> <span class="pg-card__title">Station Centre-Ville</span></span><span class="pg-status pg-status--critical">12 %</span></div>
                 <div class="pg-card__body">
                   <div class="pg-banner pg-banner--critical" style="margin-bottom:var(--space-6)">
                     <svg class="pg-icon pg-banner__icon"><use href="#i-alert"/></svg>
@@ -3696,11 +3696,11 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
                 <div class="pg-card__body">
                   <div class="pg-banner pg-banner--success" style="margin-bottom:var(--space-6)">
                     <svg class="pg-icon pg-banner__icon"><use href="#i-check"/></svg>
-                    <div class="pg-banner__text"><div class="pg-banner__title">Barka Darsalamy, 2<sup>e</sup> &middot; 79 / 100</div><div class="pg-banner__sub">+4 depuis la semaine derni&egrave;re &middot; 6 points &agrave; gagner en d&eacute;posant les pi&egrave;ces &agrave; temps</div></div>
+                    <div class="pg-banner__text"><div class="pg-banner__title">Station Centre-Ville, 2<sup>e</sup> &middot; 79 / 100</div><div class="pg-banner__sub">+4 depuis la semaine derni&egrave;re &middot; 6 points &agrave; gagner en d&eacute;posant les pi&egrave;ces &agrave; temps</div></div>
                   </div>
                   <figure class="pg-chart" data-pg-chart="hbars">
                     <script type="application/json">
-                    {"items":[{"nom":"Oryx Bobo secteur 05","valeur":83},{"nom":"Barka Darsalamy","valeur":79},{"nom":"Gaoua station Barka","valeur":73},{"nom":"Oryx Batie","valeur":70}]}
+                    {"items":[{"nom":"Station Route Nationale","valeur":83},{"nom":"Station Centre-Ville","valeur":79},{"nom":"Station du Marché","valeur":73},{"nom":"Station Aéroport","valeur":70}]}
                     </script>
                   </figure>
                 </div>
@@ -3824,7 +3824,7 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
 
                 <div class="pg-field">
                   <label class="pg-field__label" for="a-mail">Email</label>
-                  <input class="pg-input" id="a-mail" type="email" value="loure.amad@groupenburkina.com" autocomplete="username">
+                  <input class="pg-input" id="a-mail" type="email" value="directeur@compagnie-demo.com" autocomplete="username">
                 </div>
 
                 <div class="pg-field pg-field--error">
@@ -3865,7 +3865,7 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
       <div class="doc-sub__title" style="margin-top:var(--space-9)">Bandeaux &mdash; les cinq tons</div>
       <div class="doc-demo">
         <div class="pg-banner pg-banner--critical"><svg class="pg-icon pg-banner__icon"><use href="#i-alert"/></svg><div class="pg-banner__text"><div class="pg-banner__title">Cuve SP95 sous le seuil critique</div><div class="pg-banner__sub">Autonomie 8 h &middot; commande à passer aujourd'hui</div></div><button class="pg-btn pg-btn--sm pg-btn--secondary pg-banner__action">Commander</button></div>
-        <div class="pg-banner pg-banner--warning"><svg class="pg-icon pg-banner__icon"><use href="#i-alert"/></svg><div class="pg-banner__text"><div class="pg-banner__title">Trois déclarations en retard</div><div class="pg-banner__sub">Barka Darsalamy &middot; 09 au 11/08</div></div></div>
+        <div class="pg-banner pg-banner--warning"><svg class="pg-icon pg-banner__icon"><use href="#i-alert"/></svg><div class="pg-banner__text"><div class="pg-banner__title">Trois déclarations en retard</div><div class="pg-banner__sub">Station Centre-Ville &middot; 09 au 11/08</div></div></div>
         <div class="pg-banner pg-banner--success"><svg class="pg-icon pg-banner__icon"><use href="#i-check"/></svg><div class="pg-banner__text"><div class="pg-banner__title">Journal du 11/08 validé</div></div></div>
         <div class="pg-banner pg-banner--info"><svg class="pg-icon pg-banner__icon"><use href="#i-help"/></svg><div class="pg-banner__text"><div class="pg-banner__title">Période d'inventaire ouverte jusqu'au 15/08</div></div></div>
         <div class="pg-banner pg-banner--neutral"><svg class="pg-icon pg-banner__icon"><use href="#i-history"/></svg><div class="pg-banner__text"><div class="pg-banner__title">Vous consultez un exercice clos</div><div class="pg-banner__sub">Lecture seule</div></div></div>
@@ -3899,9 +3899,9 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
 
       <div class="doc-sub__title" style="margin-top:var(--space-9)">Carte &mdash; filet d'état</div>
       <div class="doc-demo doc-row" style="align-items:stretch">
-        <div class="pg-card pg-card--success" style="flex:1"><div class="pg-card__head"><span class="pg-card__title">Barka Darsalamy</span></div><div class="pg-card__body"><span class="pg-caption">Journal validé · 11/08</span></div></div>
-        <div class="pg-card pg-card--warning" style="flex:1"><div class="pg-card__head"><span class="pg-card__title">Bobo</span></div><div class="pg-card__body"><span class="pg-caption">Cuve sous seuil · 22 %</span></div></div>
-        <div class="pg-card pg-card--critical" style="flex:1"><div class="pg-card__head"><span class="pg-card__title">Anisogoma</span></div><div class="pg-card__body"><span class="pg-caption">Écart signalé · −32 350 L</span></div></div>
+        <div class="pg-card pg-card--success" style="flex:1"><div class="pg-card__head"><span class="pg-card__title">Station Centre-Ville</span></div><div class="pg-card__body"><span class="pg-caption">Journal validé · 11/08</span></div></div>
+        <div class="pg-card pg-card--warning" style="flex:1"><div class="pg-card__head"><span class="pg-card__title">Station Nord</span></div><div class="pg-card__body"><span class="pg-caption">Cuve sous seuil · 22 %</span></div></div>
+        <div class="pg-card pg-card--critical" style="flex:1"><div class="pg-card__head"><span class="pg-card__title">Station Est</span></div><div class="pg-card__body"><span class="pg-caption">Écart signalé · −32 350 L</span></div></div>
       </div>
 
       <div class="doc-sub__title" style="margin-top:var(--space-9)">Champ &mdash; préfixe et suffixe</div>
@@ -3936,7 +3936,7 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
 
       <div class="doc-sub__title" style="margin-top:var(--space-9)">Toast &mdash; les quatre tons</div>
       <div class="doc-demo doc-row">
-        <button class="pg-btn pg-btn--secondary pg-btn--sm" onclick="pgToast({titre:'Journal soumis', texte:'11/08 · Barka Darsalamy'})">Neutre</button>
+        <button class="pg-btn pg-btn--secondary pg-btn--sm" onclick="pgToast({titre:'Journal soumis', texte:'11/08 · Station Centre-Ville'})">Neutre</button>
         <button class="pg-btn pg-btn--secondary pg-btn--sm" onclick="pgToast({type:'success', titre:'Déclaration validée', texte:'Le journal passe en lecture seule'})">Succès</button>
         <button class="pg-btn pg-btn--secondary pg-btn--sm" onclick="pgToast({type:'warning', titre:'Enregistré hors ligne', texte:'La synchronisation reprendra au retour du réseau'})">Vigilance</button>
         <button class="pg-btn pg-btn--secondary pg-btn--sm" onclick="pgToast({type:'error', titre:'Export interrompu', texte:'Le serveur n’a pas répondu', action:'Réessayer', onAction(){pgToast({type:'success',titre:'Export relancé'})}})">Erreur avec action</button>
@@ -3951,9 +3951,9 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
           <table class="pg-table">
             <thead><tr><th class="pg-cell--rank">#</th><th>Station</th><th class="pg-cell--num">Chiffre d'affaires</th><th class="pg-cell--num">Tendance</th></tr></thead>
             <tbody>
-              <tr><td class="pg-cell--rank">1</td><td class="pg-cell--primary"><a href="#planche">Barka Darsalamy</a></td><td class="pg-cell--num">18 402 100</td><td class="pg-cell--num"><span class="pg-spark pg-spark--positive" data-pg-chart="spark"><script type="application/json">{ "valeurs": [12,14,13,16,18,17,21] }</script></span></td></tr>
-              <tr><td class="pg-cell--rank">2</td><td class="pg-cell--primary"><a href="#planche">Bobo</a></td><td class="pg-cell--num">14 118 400</td><td class="pg-cell--num"><span class="pg-spark pg-spark--negative" data-pg-chart="spark"><script type="application/json">{ "valeurs": [19,18,18,15,14,13,11] }</script></span></td></tr>
-              <tr><td class="pg-cell--rank">3</td><td class="pg-cell--primary"><a href="#planche">Anisogoma</a></td><td class="pg-cell--num">12 480 300</td><td class="pg-cell--num"><span class="pg-spark" data-pg-chart="spark"><script type="application/json">{ "valeurs": [13,13,14,13,14,13,13] }</script></span></td></tr>
+              <tr><td class="pg-cell--rank">1</td><td class="pg-cell--primary"><a href="#planche">Station Centre-Ville</a></td><td class="pg-cell--num">18 402 100</td><td class="pg-cell--num"><span class="pg-spark pg-spark--positive" data-pg-chart="spark"><script type="application/json">{ "valeurs": [12,14,13,16,18,17,21] }</script></span></td></tr>
+              <tr><td class="pg-cell--rank">2</td><td class="pg-cell--primary"><a href="#planche">Station Nord</a></td><td class="pg-cell--num">14 118 400</td><td class="pg-cell--num"><span class="pg-spark pg-spark--negative" data-pg-chart="spark"><script type="application/json">{ "valeurs": [19,18,18,15,14,13,11] }</script></span></td></tr>
+              <tr><td class="pg-cell--rank">3</td><td class="pg-cell--primary"><a href="#planche">Station Est</a></td><td class="pg-cell--num">12 480 300</td><td class="pg-cell--num"><span class="pg-spark" data-pg-chart="spark"><script type="application/json">{ "valeurs": [13,13,14,13,14,13,13] }</script></span></td></tr>
             </tbody>
           </table>
         </div>
@@ -3974,7 +3974,7 @@ pgLoad.done();    <span class="c">&agrave; l'arriv&eacute;e de la r&eacute;ponse
               <button class="pg-btn pg-btn--primary pg-btn--sm">Soumettre</button>
             </div>
           </div>
-          <div class="pg-page-header__meta">Anisogoma <span class="pg-page-header__meta-sep">·</span> Chef de station Yao K. <span class="pg-page-header__meta-sep">·</span> 76 champs sur 135</div>
+          <div class="pg-page-header__meta">Station Est <span class="pg-page-header__meta-sep">·</span> Chef de station Yao K. <span class="pg-page-header__meta-sep">·</span> 76 champs sur 135</div>
         </div>
       </div>
 
