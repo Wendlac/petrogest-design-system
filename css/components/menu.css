@@ -1,0 +1,97 @@
+/* ==========================================================================
+   PETROGEST · menu.css
+   --------------------------------------------------------------------------
+   LA REGLE D'ACTION DE LIGNE, valable pour les neuf ecrans.
+
+   La version precedente en avait cinq :
+     Stations         → deux boutons « Voir » et « Editer »
+     Clients / Appro  → un kebab
+     Declarations     → un bouton « Ouvrir »
+     Alertes          → un bouton « Resoudre »
+     Pieces           → une icone poubelle seule
+
+   Le design system n'en garde qu'une, en trois niveaux :
+
+   1. OUVRIR se fait en cliquant la ligne. Pas de bouton : la ligne entiere
+      est la cible. C'est l'action que l'utilisateur fait 90 % du temps, elle
+      ne merite pas d'occuper une colonne.
+
+   2. UNE action frequente et non destructrice peut sortir en bouton
+      secondaire de taille sm, revele au survol de la ligne. Une seule.
+      Exemple legitime : « Resoudre » sur une alerte.
+
+   3. TOUT LE RESTE va dans le kebab. Y compris les actions destructrices,
+      qui y sont toujours en dernier, apres un separateur.
+   ========================================================================== */
+
+
+/* --- Declencheur ---------------------------------------------------------- */
+
+/* Une action revelee au survol reste accessible au clavier : elle
+   reapparait des qu'elle recoit le focus. */
+.pg-row-action { opacity: 0; transition: opacity var(--duration-fast) var(--ease-standard); }
+tr:hover .pg-row-action,
+.pg-row-action:focus-within,
+.pg-row-action:focus-visible { opacity: 1; }
+
+@media (hover: none) { .pg-row-action { opacity: 1; } }
+
+
+/* --- Menu ----------------------------------------------------------------- */
+
+.pg-menu {
+  position: absolute;
+  z-index: 60;
+  min-width: 180px;
+  padding: var(--space-2);
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.pg-menu[hidden] { display: none; }
+
+.pg-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  height: var(--control-height-sm);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-label-size);
+  font-weight: var(--weight-regular);
+  color: var(--text-secondary);
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pg-menu__item:hover,
+.pg-menu__item:focus-visible { background: var(--surface-hover); color: var(--text-primary); outline: none; }
+.pg-menu__item .pg-icon { color: var(--text-muted); }
+.pg-menu__item:hover .pg-icon { color: var(--text-secondary); }
+
+.pg-menu__item[aria-disabled="true"] { color: var(--text-disabled); pointer-events: none; }
+
+/* L'action destructrice est toujours la derniere, apres un separateur. */
+.pg-menu__item--danger { color: var(--action-danger-quiet); }
+.pg-menu__item--danger:hover { background: var(--red-50); color: var(--red-800); }
+.pg-menu__item--danger .pg-icon { color: currentColor; }
+
+.pg-menu__sep { height: 1px; margin: var(--space-2) 0; background: var(--border-subtle); }
+
+.pg-menu__label {
+  padding: var(--space-3) var(--space-4) var(--space-2);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  /* Un intitule de groupe se lit : --text-disabled le laissait a 2,60:1. */
+  color: var(--text-muted);
+}
+
+/* Raccourci clavier, aligne a droite. */
+/* Le raccourci est la seule facon dont quelqu'un l'apprendra : illisible,
+   il ne sert a rien. */
+.pg-menu__key { margin-left: auto; font-family: var(--font-numeric); font-size: 11px; color: var(--text-muted); }

@@ -1,0 +1,277 @@
+/* ==========================================================================
+   PETROGEST · Design System
+   base.css — v0.1
+   --------------------------------------------------------------------------
+   Reset, typographie de base, et les quelques primitives transverses
+   (roles typographiques, chiffres, focus). Aucun composant ici.
+   Depend de tokens.css.
+   ========================================================================== */
+
+/* --- Reset ---------------------------------------------------------------- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd,
+ul, ol { margin: 0; }
+
+ul[role="list"],
+ol[role="list"] { list-style: none; padding: 0; }
+
+img, svg, video { display: block; max-width: 100%; }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+button { background: none; border: none; padding: 0; cursor: pointer; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th { text-align: left; font-weight: inherit; }
+
+
+/* --- Base ----------------------------------------------------------------- */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  font-weight: var(--text-body-weight);
+  color: var(--text-primary);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'kern' 1;
+}
+
+
+/* --- Roles typographiques -------------------------------------------------
+   A appliquer par classe. Les balises h1..h6 restent libres pour la
+   semantique du document ; le role visuel est porte par la classe. */
+
+.pg-display {
+  font-size: var(--text-display-size);
+  line-height: var(--text-display-line);
+  font-weight: var(--text-display-weight);
+  letter-spacing: var(--text-display-spacing);
+  color: var(--text-primary);
+}
+
+.pg-title {
+  font-size: var(--text-title-size);
+  line-height: var(--text-title-line);
+  font-weight: var(--text-title-weight);
+  letter-spacing: var(--text-title-spacing);
+  color: var(--text-primary);
+}
+
+.pg-body {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  font-weight: var(--text-body-weight);
+  letter-spacing: var(--text-body-spacing);
+}
+
+.pg-label {
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line);
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--text-label-spacing);
+}
+
+.pg-caption {
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+  font-weight: var(--text-caption-weight);
+  letter-spacing: var(--text-caption-spacing);
+  color: var(--text-muted);
+}
+
+.pg-micro {
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-line);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pg-metric {
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-metric-size) * var(--numeric-scale));
+  line-height: var(--text-metric-line);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--numeric-tracking);
+}
+
+.pg-metric-lg {
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-metric-lg-size) * var(--numeric-scale));
+  line-height: var(--text-metric-lg-line);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--numeric-tracking);
+}
+
+
+/* --- Couleurs de texte ---------------------------------------------------- */
+
+.pg-text-primary   { color: var(--text-primary); }
+.pg-text-secondary { color: var(--text-secondary); }
+.pg-text-muted     { color: var(--text-muted); }
+.pg-text-disabled  { color: var(--text-disabled); }
+
+
+/* --- Chiffres -------------------------------------------------------------
+   PETROGEST est une application de rapprochement : les colonnes de chiffres
+   doivent s'aligner au caractere pres. Ce n'est pas une preference de style,
+   c'est une exigence fonctionnelle.
+
+   DM Sans ne peut pas rendre ce service : la police ne contient aucun jeu de
+   chiffres tabulaires, et forcer font-variant-numeric / 'tnum' n'y change
+   rien (verifie au navigateur : chasses de 10,33 px a 26,77 px a 40 px).
+   Les donnees numeriques passent donc en DM Mono, la compagne de DM Sans
+   dans la meme superfamille.
+
+   Regle : toute cellule numerique, toute metrique, tout montant porte
+   .pg-num — ou herite d'un conteneur qui le porte. */
+
+.pg-num,
+.pg-num td,
+td.pg-num,
+.pg-table td[data-numeric] {
+  font-family: var(--font-numeric);
+  font-size: calc(1em * var(--numeric-scale));
+  letter-spacing: var(--numeric-tracking);
+  font-variant-numeric: tabular-nums; /* sans effet sur DM Mono, mais correct
+                                         si la police numerique change un jour */
+}
+
+/* Un montant se lit de droite a gauche : le chiffre d'abord, l'unite ensuite
+   et en retrait. */
+.pg-unit {
+  color: var(--text-muted);
+  font-size: var(--text-caption-size);
+  font-weight: var(--weight-regular);
+  margin-left: var(--space-2);
+}
+
+/* Signe d'ecart : le sens avant la valeur. */
+.pg-positive { color: var(--data-positive); }
+.pg-negative { color: var(--data-negative); }
+.pg-empty    { color: var(--data-empty); }
+
+
+/* --- Focus ----------------------------------------------------------------
+   Un seul anneau pour toute l'application. Jamais de outline: none sans
+   remplacement. */
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.pg-on-inverse :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  box-shadow: var(--focus-ring-inverse);
+}
+
+
+/* --- Accessibilite -------------------------------------------------------- */
+
+.pg-visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Elements reserves au papier
+   --------------------------------------------------------------------------
+   Ils n'existent qu'a l'impression. La regle qui les revele est dans
+   print.css ; celle qui les cache doit rester ici, cote ecran, pour qu'un
+   integrateur qui pose un .pg-print-head ne voie rien apparaitre dans
+   l'interface.
+   -------------------------------------------------------------------------- */
+
+.pg-print-head,
+.pg-print-only { display: none; }
+
+
+/* ==========================================================================
+   RYTHME VERTICAL
+   --------------------------------------------------------------------------
+   C'est ce qui rend les utilitaires d'espacement inutiles.
+
+   Dans l'application actuelle, l'espace entre deux blocs est decide au point
+   d'appel : <div class="card mb-4">. Il y a 425 decisions de ce genre dans le
+   code, et rien ne garantit qu'elles concordent — la meme carte porte mb-4
+   ici et mb-3 trois ecrans plus loin.
+
+   Ici, un bloc de niveau page sait de combien il s'ecarte du suivant. Une
+   seule declaration, un seul endroit a changer, et aucune classe a poser dans
+   le balisage.
+
+   POURQUOI UNE MARGE BASSE ET NON UN gap SUR LE CONTENEUR
+   Un gap supposerait que tout bloc vit dans un conteneur en flux, ce qui est
+   faux : ces blocs apparaissent aussi bien dans une .pg-page que dans le
+   corps d'une carte, d'une modale ou d'un panneau. La marge basse voyage avec
+   le bloc ; le conteneur n'a rien a savoir.
+
+   .pg-steps en est exclu : c'est un inline-flex qui vit dans une cellule de
+   tableau, pas un bloc de page.
+   ========================================================================== */
+
+.pg-card,
+.pg-kpi,
+.pg-table-wrap,
+.pg-tanks,
+.pg-form,
+.pg-checks,
+.pg-banner,
+.pg-overrides,
+.pg-kv,
+.pg-stepper,
+.pg-files,
+.pg-drop,
+.pg-empty-state,
+.pg-chart,
+.pg-filters,
+.pg-table-bar,
+.pg-ledger-pair,
+.pg-ledger-check {
+  margin-bottom: var(--space-6);
+}
+
+/* Pas de marge en queue de conteneur : elle s'ajouterait au rembourrage du
+   conteneur et creuserait un vide que personne n'a demande. */
+.pg-page > :last-child,
+.pg-section > :last-child,
+.pg-card__body > :last-child,
+.pg-modal__body > :last-child,
+.pg-drawer > :last-child,
+.pg-ledger-pair__side > :last-child { margin-bottom: 0; }

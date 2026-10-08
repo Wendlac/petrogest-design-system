@@ -1,0 +1,336 @@
+/* ==========================================================================
+   PETROGEST · Design System
+   ledger.css — Tableaux comptables
+   --------------------------------------------------------------------------
+   Grand Livre, Balance, Bilan, Compte de resultat, Journal general.
+
+   POURQUOI UN FICHIER A PART
+   Un tableau comptable n'est pas une liste dense de plus. Il a quatre traits
+   qu'aucun autre tableau de l'application ne possede, et chacun demande une
+   regle :
+
+     1. Il se TOTALISE. Le <tfoot> n'est pas decoratif : c'est la ligne qu'on
+        lit en premier et qu'on verifie.
+     2. Il a une HIERARCHIE dans le corps. Rubrique, sous-total, ligne de
+        detail — trois niveaux dans un seul <tbody>.
+     3. Il s'EQUILIBRE. Deux colonnes, ou deux tableaux face a face, dont la
+        somme doit coincider. L'ecart est l'information principale de l'ecran.
+     4. Une case VIDE y veut dire quelque chose. Dans une liste, un tiret dit
+        « donnee absente ». Dans un journal, une colonne Debit vide dit « pas
+        de mouvement de ce cote » — ce qui est une information exacte, pas un
+        manque.
+
+   TROIS DECISIONS
+
+   · UN MONTANT NEGATIF N'EST PAS UNE ALERTE.
+     En comptabilite le signe est une convention, pas un probleme : une charge
+     se soustrait, c'est son role. Les montants restent donc a l'encre, avec
+     leur signe. La couleur est reservee a ce qui est reellement anormal —
+     le desequilibre, et la perte sur la ligne de resultat.
+
+   · LES TOTAUX NE SE TRIENT PAS.
+     Ne jamais poser data-pg-sort sur un tableau a <tfoot> hierarchique : le
+     tri reordonne les <tr> du <tbody> et melangerait les sous-totaux avec
+     les lignes de detail. La Balance, elle, est plate : elle peut se trier.
+
+   · LE SOLDE PROGRESSIF EST UNE COLONNE A PART.
+     Dans un Grand Livre, Debit et Credit sont des mouvements ; le solde est
+     un etat. Les confondre visuellement, c'est laisser lire une variation
+     comme une position.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1 · LA VARIANTE
+   --------------------------------------------------------------------------
+   Un modificateur de .pg-table, pas un composant parallele : tout ce qui
+   vaut pour un tableau vaut ici.
+
+       <table class="pg-table pg-table--ledger">
+   ========================================================================== */
+
+.pg-table--ledger {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Les lignes se resserrent : un Grand Livre fait plusieurs centaines de
+   lignes et se lit en balayant une colonne de chiffres, pas en pointant. */
+.pg-table--ledger tbody td {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  height: auto;
+}
+
+
+/* ==========================================================================
+   2 · LES CELLULES DE MONTANT
+   ========================================================================== */
+
+/* Debit / Credit : une case vide est une information, pas un trou. On ne
+   met donc NI tiret NI zero — les deux mentiraient. */
+.pg-cell--dc {
+  text-align: right;
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-body-size) * var(--numeric-scale));
+  letter-spacing: var(--numeric-tracking);
+  white-space: nowrap;
+  width: 1%;
+}
+.pg-cell--dc:empty::after { content: ""; }
+
+/* Le solde : un etat, pas un mouvement. Encre pleine et graisse moyenne le
+   detachent des deux colonnes de mouvement qui le precedent. */
+.pg-cell--balance {
+  text-align: right;
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-body-size) * var(--numeric-scale));
+  letter-spacing: var(--numeric-tracking);
+  white-space: nowrap;
+  width: 1%;
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  background: var(--surface-sunken);
+}
+
+/* Numero de compte : largeur fixe, chasse fixe, il sert de repere de
+   navigation dans la colonne de gauche. */
+.pg-cell--account {
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-body-size) * var(--numeric-scale));
+  letter-spacing: var(--numeric-tracking);
+  white-space: nowrap;
+  width: 1%;
+  color: var(--text-primary);
+  font-weight: var(--weight-medium);
+}
+
+
+/* ==========================================================================
+   3 · LA HIERARCHIE DANS LE CORPS
+   --------------------------------------------------------------------------
+   Trois niveaux, trois traitements. Aucun n'utilise la couleur : c'est la
+   graisse, le filet et le retrait qui portent la structure — de la couleur
+   ici entrerait en concurrence avec le desequilibre, qui doit rester le
+   seul signal colore de la page.
+   ========================================================================== */
+
+/* Rubrique + son sous-total, sur la meme ligne. */
+.pg-ledger__group > * {
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--border-default);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+/* Ligne de detail sous une rubrique : en retrait, en texte secondaire. */
+.pg-ledger__detail > td:first-child { padding-left: var(--space-7); }
+.pg-ledger__detail > td             { color: var(--text-secondary); }
+
+/* Solde intermediaire de gestion : une ligne d'arithmetique. Le signe
+   d'operation vit dans sa propre colonne pour que les libelles restent
+   alignes entre eux — « = Valeur ajoutee » et « - Charges de personnel »
+   ne doivent pas se decaler l'un par rapport a l'autre. */
+.pg-ledger__op {
+  width: 1%;
+  padding-right: 0;
+  text-align: center;
+  font-family: var(--font-numeric);
+  color: var(--text-muted);
+  user-select: none;
+}
+
+/* Ligne de resultat intermediaire : elle conclut le bloc au-dessus d'elle. */
+.pg-ledger__result > * {
+  border-top: var(--border-width) solid var(--border-strong);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+/* La seule ligne ou un negatif se colore : une perte est un fait a signaler,
+   pas une convention de signe. */
+.pg-ledger__result--loss > * { color: var(--status-critical-text); }
+
+
+/* ==========================================================================
+   4 · LE PIED
+   --------------------------------------------------------------------------
+   Le <tfoot> est repete en haut de chaque page a l'impression par
+   print.css. Ici il faut surtout qu'il ne se confonde pas avec la derniere
+   ligne du corps.
+   ========================================================================== */
+
+.pg-table--ledger tfoot th,
+.pg-table--ledger tfoot td {
+  padding: var(--space-4) var(--space-5);
+  border-top: 2px solid var(--border-strong);
+  background: var(--surface-raised);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--text-body-size);
+}
+
+.pg-table--ledger tfoot .pg-cell--dc,
+.pg-table--ledger tfoot .pg-cell--balance,
+.pg-table--ledger tfoot .pg-cell--num {
+  text-align: right;
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-body-size) * var(--numeric-scale));
+  letter-spacing: var(--numeric-tracking);
+}
+
+/* Un tableau totalise n'a pas de zebrage : la ligne de total doit etre la
+   seule zone dense de l'ensemble. */
+.pg-table--ledger tbody tr:nth-child(even) { background: none; }
+
+
+/* ==========================================================================
+   5 · L'EQUILIBRE
+   --------------------------------------------------------------------------
+   L'information principale de la page. Elle vient AVANT le tableau : on
+   veut savoir si les comptes tombent juste avant de les lire.
+
+       <div class="pg-ledger-check" data-state="balanced">
+         <div class="pg-ledger-check__state">Equilibre</div>
+         <dl class="pg-ledger-check__sides">…</dl>
+       </div>
+   ========================================================================== */
+
+.pg-ledger-check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid var(--border-default);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+
+.pg-ledger-check__state {
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+/* Les deux cotes, cote a cote, en chasse fixe : c'est en les superposant du
+   regard qu'on voit ou l'ecart se loge. */
+.pg-ledger-check__sides {
+  display: flex;
+  gap: var(--space-6);
+  margin: 0;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.pg-ledger-check__side { display: flex; align-items: baseline; gap: var(--space-3); }
+.pg-ledger-check__label {
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+}
+.pg-ledger-check__value {
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-body-size) * var(--numeric-scale));
+  letter-spacing: var(--numeric-tracking);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+/* Equilibre : sobre. C'est l'etat normal, il ne merite pas de vert vif —
+   un ecran ou tout va bien ne doit pas ressembler a une reussite. */
+.pg-ledger-check[data-state="balanced"] {
+  border-left-color: var(--status-success-border);
+}
+
+/* Desequilibre : le seul endroit colore de la page. */
+.pg-ledger-check[data-state="unbalanced"] {
+  border-left-color: var(--status-critical-border);
+  background: var(--status-critical-bg);
+}
+.pg-ledger-check[data-state="unbalanced"] .pg-ledger-check__state { color: var(--status-critical-text); }
+
+/* L'ecart n'apparait que s'il existe. */
+.pg-ledger-check__gap {
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-body-size) * var(--numeric-scale));
+  letter-spacing: var(--numeric-tracking);
+  font-weight: var(--weight-semibold);
+  color: var(--status-critical-text);
+}
+
+
+/* ==========================================================================
+   6 · LES TABLEAUX FACE A FACE
+   --------------------------------------------------------------------------
+   Actif / Passif, Charges / Produits. Deux tableaux qui se lisent ensemble
+   et dont les totaux doivent coincider.
+
+   Ils passent l'un SOUS l'autre en dessous de 900 px, et a l'impression :
+   deux colonnes de comptes sur une feuille A4 portrait donnent des libelles
+   coupes.
+   ========================================================================== */
+
+.pg-ledger-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .pg-ledger-pair { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media print {
+  .pg-ledger-pair { display: block; }
+  .pg-ledger-pair > * + * { margin-top: var(--space-6); }
+}
+
+.pg-ledger-pair__side {
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface-raised);
+}
+
+.pg-ledger-pair__title {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: var(--border-width) solid var(--border-default);
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-line);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   7 · TACTILE ET IMPRESSION
+   ========================================================================== */
+
+/* Au doigt, les lignes reprennent de la hauteur : un Grand Livre se consulte
+   aussi sur tablette, et une ligne de 28 px ne se pointe pas. */
+@media (pointer: coarse) {
+  .pg-table--ledger tbody td {
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+}
+
+@media print {
+  /* Le solde perd son fond : sur papier, le filet de la colonne suffit et
+     un aplat gris sur des centaines de lignes coute cher en encre. */
+  .pg-cell--balance { background: none !important; }
+
+  /* Les sous-totaux ne se detachent pas d'une rubrique par un saut de page. */
+  .pg-ledger__group,
+  .pg-ledger__result { break-inside: avoid; break-before: avoid; }
+
+  /* L'equilibre s'imprime : c'est ce qu'on verifie sur l'epreuve papier. */
+  .pg-ledger-check {
+    -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+  }
+}

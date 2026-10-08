@@ -1,0 +1,378 @@
+/* ==========================================================================
+   PETROGEST · Design System
+   print.css — Impression et export PDF
+   --------------------------------------------------------------------------
+   Rien ici ne s'applique a l'ecran. Tout le fichier est sous @media print.
+
+   POURQUOI CETTE FEUILLE EXISTE
+   Un rapport, un journal valide, un Grand Livre : ces documents sortent de
+   l'application sur du papier ou en PDF, et c'est souvent la seule trace qui
+   circule. Sans feuille d'impression, le navigateur sort la barre laterale,
+   la barre du haut, les boutons, et coupe les tableaux au milieu d'une ligne.
+
+   TROIS PRINCIPES
+
+   1 · L'ECRAN EST UN OUTIL, LE PAPIER EST UNE PREUVE.
+       Tout ce qui sert a agir disparait — navigation, boutons, filtres,
+       menus, pagination. Ce qui reste, ce sont les donnees et ce qui permet
+       de les dater et de les identifier.
+
+   2 · LA COULEUR QUI PORTE DU SENS RESTE, LE RESTE PART.
+       Un statut « Anomalie » imprime en gris n'est plus un statut. Les
+       badges, les ecarts, les seuils et les graphiques gardent donc leur
+       couleur via print-color-adjust. Les fonds decoratifs, les ombres et
+       les surfaces surelevees partent.
+
+   3 · ON N'IMPRIME JAMAIS UN FOND NOIR.
+       Aucune valeur n'est redeclaree ici pour autant : theme-dark.css est
+       entierement sous @media screen, donc a l'impression les roles clairs
+       de tokens.css reprennent la main tout seuls.
+
+   CE QUE CETTE FEUILLE NE FAIT PAS
+   Elle ne revele pas les URL des liens apres leur libelle. C'est l'usage sur
+   le web public, mais ici tous les liens sont des routes internes en #/ :
+   les imprimer ajouterait du bruit illisible a chaque ligne de tableau.
+
+   A FAIRE COTE INTEGRATION
+   Poser un bloc .pg-print-head en haut de chaque page imprimable. Il est
+   invisible a l'ecran et devient l'en-tete du document papier. Sans lui, une
+   page sortie de l'imprimante ne dit ni de quelle station ni de quelle
+   periode elle parle.
+   ========================================================================== */
+
+@media print {
+
+/* --------------------------------------------------------------------------
+   1 · La page
+   -------------------------------------------------------------------------- */
+
+@page {
+  size: A4 portrait;
+  margin: 14mm 12mm;
+}
+
+/* Les tableaux comptables larges — Grand Livre, Balance — ne tiennent pas en
+   portrait. Poser la classe sur le conteneur de la page.
+   Pages nommees : Chrome et Edge les gerent ; Firefox les ignore et sort du
+   portrait, ce qui reste lisible. */
+@page paysage { size: A4 landscape; }
+.pg-print-paysage { page: paysage; }
+
+html, body {
+  background: #FFFFFF !important;
+  color: var(--text-primary);
+  width: auto;
+  height: auto;
+  overflow: visible !important;
+}
+
+/* --------------------------------------------------------------------------
+   2 · La coque : on deplie
+   --------------------------------------------------------------------------
+   .pg-app est une grille a deux colonnes dont la premiere est la barre
+   laterale. La masquer sans defaire la grille laisserait une colonne vide de
+   240 mm de large. On repasse donc en flux normal.
+   -------------------------------------------------------------------------- */
+
+.pg-app {
+  display: block !important;
+  grid-template-columns: none !important;
+  min-height: 0 !important;
+}
+
+.pg-main  { display: block !important; }
+
+.pg-page {
+  max-width: none !important;
+  width: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Le collant n'a pas de sens sur du papier : un en-tete « colle en haut »
+   se repete a chaque page ou, pire, se fige au milieu du flux. */
+.pg-sidebar,
+.pg-topbar,
+.pg-actionbar,
+.pg-table--sticky thead th {
+  position: static !important;
+}
+
+/* --------------------------------------------------------------------------
+   3 · Ce qui ne s'imprime pas
+   --------------------------------------------------------------------------
+   Regroupe en une seule liste, volontairement : c'est la reponse a la
+   question « pourquoi ce truc sort sur ma feuille ? ».
+   -------------------------------------------------------------------------- */
+
+.pg-sidebar,
+.pg-topbar,
+.pg-actionbar,
+.pg-page-header__actions,
+.pg-page-header__back,
+.pg-tabs,
+.pg-filters,
+.pg-filter-panel,
+.pg-search,
+.pg-menu,
+.pg-row-action,
+.pg-cell--actions,
+.pg-table-bar,
+.pg-pagination,
+.pg-bulk,
+.pg-toasts,
+.pg-toast,
+.pg-loadbar,
+.pg-palette,
+.pg-spotlight,
+.pg-coach,
+.pg-tip,
+.pg-drawer,
+.pg-drop,
+.pg-skeleton,
+.pg-btn,
+.pg-autosave,
+[data-pg-theme-toggle],
+[data-pg-nav-toggle],
+[data-pg-toggle-sidebar] {
+  display: none !important;
+}
+
+/* La modale : <dialog> n'imprime que son contenu quand elle est ouverte,
+   et le navigateur imprime alors la page DERRIERE elle en plus. On imprime
+   donc la modale seule, a plat, si elle est ouverte au moment du tirage. */
+.pg-modal[open] {
+  position: static !important;
+  display: block !important;
+  max-width: none !important;
+  max-height: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.pg-modal::backdrop { display: none !important; }
+.pg-modal__foot     { display: none !important; }
+
+/* --------------------------------------------------------------------------
+   4 · L'en-tete papier
+   --------------------------------------------------------------------------
+   Invisible a l'ecran (regle dans base.css cote screen), il porte sur le
+   papier ce que l'ecran donnait par le contexte : le produit, la station,
+   la periode, la date de tirage.
+
+     <div class="pg-print-head">
+       <div class="pg-print-head__title">Journal de station</div>
+       <div class="pg-print-head__meta">
+         Station Cocody Nord &middot; 12 au 18 mai 2026 &middot; edite le 20/05/2026
+       </div>
+     </div>
+   -------------------------------------------------------------------------- */
+
+.pg-print-head {
+  display: block !important;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-3);
+  border-bottom: 1pt solid var(--grey-900);
+}
+
+.pg-print-head__title {
+  font-size: 14pt;
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+}
+
+.pg-print-head__meta {
+  margin-top: 2pt;
+  font-size: 9pt;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   5 · Typographie papier
+   --------------------------------------------------------------------------
+   Le point typographique, pas le pixel : c'est la seule unite dont
+   l'imprimante garantit la taille reelle.
+   -------------------------------------------------------------------------- */
+
+body            { font-size: 9.5pt; line-height: 1.4; }
+.pg-page-header__title { font-size: 13pt; }
+.pg-section__title,
+.pg-card__title { font-size: 10.5pt; }
+.pg-table       { font-size: 8.5pt; }
+.pg-caption,
+.pg-kpi__label  { font-size: 7.5pt; }
+
+/* --------------------------------------------------------------------------
+   6 · Les blocs
+   --------------------------------------------------------------------------
+   A plat : sur du papier, l'elevation ne veut rien dire — il n'y a pas de
+   lumiere. Ce qui separait par l'ombre separe par un filet.
+   -------------------------------------------------------------------------- */
+
+.pg-card,
+.pg-table-wrap,
+.pg-kpi,
+.pg-chart,
+.pg-checks,
+.pg-banner,
+.pg-modal[open] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: var(--grey-300) !important;
+  border-radius: 0 !important;
+}
+
+/* Le defilement horizontal des tableaux larges : sur papier il masquerait
+   purement et simplement les colonnes de droite. */
+.pg-table-wrap {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+.pg-card,
+.pg-section,
+.pg-chart,
+.pg-checks,
+.pg-kpi__cell,
+.pg-tank {
+  break-inside: avoid;
+}
+
+/* --------------------------------------------------------------------------
+   7 · Les tableaux
+   --------------------------------------------------------------------------
+   Le point le plus important de cette feuille. Un tableau de journal fait
+   plusieurs pages ; sans ces trois regles il devient inexploitable.
+   -------------------------------------------------------------------------- */
+
+/* L'en-tete se repete en haut de CHAQUE page. Sans cela, a partir de la
+   deuxieme feuille, on lit des colonnes de chiffres sans savoir de quoi
+   elles parlent. */
+.pg-table thead { display: table-header-group; }
+.pg-table tfoot { display: table-footer-group; }
+
+/* Une ligne coupee en deux par un saut de page est une ligne perdue. */
+.pg-table tr,
+.pg-table__group { break-inside: avoid; }
+
+/* Un titre de groupe seul en bas de page n'annonce plus rien. */
+.pg-table__group { break-after: avoid; }
+
+.pg-table th,
+.pg-table td {
+  padding: 3pt 4pt !important;
+  height: auto !important;
+  border-color: var(--grey-300) !important;
+}
+
+.pg-table th {
+  background: transparent !important;
+  border-bottom: 0.8pt solid var(--grey-900) !important;
+}
+
+/* Le zebrage et le survol sont des aides a l'ecran ; sur papier ils
+   consomment du toner et grisent la lecture. */
+.pg-table tbody tr:nth-child(even),
+.pg-table tbody tr:hover,
+.pg-table--clickable tbody tr:hover { background: transparent !important; }
+
+/* --------------------------------------------------------------------------
+   8 · La couleur qui reste
+   --------------------------------------------------------------------------
+   print-color-adjust: exact demande au navigateur de NE PAS supprimer les
+   fonds a l'impression, ce qu'il fait par defaut pour economiser l'encre.
+   On ne le demande que la ou la couleur EST l'information : sans elle, un
+   statut, un ecart ou une part de graphique perd son sens.
+
+   Il reste une securite : ces elements portent tous un libelle ou une
+   valeur. Meme imprimes en noir et blanc sur une imprimante monochrome, ils
+   restent lisibles. La couleur accelere la lecture, elle ne la porte pas
+   seule.
+   -------------------------------------------------------------------------- */
+
+.pg-status,
+.pg-tag,
+.pg-bar__fill,
+.pg-tank__fill,
+.pg-steps__seg,
+.pg-check-item__icon,
+.pg-banner,
+.pg-chart,
+.pg-spark,
+.pg-delta--positive,
+.pg-delta--negative,
+.pg-trend,
+.pg-kpi__value--critical,
+.pg-kpi__value--warning,
+.pg-kpi__value--positive {
+  -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+}
+
+/* Un badge de statut a plat : le fond teinte suffit, l'ombre et le rayon
+   plein le font ressembler a un bouton sur papier. */
+.pg-status,
+.pg-tag {
+  box-shadow: none !important;
+  padding: 1pt 4pt !important;
+}
+
+/* --------------------------------------------------------------------------
+   9 · Graphiques
+   --------------------------------------------------------------------------
+   Les graphiques sont du SVG genere : ils s'impriment nets a n'importe
+   quelle resolution, sans rien a faire. Deux details seulement.
+   -------------------------------------------------------------------------- */
+
+/* Le curseur de survol reste parfois affiche au moment du tirage. */
+.pg-chart__cursor,
+.pg-chart__readout { display: none !important; }
+
+/* 6 % d'encre sur du papier ne se voit pas : les aires sous courbe
+   remontent, comme elles remontent en theme sombre pour la raison inverse. */
+.pg-chart__area { opacity: .18 !important; }
+
+/* --------------------------------------------------------------------------
+   10 · Formulaires
+   --------------------------------------------------------------------------
+   Un journal en cours de saisie peut etre imprime pour relecture ou
+   signature. Les champs doivent alors se lire comme des valeurs, pas comme
+   des boites d'interface — mais on garde le filet inferieur, qui montre
+   qu'il y avait bien un champ, et donc qu'un champ vide est vide.
+   -------------------------------------------------------------------------- */
+
+.pg-input,
+.pg-select,
+.pg-textarea {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 0.5pt solid var(--grey-300) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  height: auto !important;
+  padding: 1pt 0 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Le chevron du select est un fond SVG : il n'a plus de fonction sur papier. */
+.pg-select { background-image: none !important; padding-right: 0 !important; }
+
+/* Une erreur de saisie doit rester visible sur l'epreuve relue. */
+[aria-invalid="true"] { border-bottom-color: var(--red-600) !important; }
+
+/* Aucun anneau de focus sur du papier : le focus est un etat d'ecran. */
+*:focus,
+*:focus-visible { outline: none !important; box-shadow: none !important; }
+
+/* --------------------------------------------------------------------------
+   11 · Utilitaires
+   -------------------------------------------------------------------------- */
+
+.pg-print-hide  { display: none !important; }
+.pg-print-only  { display: block !important; }
+.pg-print-break { break-before: page; }
+
+/* Les liens ne sont plus des liens. */
+a { color: inherit !important; text-decoration: none !important; }
+
+} /* fin @media print */

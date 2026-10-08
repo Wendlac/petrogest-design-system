@@ -1,0 +1,302 @@
+/* ==========================================================================
+   PETROGEST · feedback.css
+   --------------------------------------------------------------------------
+   Toast, infobulle, stepper, liste de controles, bandeau de seuils, barre
+   d'actions groupees, liste cle-valeur.
+
+   Les quatre derniers viennent de l'exploration de la plateforme : ils
+   existent a l'ecran sans exister comme composants.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   TOAST
+   --------------------------------------------------------------------------
+   #toastContainer existe deja dans le shell de l'application... et n'est
+   jamais utilise : une soumission refusee n'affiche rien. On s'en sert.
+
+   REGLE : un toast confirme, il n'alerte pas. Une erreur de validation
+   appartient au champ concerne, pas a un coin de l'ecran que l'utilisateur
+   ne regarde pas. Le toast sert a ce qui n'a pas de place a l'ecran :
+   « Journal soumis », « Export pret », « 3 lignes supprimees ».
+   ========================================================================== */
+
+.pg-toasts {
+  position: fixed;
+  bottom: var(--space-8); right: var(--space-8);
+  z-index: 90;
+  display: flex; flex-direction: column-reverse; gap: var(--space-4);
+  pointer-events: none;
+}
+
+.pg-toast {
+  display: flex; align-items: flex-start; gap: var(--space-4);
+  min-width: 280px; max-width: 420px;
+  padding: var(--space-5);
+  background: var(--surface-inverse);
+  color: var(--text-inverse);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  font-size: var(--text-body-size);
+  line-height: 1.25rem;
+  pointer-events: auto;
+  animation: pg-toast-in var(--duration-base) var(--ease-out);
+}
+@keyframes pg-toast-in { from { opacity: 0; transform: translateY(8px); } }
+.pg-toast.is-leaving { opacity: 0; transform: translateY(8px); transition: opacity var(--duration-base), transform var(--duration-base); }
+
+.pg-toast__icon { flex: none; margin-top: 1px; }
+.pg-toast__body { flex: 1; min-width: 0; }
+.pg-toast__title { font-weight: var(--weight-medium); }
+.pg-toast__text  { margin-top: 2px; font-size: var(--text-caption-size); color: var(--grey-400); }
+.pg-toast__action { flex: none; color: var(--grey-0); font-size: var(--text-label-size); font-weight: var(--weight-medium); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.pg-toast__close { flex: none; color: var(--grey-400); cursor: pointer; }
+.pg-toast__close:hover { color: var(--grey-0); }
+
+/* Le fond reste encre : seule l'icone porte la couleur. Un bandeau vert ou
+   rouge plein en coin d'ecran crie plus fort qu'un ecart de jauge, ce qui
+   inverse la hierarchie du systeme. */
+.pg-toast--success .pg-toast__icon { color: var(--green-200); }
+.pg-toast--error   .pg-toast__icon { color: var(--red-200); }
+.pg-toast--warning .pg-toast__icon { color: var(--amber-200); }
+
+
+/* ==========================================================================
+   INFOBULLE
+   --------------------------------------------------------------------------
+   Au survol ET au focus clavier. Une infobulle qui n'apparait qu'a la
+   souris n'existe pas pour la moitie des utilisateurs.
+   ========================================================================== */
+
+.pg-tip { position: relative; display: inline-flex; }
+.pg-tip__bulle {
+  position: absolute; bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  max-width: 260px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-inverse);
+  color: var(--text-inverse);
+  border-radius: var(--radius-md);
+  font-size: var(--text-caption-size);
+  line-height: 1.125rem;
+  font-weight: var(--weight-regular);
+  white-space: normal;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+.pg-tip:hover .pg-tip__bulle,
+.pg-tip:focus-within .pg-tip__bulle { opacity: 1; }
+
+
+/* ==========================================================================
+   STEPPER
+   --------------------------------------------------------------------------
+   REGLE : une etape n'est verte que si elle est REMPLIE, jamais parce
+   qu'elle a ete visitee. Dans la version precedente, « Pompes » passait au
+   vert alors que ses huit champs etaient vides — le vert disait « visite »,
+   l'utilisateur lisait « complete ».
+   ========================================================================== */
+
+.pg-stepper { display: flex; align-items: center; gap: var(--space-3); }
+
+.pg-step {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  font-size: var(--text-label-size);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pg-step:hover { background: var(--surface-hover); }
+.pg-step[aria-current="step"] { background: var(--surface-selected); color: var(--text-primary); }
+
+.pg-step__num {
+  display: flex; align-items: center; justify-content: center;
+  flex: none;
+  width: 22px; height: 22px;
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius-full);
+  font-family: var(--font-numeric);
+  font-size: 11px;
+}
+.pg-step[aria-current="step"] .pg-step__num { background: var(--grey-900); border-color: var(--grey-900); color: var(--grey-0); }
+
+/* Complet : la donnee est saisie, pas seulement l'ecran visite. */
+.pg-step.is-complete .pg-step__num { background: var(--green-600); border-color: var(--green-600); color: var(--grey-0); }
+.pg-step.is-complete .pg-step__count { color: var(--data-positive); }
+/* Partiel : commence, pas fini. Etat que la version precedente n'avait pas. */
+.pg-step.is-partial  .pg-step__num { border-color: var(--amber-600); color: var(--status-warning-text); }
+/* Courante ET partielle : le remplissage de l'etape courante l'emporte, le
+   caractere partiel reste dit par l'anneau. Sans cette regle, .is-partial ne
+   changeait que la couleur du texte et laissait de l'ambre sur de l'encre. */
+.pg-step[aria-current="step"].is-partial .pg-step__num {
+  background: var(--grey-900); border-color: var(--amber-600); color: var(--grey-0);
+}
+
+.pg-step__count { font-family: var(--font-numeric); font-size: 11px; color: var(--text-muted); }
+/* Sur l'etape courante le fond se leve : le compteur suit, sinon il tombe a
+   4,48:1 en sombre. */
+.pg-step[aria-current="step"] .pg-step__count { color: var(--text-secondary); }
+.pg-stepper__sep { flex: 1; height: 1px; background: var(--border-default); min-width: 16px; }
+
+
+/* ==========================================================================
+   LISTE DE CONTROLES
+   --------------------------------------------------------------------------
+   Les « Controles avant soumission » de l'etape 4. Sur la plateforme, ce
+   bloc affiche SIMULTANEMENT un badge rouge « Corrections necessaires », un
+   texte « Aucune anomalie detectee » et un bouton de soumission grise sans
+   motif. Trois signaux contradictoires.
+
+   REGLE DU SYSTEME : un bouton desactive doit toujours dire pourquoi. Soit
+   il reste actif et l'erreur apparait au clic, soit une explication
+   l'accompagne. Un « Soumettre » grise sans raison est une impasse.
+   ========================================================================== */
+
+.pg-checks { border: var(--border-width) solid var(--border-default); border-radius: var(--radius-lg); overflow: hidden; }
+.pg-checks__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-6);
+  background: var(--surface-sunken);
+  border-bottom: var(--border-width) solid var(--border-default);
+}
+.pg-checks__title { font-size: var(--text-body-size); font-weight: var(--weight-semibold); }
+
+.pg-check-item {
+  display: flex; align-items: flex-start; gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  background: var(--surface-raised);
+}
+.pg-check-item:last-child { border-bottom: none; }
+.pg-check-item__icon { flex: none; margin-top: 1px; }
+.pg-check-item__body { flex: 1; min-width: 0; font-size: var(--text-body-size); line-height: 1.25rem; }
+.pg-check-item__hint { display: block; margin-top: 2px; font-size: var(--text-caption-size); color: var(--text-muted); }
+.pg-check-item__action { flex: none; }
+
+.pg-check-item--ok      .pg-check-item__icon { color: var(--status-success-text); }
+.pg-check-item--warning .pg-check-item__icon { color: var(--status-warning-text); }
+.pg-check-item--blocking .pg-check-item__icon { color: var(--status-critical-text); }
+.pg-check-item--blocking { background: var(--status-critical-bg); }
+
+
+/* ==========================================================================
+   BANDEAU DE SEUILS
+   --------------------------------------------------------------------------
+   Vu sur la fiche 360° : « Cuve critique : seuil global », « Prix : prix
+   catalogue ». Ce sont des indicateurs de DEROGATION — la station suit-elle
+   le reglage global, ou a-t-elle le sien ?
+
+   Sur la plateforme ils sont tous en badge--info, bleu, uniforme. Or la
+   seule chose qui compte est de reperer d'un coup d'oeil la valeur
+   REDEFINIE. Ce n'est ni un statut ni une categorie : c'est un troisieme
+   axe, herite vs redefini. On le traite par le POIDS, pas par la couleur —
+   sinon on depense du signal semantique pour du parametrage.
+   ========================================================================== */
+
+.pg-overrides { display: flex; flex-wrap: wrap; gap: var(--space-5); }
+
+.pg-override { display: flex; align-items: baseline; gap: var(--space-3); font-size: var(--text-caption-size); }
+.pg-override__key { color: var(--text-muted); }
+.pg-override__val { color: var(--text-muted); }
+
+/* Valeur redefinie : c'est l'exception, elle passe en encre et en gras. */
+.pg-override.is-custom .pg-override__val {
+  color: var(--text-primary);
+  font-weight: var(--weight-medium);
+  border-bottom: 1px dashed var(--border-strong);
+}
+
+
+/* ==========================================================================
+   BARRE D'ACTIONS GROUPEES
+   --------------------------------------------------------------------------
+   La selection multiple existe sur Fournisseurs (« Supprimer la selection »)
+   sans barre dediee. Elle apparait quand au moins une ligne est cochee et
+   remplace la barre d'outils : on ne montre pas deux jeux d'actions.
+   ========================================================================== */
+
+.pg-bulk {
+  display: flex; align-items: center; gap: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface-inverse);
+  color: var(--text-inverse);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-5);
+}
+.pg-bulk__count { font-size: var(--text-label-size); font-weight: var(--weight-medium); }
+.pg-bulk__count b { font-family: var(--font-numeric); }
+.pg-bulk__sep { flex: 1; }
+.pg-bulk .pg-btn--ghost { color: var(--grey-300); }
+.pg-bulk .pg-btn--ghost:hover { background: var(--grey-800); color: var(--grey-0); }
+.pg-bulk .pg-btn--danger { color: var(--red-200); }
+.pg-bulk .pg-btn--danger:hover { background: var(--red-800); color: var(--grey-0); }
+
+
+/* ==========================================================================
+   LISTE CLE-VALEUR
+   --------------------------------------------------------------------------
+   L'ossature d'une fiche detail : identite d'une station, d'un client.
+   ========================================================================== */
+
+.pg-kv { display: grid; grid-template-columns: minmax(120px, 34%) 1fr; }
+.pg-kv__key,
+.pg-kv__val { padding: var(--space-4) 0; border-bottom: var(--border-width) solid var(--border-subtle); }
+.pg-kv__key { font-size: var(--text-caption-size); color: var(--text-muted); }
+.pg-kv__val { font-size: var(--text-body-size); color: var(--text-primary); }
+.pg-kv__val--num { font-family: var(--font-numeric); letter-spacing: var(--numeric-tracking); }
+.pg-kv__key:last-of-type,
+.pg-kv__val:last-of-type { border-bottom: none; }
+
+
+/* ==========================================================================
+   INDICATEUR DE RAFRAICHISSEMENT AUTOMATIQUE  ·  .pg-live
+   --------------------------------------------------------------------------
+   Le pendant, cote lecture, de .pg-autosave. Une page qui se met a jour
+   toute seule doit le dire : sans cela, l'utilisateur ne sait pas s'il
+   regarde l'etat actuel ou une photo d'il y a dix minutes — et il recharge
+   la page pour en avoir le coeur net.
+
+       <span class="pg-live" data-state="on">Actualise toutes les 30 s</span>
+
+   Trois etats : on (actif) · off (suspendu) · erreur (derniere tentative
+   echouee). L'erreur n'efface pas les donnees affichees : elles restent
+   vraies, elles vieillissent seulement.
+   ========================================================================== */
+
+.pg-live {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+}
+
+.pg-live::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  flex: none;
+}
+
+.pg-live[data-state="on"]::before {
+  background: var(--status-success-text);
+  animation: pg-live-pouls 2.4s ease-in-out infinite;
+}
+.pg-live[data-state="off"]::before    { background: var(--text-disabled); }
+.pg-live[data-state="error"]         { color: var(--status-warning-text); }
+.pg-live[data-state="error"]::before { background: var(--status-warning-text); }
+
+@keyframes pg-live-pouls { 50% { opacity: .3; } }
+
+/* Une pulsation permanente dans le champ de vision fatigue, et certains
+   utilisateurs ne la supportent pas. La pastille reste, elle cesse de
+   battre — l'information est dans sa couleur, pas dans son mouvement. */
+@media (prefers-reduced-motion: reduce) {
+  .pg-live[data-state="on"]::before { animation: none; }
+}

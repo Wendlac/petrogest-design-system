@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PETROGEST · Correspondance</title>
+<script src="js/theme-boot.js"></script>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/dm-sans-var-latin.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/dm-mono-400-latin.woff2">
+<link rel="stylesheet" href="css/petrogest.css">
+<style>
+  .c-note   { color: var(--text-secondary); font-size: var(--text-caption-size); line-height: 1.5; }
+  .c-none   { color: var(--text-muted); font-style: italic; font-size: var(--text-caption-size); }
+  .c-old    { color: var(--text-muted); }
+  .pg-code  { font-family: var(--font-mono); font-size: .82rem; }
+  .c-note code, .pg-code { white-space: nowrap; }
+  .c-lede   { max-width: 62ch; color: var(--text-secondary); line-height: 1.6; }
+  .pg-section + .pg-section { margin-top: var(--space-10); }
+  .pg-table td:first-child  { vertical-align: top; white-space: nowrap; }
+  .pg-table td:nth-child(2) { vertical-align: top; }
+  @media print { .pg-table td { white-space: normal !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><!-- Genere par tools/build-icons.js — ne pas modifier a la main.
+     Source : Remix Icon (Apache 2.0). 34 icones. -->
+
+  <symbol id="i-dashboard" viewBox="0 0 24 24"><path d="M14 21C13.4477 21 13 20.5523 13 20V12C13 11.4477 13.4477 11 14 11H20C20.5523 11 21 11.4477 21 12V20C21 20.5523 20.5523 21 20 21H14ZM4 13C3.44772 13 3 12.5523 3 12V4C3 3.44772 3.44772 3 4 3H10C10.5523 3 11 3.44772 11 4V12C11 12.5523 10.5523 13 10 13H4ZM9 11V5H5V11H9ZM4 21C3.44772 21 3 20.5523 3 20V16C3 15.4477 3.44772 15 4 15H10C10.5523 15 11 15.4477 11 16V20C11 20.5523 10.5523 21 10 21H4ZM5 19H9V17H5V19ZM15 19H19V13H15V19ZM13 4C13 3.44772 13.4477 3 14 3H20C20.5523 3 21 3.44772 21 4V8C21 8.55228 20.5523 9 20 9H14C13.4477 9 13 8.55228 13 8V4ZM15 5V7H19V5H15Z"/></symbol>
+  <symbol id="i-station" viewBox="0 0 24 24"><path d="M14 19H15V21H2V19H3V4C3 3.44772 3.44772 3 4 3H13C13.5523 3 14 3.44772 14 4V12H16C17.1046 12 18 12.8954 18 14V18C18 18.5523 18.4477 19 19 19C19.5523 19 20 18.5523 20 18V11H18C17.4477 11 17 10.5523 17 10V6.41421L15.3431 4.75736L16.7574 3.34315L21.7071 8.29289C21.9024 8.48816 22 8.74408 22 9V18C22 19.6569 20.6569 21 19 21C17.3431 21 16 19.6569 16 18V14H14V19ZM5 19H12V13H5V19ZM5 5V11H12V5H5Z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M19 22H5C3.34315 22 2 20.6569 2 19V3C2 2.44772 2.44772 2 3 2H17C17.5523 2 18 2.44772 18 3V15H22V19C22 20.6569 20.6569 22 19 22ZM18 17V19C18 19.5523 18.4477 20 19 20C19.5523 20 20 19.5523 20 19V17H18ZM16 20V4H4V19C4 19.5523 4.44772 20 5 20H16ZM6 7H14V9H6V7ZM6 11H14V13H6V11ZM6 15H11V17H6V15Z"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M8.96456 18C8.72194 19.6961 7.26324 21 5.5 21C3.73676 21 2.27806 19.6961 2.03544 18H1V6C1 5.44772 1.44772 5 2 5H16C16.5523 5 17 5.44772 17 6V8H20L23 12.0557V18H20.9646C20.7219 19.6961 19.2632 21 17.5 21C15.7368 21 14.2781 19.6961 14.0354 18H8.96456ZM15 7H3V15.0505C3.63526 14.4022 4.52066 14 5.5 14C6.8962 14 8.10145 14.8175 8.66318 16H14.3368C14.5045 15.647 14.7296 15.3264 15 15.0505V7ZM17 13H21V12.715L18.9917 10H17V13ZM17.5 19C18.1531 19 18.7087 18.5826 18.9146 18C18.9699 17.8436 19 17.6753 19 17.5C19 16.6716 18.3284 16 17.5 16C16.6716 16 16 16.6716 16 17.5C16 17.6753 16.0301 17.8436 16.0854 18C16.2913 18.5826 16.8469 19 17.5 19ZM7 17.5C7 16.6716 6.32843 16 5.5 16C4.67157 16 4 16.6716 4 17.5C4 17.6753 4.03008 17.8436 4.08535 18C4.29127 18.5826 4.84689 19 5.5 19C6.15311 19 6.70873 18.5826 6.91465 18C6.96992 17.8436 7 17.6753 7 17.5Z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"/></symbol>
+  <symbol id="i-paperclip" viewBox="0 0 24 24"><path d="M14 13.5V8C14 5.79086 12.2091 4 10 4C7.79086 4 6 5.79086 6 8V13.5C6 17.0899 8.91015 20 12.5 20C16.0899 20 19 17.0899 19 13.5V4H21V13.5C21 18.1944 17.1944 22 12.5 22C7.80558 22 4 18.1944 4 13.5V8C4 4.68629 6.68629 2 10 2C13.3137 2 16 4.68629 16 8V13.5C16 15.433 14.433 17 12.5 17C10.567 17 9 15.433 9 13.5V8H11V13.5C11 14.3284 11.6716 15 12.5 15C13.3284 15 14 14.3284 14 13.5Z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M21 18H6C5.44772 18 5 18.4477 5 19C5 19.5523 5.44772 20 6 20H21V22H6C4.34315 22 3 20.6569 3 19V4C3 2.89543 3.89543 2 5 2H21V18ZM5 16.05C5.16156 16.0172 5.32877 16 5.5 16H19V4H5V16.05ZM16 9H8V7H16V9Z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 3V19H21V21H3V3H5ZM20.2929 6.29289L21.7071 7.70711L16 13.4142L13 10.415L8.70711 14.7071L7.29289 13.2929L13 7.58579L16 10.585L20.2929 6.29289Z"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12.8659 3.00017L22.3922 19.5002C22.6684 19.9785 22.5045 20.5901 22.0262 20.8662C21.8742 20.954 21.7017 21.0002 21.5262 21.0002H2.47363C1.92135 21.0002 1.47363 20.5525 1.47363 20.0002C1.47363 19.8246 1.51984 19.6522 1.60761 19.5002L11.1339 3.00017C11.41 2.52187 12.0216 2.358 12.4999 2.63414C12.6519 2.72191 12.7782 2.84815 12.8659 3.00017ZM4.20568 19.0002H19.7941L11.9999 5.50017L4.20568 19.0002ZM10.9999 16.0002H12.9999V18.0002H10.9999V16.0002ZM10.9999 9.00017H12.9999V14.0002H10.9999V9.00017Z"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M2 8.99374C2 5.68349 4.67654 3 8.00066 3H15.9993C19.3134 3 22 5.69478 22 8.99374V21H8.00066C4.68659 21 2 18.3052 2 15.0063V8.99374ZM20 19V8.99374C20 6.79539 18.2049 5 15.9993 5H8.00066C5.78458 5 4 6.78458 4 8.99374V15.0063C4 17.2046 5.79512 19 8.00066 19H20ZM14 11H16V13H14V11ZM8 11H10V13H8V11Z"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M3.33946 17.0002C2.90721 16.2515 2.58277 15.4702 2.36133 14.6741C3.3338 14.1779 3.99972 13.1668 3.99972 12.0002C3.99972 10.8345 3.3348 9.824 2.36353 9.32741C2.81025 7.71651 3.65857 6.21627 4.86474 4.99001C5.7807 5.58416 6.98935 5.65534 7.99972 5.072C9.01009 4.48866 9.55277 3.40635 9.4962 2.31604C11.1613 1.8846 12.8847 1.90004 14.5031 2.31862C14.4475 3.40806 14.9901 4.48912 15.9997 5.072C17.0101 5.65532 18.2187 5.58416 19.1346 4.99007C19.7133 5.57986 20.2277 6.25151 20.66 7.00021C21.0922 7.7489 21.4167 8.53025 21.6381 9.32628C20.6656 9.82247 19.9997 10.8336 19.9997 12.0002C19.9997 13.166 20.6646 14.1764 21.6359 14.673C21.1892 16.2839 20.3409 17.7841 19.1347 19.0104C18.2187 18.4163 17.0101 18.3451 15.9997 18.9284C14.9893 19.5117 14.4467 20.5941 14.5032 21.6844C12.8382 22.1158 11.1148 22.1004 9.49633 21.6818C9.55191 20.5923 9.00929 19.5113 7.99972 18.9284C6.98938 18.3451 5.78079 18.4162 4.86484 19.0103C4.28617 18.4205 3.77172 17.7489 3.33946 17.0002ZM8.99972 17.1964C10.0911 17.8265 10.8749 18.8227 11.2503 19.9659C11.7486 20.0133 12.2502 20.014 12.7486 19.9675C13.1238 18.8237 13.9078 17.8268 14.9997 17.1964C16.0916 16.5659 17.347 16.3855 18.5252 16.6324C18.8146 16.224 19.0648 15.7892 19.2729 15.334C18.4706 14.4373 17.9997 13.2604 17.9997 12.0002C17.9997 10.74 18.4706 9.5632 19.2729 8.6665C19.1688 8.4405 19.0538 8.21822 18.9279 8.00021C18.802 7.78219 18.667 7.57148 18.5233 7.36842C17.3457 7.61476 16.0911 7.43414 14.9997 6.80405C13.9083 6.17395 13.1246 5.17768 12.7491 4.03455C12.2509 3.98714 11.7492 3.98646 11.2509 4.03292C10.8756 5.17671 10.0916 6.17364 8.99972 6.80405C7.9078 7.43447 6.65245 7.61494 5.47428 7.36803C5.18485 7.77641 4.93463 8.21117 4.72656 8.66637C5.52881 9.56311 5.99972 10.74 5.99972 12.0002C5.99972 13.2604 5.52883 14.4372 4.72656 15.3339C4.83067 15.5599 4.94564 15.7822 5.07152 16.0002C5.19739 16.2182 5.3324 16.4289 5.47612 16.632C6.65377 16.3857 7.90838 16.5663 8.99972 17.1964ZM11.9997 15.0002C10.3429 15.0002 8.99972 13.6571 8.99972 12.0002C8.99972 10.3434 10.3429 9.00021 11.9997 9.00021C13.6566 9.00021 14.9997 10.3434 14.9997 12.0002C14.9997 13.6571 13.6566 15.0002 11.9997 15.0002ZM11.9997 13.0002C12.552 13.0002 12.9997 12.5525 12.9997 12.0002C12.9997 11.4479 12.552 11.0002 11.9997 11.0002C11.4474 11.0002 10.9997 11.4479 10.9997 12.0002C10.9997 12.5525 11.4474 13.0002 11.9997 13.0002Z"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12H4C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C9.25022 4 6.82447 5.38734 5.38451 7.50024L8 7.5V9.5H2V3.5H4L3.99989 5.99918C5.82434 3.57075 8.72873 2 12 2ZM13 7L12.9998 11.585L16.2426 14.8284L14.8284 16.2426L10.9998 12.413L11 7H13Z"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><path d="M12 3C10.9 3 10 3.9 10 5C10 6.1 10.9 7 12 7C13.1 7 14 6.1 14 5C14 3.9 13.1 3 12 3ZM12 17C10.9 17 10 17.9 10 19C10 20.1 10.9 21 12 21C13.1 21 14 20.1 14 19C14 17.9 13.1 17 12 17ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M13 10H18L12 16L6 10H11V3H13V10ZM4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M11.9999 10.8284L7.0502 15.7782L5.63599 14.364L11.9999 8L18.3639 14.364L16.9497 15.7782L11.9999 10.8284Z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"/></symbol>
+  <symbol id="i-sort" viewBox="0 0 24 24"><path d="M11.9498 7.94975L10.5356 9.36396L8.00079 6.828L8.00004 20H6.00004L6.00079 6.828L3.46451 9.36396L2.05029 7.94975L7.00004 3L11.9498 7.94975ZM21.9498 16.0503L17 21L12.0503 16.0503L13.4645 14.636L16.0008 17.172L16 4H18L18.0008 17.172L20.5356 14.636L21.9498 16.0503Z"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24"><path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM20 7.23792L12.0718 14.338L4 7.21594V19H20V7.23792ZM4.51146 5L12.0619 11.662L19.501 5H4.51146Z"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 15H13V17H11V15ZM13 13.3551V14H11V12.5C11 11.9477 11.4477 11.5 12 11.5C12.8284 11.5 13.5 10.8284 13.5 10C13.5 9.17157 12.8284 8.5 12 8.5C11.2723 8.5 10.6656 9.01823 10.5288 9.70577L8.56731 9.31346C8.88637 7.70919 10.302 6.5 12 6.5C13.933 6.5 15.5 8.067 15.5 10C15.5 11.5855 14.4457 12.9248 13 13.3551Z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M5 22C4.44772 22 4 21.5523 4 21V3C4 2.44772 4.44772 2 5 2H19C19.5523 2 20 2.44772 20 3V6H18V4H6V20H18V18H20V21C20 21.5523 19.5523 22 19 22H5ZM18 16V13H11V11H18V8L23 12L18 16Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M16.7574 2.99678L14.7574 4.99678H5V18.9968H19V9.23943L21 7.23943V19.9968C21 20.5491 20.5523 20.9968 20 20.9968H4C3.44772 20.9968 3 20.5491 3 19.9968V3.99678C3 3.4445 3.44772 2.99678 4 2.99678H16.7574ZM20.4853 2.09729L21.8995 3.5115L12.7071 12.7039L11.2954 12.7064L11.2929 11.2897L20.4853 2.09729Z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM7.41604 14H4V19H20V14H16.584C15.8124 15.7659 14.0503 17 12 17C9.94968 17 8.1876 15.7659 7.41604 14ZM20 5H4V12H9C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12H20V5Z"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 12.5858L16.2426 16.8284L14.8284 18.2426L13 16.415V22H11V16.413L9.17157 18.2426L7.75736 16.8284L12 12.5858ZM12 2C15.5934 2 18.5544 4.70761 18.9541 8.19395C21.2858 8.83154 23 10.9656 23 13.5C23 16.3688 20.8036 18.7246 18.0006 18.9776L18.0009 16.9644C19.6966 16.7214 21 15.2629 21 13.5C21 11.567 19.433 10 17.5 10C17.2912 10 17.0867 10.0183 16.8887 10.054C16.9616 9.7142 17 9.36158 17 9C17 6.23858 14.7614 4 12 4C9.23858 4 7 6.23858 7 9C7 9.36158 7.03838 9.7142 7.11205 10.0533C6.91331 10.0183 6.70879 10 6.5 10C4.567 10 3 11.567 3 13.5C3 15.2003 4.21241 16.6174 5.81986 16.934L6.00005 16.9646L6.00039 18.9776C3.19696 18.7252 1 16.3692 1 13.5C1 10.9656 2.71424 8.83154 5.04648 8.19411C5.44561 4.70761 8.40661 2 12 2Z"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M9 1V3H15V1H17V3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H7V1H9ZM20 11H4V19H20V11ZM7 5H4V9H20V5H17V7H15V5H9V7H7V5Z"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"/></symbol></svg>
+
+<div class="pg-app">
+  <aside class="pg-sidebar">
+    <div class="pg-sidebar__brand">
+      <span class="pg-sidebar__product">PETROGEST</span>
+      <span class="pg-sidebar__version">Correspondance</span>
+    </div>
+    <nav class="pg-sidebar__nav">
+      <div class="pg-nav-group">
+        <div class="pg-nav-group__title">Avant de commencer</div>
+        <a class="pg-nav-item" href="#intact">Ce qui ne bouge pas</a>
+        <a class="pg-nav-item" href="#prefixe">Le prefixe pg-</a>
+      </div>
+      <div class="pg-nav-group">
+        <div class="pg-nav-group__title">Classes</div>
+        <a class="pg-nav-item" href="#c-coque">Coque et navigation</a>
+        <a class="pg-nav-item" href="#c-boutons">Boutons, onglets, menus</a>
+        <a class="pg-nav-item" href="#c-formulaires">Formulaires</a>
+        <a class="pg-nav-item" href="#c-tableaux">Tableaux</a>
+        <a class="pg-nav-item" href="#c-journal">Journal de station</a>
+        <a class="pg-nav-item" href="#c-indicateurs">Indicateurs, jauges, graphiques</a>
+        <a class="pg-nav-item" href="#c-retours">Retours, modales, fichiers</a>
+        <a class="pg-nav-item" href="#c-filtres">Filtres et recherche</a>
+        <a class="pg-nav-item" href="#c-comptabilite">Comptabilite</a>
+        <a class="pg-nav-item" href="#c-utilitaires">Utilitaires et etats</a>
+      </div>
+      <div class="pg-nav-group">
+        <div class="pg-nav-group__title">Le reste</div>
+        <a class="pg-nav-item" href="#variables">Variables CSS</a>
+        <a class="pg-nav-item" href="#comportements">Comportements</a>
+        <a class="pg-nav-item" href="#adaptateurs">Adaptateurs</a>
+        <a class="pg-nav-item" href="#ordre">Ordre de migration</a>
+        <a class="pg-nav-item" href="#espacement">Utilitaires d'espacement</a>
+        <a class="pg-nav-item" href="#angles">Angles morts</a>
+      </div>
+    </nav>
+    <div class="pg-sidebar__foot">
+      <a class="pg-nav-item" href="design-system.html">&larr; Design system</a>
+    </div>
+  </aside>
+
+  <div class="pg-main">
+    <header class="pg-topbar">
+      <div class="pg-topbar__context">Migration de l'existant vers le design system</div>
+      <div class="pg-topbar__tools">
+        <button class="pg-btn pg-btn--ghost pg-btn--sm" data-pg-theme-toggle>Theme</button>
+      </div>
+    </header>
+
+    <div class="pg-page">
+      <div class="pg-print-head">
+        <div class="pg-print-head__title">PETROGEST &middot; Table de correspondance</div>
+        <div class="pg-print-head__meta">Etablie a partir de test-petrogest.essinisgroup.com &middot; version 243</div>
+      </div>
+
+      <div class="pg-page-header">
+        <div class="pg-page-header__top">
+          <h1 class="pg-page-header__title">Table de correspondance</h1>
+        </div>
+        <div class="pg-page-header__meta">
+          445 classes &middot; 36 sans equivalent &middot; 183 actions inchangees
+        </div>
+      </div>
+
+      <p class="c-lede">Etablie en lisant le code de la plateforme&nbsp;: six feuilles de style,
+      vingt-sept fichiers JavaScript, version 243. Chaque classe de la colonne de gauche existe
+      reellement dans ce code, chaque classe de droite existe reellement dans le design system&nbsp;;
+      les deux colonnes sont verifiees a la generation de cette page.</p>
+
+      <p class="c-lede">Cette page est elle-meme construite avec le design system.
+      Elle n'a pas une ligne de CSS propre en dehors de la mise en forme des trois colonnes.</p>
+
+      <!-- ============================================================ -->
+      <section class="pg-section" id="intact">
+        <div class="pg-section__head"><h2 class="pg-section__title">Ce que la migration ne touche pas</h2></div>
+
+        <div class="pg-banner pg-banner--success">
+          <svg class="pg-icon pg-banner__icon"><use href="#i-check"></use></svg>
+          <div class="pg-banner__text">
+            <div class="pg-banner__title">Les 183 actions metier restent telles quelles</div>
+            <div class="pg-banner__sub">Le design system remplace la presentation, pas le comportement.
+            <code class="pg-code">jrOuvrir</code>, <code class="pg-code">jsEnregistrer</code>,
+            <code class="pg-code">stationView</code> et les 180 autres ne sont pas concernes.</div>
+          </div>
+        </div>
+
+        <p class="c-lede">L'application declenche ses comportements par delegation&nbsp;:
+        <code class="pg-code">act('jrOuvrir', [id])</code> pose un
+        <code class="pg-code">data-action</code>, et un ecouteur unique dans
+        <code class="pg-code">app.js</code> resout le nom vers la fonction globale.
+        <b>C'est exactement la meme architecture que celle du design system</b>, qui utilise
+        <code class="pg-code">data-pg-*</code> pour ses propres comportements de presentation.
+        Les deux couches ne se marchent pas dessus&nbsp;: l'une porte le metier, l'autre l'interface.</p>
+
+        <div class="pg-kpi pg-kpi--4">
+          <div class="pg-kpi__cell"><div class="pg-kpi__label">Actions metier</div><div class="pg-kpi__value">183</div><div class="pg-kpi__foot">inchangees</div></div>
+          <div class="pg-kpi__cell"><div class="pg-kpi__label">Points d'ancrage</div><div class="pg-kpi__value">316</div><div class="pg-kpi__foot">appels a <code>act()</code></div></div>
+          <div class="pg-kpi__cell"><div class="pg-kpi__label">Appels a <code>escapeHtml</code></div><div class="pg-kpi__value">530</div><div class="pg-kpi__foot">inchanges</div></div>
+          <div class="pg-kpi__cell"><div class="pg-kpi__label">Couche API</div><div class="pg-kpi__value">0</div><div class="pg-kpi__foot">modification</div></div>
+        </div>
+
+        <div class="pg-table-wrap">
+          <table class="pg-table">
+            <thead><tr><th>Ce qui reste</th><th>Pourquoi</th></tr></thead>
+            <tbody>
+              <tr><td><code class="pg-code">api.js</code></td><td class="c-note">Le design system ne parle pas au serveur.</td></tr>
+              <tr><td><code class="pg-code">router.js</code></td><td class="c-note">Les routes en <code>#/</code> ne changent pas.</td></tr>
+              <tr><td><code class="pg-code">auth.js</code></td><td class="c-note">Seule la page de connexion est rehabillee.</td></tr>
+              <tr><td><code class="pg-code">offline.js</code></td><td class="c-note"><b>A garder, et a preferer au mien.</b> Voir la section Comportements.</td></tr>
+              <tr><td><code class="pg-code">act()</code> / <code class="pg-code">runDelegatedAction()</code></td><td class="c-note">Le mecanisme de delegation, identique dans son principe.</td></tr>
+              <tr><td><code class="pg-code">qs()</code>, <code class="pg-code">qsa()</code>, <code class="pg-code">escapeHtml()</code></td><td class="c-note">878 appels au total. Aucune raison d'y toucher.</td></tr>
+              <tr><td>Les 19 modules metier</td><td class="c-note">Leur logique est intacte&nbsp;: seules les chaines HTML qu'ils produisent changent de classes.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <section class="pg-section" id="prefixe">
+        <div class="pg-section__head"><h2 class="pg-section__title">Le prefixe pg- est deja pris</h2></div>
+        <div class="pg-banner pg-banner--warning">
+          <svg class="pg-icon pg-banner__icon"><use href="#i-alert"></use></svg>
+          <div class="pg-banner__text">
+            <div class="pg-banner__title">Cinq classes existantes commencent deja par <code>pg-</code></div>
+            <div class="pg-banner__sub"><code class="pg-code">pg-anim</code>,
+            <code class="pg-code">pg-tooltip</code>, <code class="pg-code">pg-tooltip__dot</code>,
+            <code class="pg-code">pg-tooltip__row</code>, <code class="pg-code">pg-tooltip__title</code>
+            &mdash; l'infobulle de Chart.js.</div>
+          </div>
+        </div>
+        <p class="c-lede"><b>Aucune ne collisionne aujourd'hui</b>&nbsp;: le design system n'a ni
+        <code class="pg-code">pg-anim</code> ni <code class="pg-code">pg-tooltip</code>
+        (son infobulle s'appelle <code class="pg-code">pg-tip</code>). Mais elles disparaissent
+        avec Chart.js, et il faut les retirer a ce moment-la&nbsp;: laisser deux familles
+        <code class="pg-code">pg-</code> d'origines differentes dans la meme feuille, c'est
+        programmer une collision silencieuse pour la prochaine version.</p>
+      </section>
+
+      
+<section class="pg-section" id="c-coque">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Coque et navigation</h2>
+    <span class="pg-tag">layout.css</span>
+    <span class="pg-results">48 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">app</code></td><td><code class="pg-code">pg-app</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">app--collapsed</code></td><td><code class="pg-code">pg-app.is-collapsed</code></td><td class="c-note">Etat porte par une classe .is-*, comme avant.</td></tr>
+<tr><td><code class="pg-code c-old">app--mobile-open</code></td><td><code class="pg-code">pg-app.is-nav-open</code></td><td class="c-note">Piloté par <code>[data-pg-nav-toggle]</code>, aucun JS a ecrire.</td></tr>
+<tr><td><code class="pg-code c-old">app--emprunt</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Recomposer avec <code>pg-banner</code> pose en haut de <code>pg-page</code>.</td></tr>
+<tr><td><code class="pg-code c-old">sidebar</code></td><td><code class="pg-code">pg-sidebar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sidebar__brand</code></td><td><code class="pg-code">pg-sidebar__brand</code></td><td class="c-note">Contient <code>pg-sidebar__logo</code> + <code>pg-sidebar__product</code>.</td></tr>
+<tr><td><code class="pg-code c-old">sidebar__nav</code></td><td><code class="pg-code">pg-sidebar__nav</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sidebar__group</code></td><td><code class="pg-code">pg-nav-group</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sidebar__label</code></td><td><code class="pg-code">pg-nav-group__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sidebar__link</code></td><td><code class="pg-code">pg-nav-item</code></td><td class="c-note">Actif&nbsp;: <code>aria-current="page"</code>, plus <code>.is-active</code>.</td></tr>
+<tr><td><code class="pg-code c-old">sidebar__link--parent</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>Les sous-menus deroulants disparaissent.</b> La nav est a plat, groupee par <code>pg-nav-group</code>. C'est un choix : deux niveaux de depliage sur 19 modules cachaient la moitie de l'application.</td></tr>
+<tr><td><code class="pg-code c-old">sidebar__submenu</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">sidebar__sublink</code></td><td><code class="pg-code">pg-nav-item</code></td><td class="c-note">Remonte au meme niveau, dans son groupe.</td></tr>
+<tr><td><code class="pg-code c-old">sidebar__caret</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Plus de depliage, plus de chevron.</td></tr>
+<tr><td><code class="pg-code c-old">sidebar-backdrop</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Le voile est genere par <code>.pg-app.is-nav-open</code> en CSS pure.</td></tr>
+<tr><td><code class="pg-code c-old">header</code></td><td><code class="pg-code">pg-topbar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">header__logo</code></td><td><code class="pg-code">pg-topbar__context</code></td><td class="c-note">Le logo vit dans la sidebar ; la topbar porte le contexte (compagnie, periode).</td></tr>
+<tr><td><code class="pg-code c-old">header__title</code></td><td><code class="pg-code">pg-topbar__context</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">header__toggle</code></td><td><code class="pg-code">[data-pg-nav-toggle]</code></td><td class="c-note">Attribut, pas classe. Habillage&nbsp;: <code>pg-btn pg-btn--icon</code>.</td></tr>
+<tr><td><code class="pg-code c-old">header__spacer</code></td><td><span class="c-none">aucun</span></td><td class="c-note">La topbar est en flex, l'espacement vient de la mise en page.</td></tr>
+<tr><td><code class="pg-code c-old">header__bell</code></td><td><code class="pg-code">pg-btn&nbsp;pg-btn--icon</code></td><td class="c-note">Le compteur devient <code>pg-count</code>.</td></tr>
+<tr><td><code class="pg-code c-old">header__badge</code></td><td><code class="pg-code">pg-count</code></td><td class="c-note"><code>pg-count--critical</code> / <code>--warning</code> selon le seuil.</td></tr>
+<tr><td><code class="pg-code c-old">header__user</code></td><td><code class="pg-code">pg-user</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">header__user-info</code></td><td><code class="pg-code">pg-user</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">header__user-name</code></td><td><code class="pg-code">pg-user__name</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">header__user-role</code></td><td><code class="pg-code">pg-user__role</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">header__avatar</code></td><td><code class="pg-code">pg-avatar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">card</code></td><td><code class="pg-code">pg-card</code></td><td class="c-note"><b>179 usages avec son titre.</b> Meme structure : <code>pg-card__head</code>, <code>pg-card__title</code>, <code>pg-card__body</code>. Variantes d etat <code>--critical</code>, <code>--warning</code>, <code>--success</code> pour un filet de couleur au bord.</td></tr>
+<tr><td><code class="pg-code c-old">card__title</code></td><td><code class="pg-code">pg-card__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuves-stations</code></td><td><code class="pg-code">pg-tanks</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">main</code></td><td><code class="pg-code">pg-main</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">container</code></td><td><code class="pg-code">pg-page</code></td><td class="c-note">Largeur maximale portee par <code>--content-max-width</code>.</td></tr>
+<tr><td><code class="pg-code c-old">view-header</code></td><td><code class="pg-code">pg-page-header</code></td><td class="c-note">Avec <code>__top</code>, <code>__title</code>, <code>__meta</code>, <code>__actions</code>, <code>__status</code>.</td></tr>
+<tr><td><code class="pg-code c-old">topbar</code></td><td><code class="pg-code">pg-page-header__top</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">section-bar</code></td><td><code class="pg-code">pg-section__head</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">section-bar__title</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">section-bar__meta</code></td><td><code class="pg-code">pg-page-header__meta</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">section-bar__date</code></td><td><code class="pg-code">pg-page-header__meta</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">section-bar__dot</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>Supprime volontairement.</b> Une pastille avant un libelle n'ajoute pas d'information : la couleur du texte suffit, et le libelle porte le sens.</td></tr>
+<tr><td><code class="pg-code c-old">dash-band</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note">Les capitales et l'interlettrage elargi tombent.</td></tr>
+<tr><td><code class="pg-code c-old">foot</code></td><td><code class="pg-code">pg-sidebar__foot</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">brand</code></td><td><code class="pg-code">pg-sidebar__logo</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">welcome</code></td><td><code class="pg-code">pg-page-header__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">welcome-sub</code></td><td><code class="pg-code">pg-page-header__meta</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">mobile-wrap</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>Aucun ecran mobile separe.</b> La densite suit le pointeur (<code>@media (pointer: coarse)</code>), pas la largeur : la meme page sert au laptop et a la tablette.</td></tr>
+<tr><td><code class="pg-code c-old">mob-screen</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">mob-form</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">mob-toggle</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-boutons">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Boutons, onglets, menus</h2>
+    <span class="pg-tag">components.css</span>
+    <span class="pg-results">22 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">btn</code></td><td><code class="pg-code">pg-btn</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">btn--primary</code></td><td><code class="pg-code">pg-btn--primary</code></td><td class="c-note">Encre noire, plus le rouille.</td></tr>
+<tr><td><code class="pg-code c-old">btn--ghost</code></td><td><code class="pg-code">pg-btn--ghost</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">btn--danger</code></td><td><code class="pg-code">pg-btn--danger</code></td><td class="c-note">Contour ; <code>pg-btn--danger-solid</code> pour la confirmation finale.</td></tr>
+<tr><td><code class="pg-code c-old">btn--rejet</code></td><td><code class="pg-code">pg-btn--danger</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">btn--accent</code></td><td><code class="pg-code">pg-btn--secondary</code></td><td class="c-note">L'accent dore disparait : la couleur est reservee au sens.</td></tr>
+<tr><td><code class="pg-code c-old">btn--sm</code></td><td><code class="pg-code">pg-btn--sm</code></td><td class="c-note">Aussi <code>--lg</code>, <code>--icon</code>, <code>--full</code>.</td></tr>
+<tr><td><code class="pg-code c-old">btn-outline</code></td><td><code class="pg-code">pg-btn--secondary</code></td><td class="c-note"><b>Doublon herite</b> de <code>btn--*</code> : a supprimer.</td></tr>
+<tr><td><code class="pg-code c-old">btn-primary</code></td><td><code class="pg-code">pg-btn--primary</code></td><td class="c-note"><b>Doublon herite</b> : a supprimer.</td></tr>
+<tr><td><code class="pg-code c-old">seg-group</code></td><td><code class="pg-code">pg-tabs</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">seg-btn</code></td><td><code class="pg-code">pg-tab</code></td><td class="c-note">Selection&nbsp;: <code>aria-selected</code>, avec <code>[data-pg-tabs]</code>.</td></tr>
+<tr><td><code class="pg-code c-old">tab</code></td><td><code class="pg-code">pg-tab</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ico</code></td><td><code class="pg-code">pg-icon</code></td><td class="c-note"><code>&lt;svg class="pg-icon"&gt;&lt;use href="#i-..."&gt;</code>, sprite de 34 icones.</td></tr>
+<tr><td><code class="pg-code c-old">ico--toggle</code></td><td><code class="pg-code">pg-icon</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">actions-menu</code></td><td><code class="pg-code">pg-menu</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">actions-menu__trigger</code></td><td><code class="pg-code">pg-row-action</code></td><td class="c-note">Ouverture par <code>[data-pg-menu]</code>, positionnement et fermeture inclus.</td></tr>
+<tr><td><code class="pg-code c-old">actions-menu__list</code></td><td><code class="pg-code">pg-menu</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">actions-menu__item</code></td><td><code class="pg-code">pg-menu__item</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">actions-menu__item--danger</code></td><td><code class="pg-code">pg-menu__item--danger</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">actions-menu__item--primary</code></td><td><code class="pg-code">pg-menu__item</code></td><td class="c-note"><b>Sans equivalent volontaire.</b> Une entree de menu ne se met pas en avant par la couleur : l'ordre suffit.</td></tr>
+<tr><td><code class="pg-code c-old">actions-menu__item--accent</code></td><td><code class="pg-code">pg-menu__item</code></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">actions-menu--up</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Le sens d'ouverture est calcule automatiquement selon la place disponible.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-formulaires">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Formulaires</h2>
+    <span class="pg-tag">forms.css</span>
+    <span class="pg-results">26 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">form-group</code></td><td><code class="pg-code">pg-field</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">form-label</code></td><td><code class="pg-code">pg-field__label</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">form-control</code></td><td><code class="pg-code">pg-input</code></td><td class="c-note">Ou <code>pg-select</code> / <code>pg-textarea</code> selon l'element. <b>Une classe par type</b> : c'est la difference qui permettait a l'ancien systeme d'avoir des selects sans chevron.</td></tr>
+<tr><td><code class="pg-code c-old">form-error</code></td><td><code class="pg-code">pg-field__error</code></td><td class="c-note">Le champ porte <code>aria-invalid="true"</code> ; la bordure et le texte suivent.</td></tr>
+<tr><td><code class="pg-code c-old">form-help</code></td><td><code class="pg-code">pg-field__help</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">form-note</code></td><td><code class="pg-code">pg-field__help</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">form-msg</code></td><td><code class="pg-code">pg-field__help</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">form-row</code></td><td><code class="pg-code">pg-form</code></td><td class="c-note"><code>pg-form--2</code> pour deux colonnes, <code>pg-form__wide</code> pour un champ pleine largeur.</td></tr>
+<tr><td><code class="pg-code c-old">form-section-head</code></td><td><code class="pg-code">pg-section__head</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">form-section-title</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">form-title</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">field</code></td><td><code class="pg-code">pg-field</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">req</code></td><td><code class="pg-code">pg-field__required</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">input-suffix</code></td><td><code class="pg-code">pg-input--has-suffix</code></td><td class="c-note">Sur le champ ; le libelle va dans <code>pg-input__suffix</code>.</td></tr>
+<tr><td><code class="pg-code c-old">input-suffix__unit</code></td><td><code class="pg-code">pg-input__suffix</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">switch</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>Aucun equivalent.</b> Un interrupteur ne dit pas s'il est en cours d'enregistrement ni s'il a echoue. Utiliser <code>pg-check</code>, ou deux boutons dans un <code>pg-btn-group</code> quand le choix est immediat.</td></tr>
+<tr><td><code class="pg-code c-old">switch__slider</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">placeholder</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Le texte de substitution n'est pas un libelle : <code>pg-field__label</code> reste visible.</td></tr>
+<tr><td><code class="pg-code c-old">cli-check</code></td><td><code class="pg-code">pg-check</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">frn-check</code></td><td><code class="pg-code">pg-check</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">prod-check</code></td><td><code class="pg-code">pg-check</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ud-cb</code></td><td><code class="pg-code">pg-check</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">period-select</code></td><td><code class="pg-code">pg-select</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pwd-tips</code></td><td><code class="pg-code">pg-field__help</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">confirm-text</code></td><td><code class="pg-code">pg-confirm__recap</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">confirm-word</code></td><td><code class="pg-code">pg-confirm__warn</code></td><td class="c-note">Le mot a retaper avant une suppression.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-tableaux">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Tableaux</h2>
+    <span class="pg-tag">components.css</span>
+    <span class="pg-results">31 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">table</code></td><td><code class="pg-code">pg-table</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">table-wrap</code></td><td><code class="pg-code">pg-table-wrap</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">table--sortable</code></td><td><code class="pg-code">pg-table</code></td><td class="c-note">Le tri se declare par colonne, pas sur la table : <code>&lt;th&gt;&lt;button data-pg-sort="num"&gt;</code>.</td></tr>
+<tr><td><code class="pg-code c-old">table--responsive</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Un tableau ne se replie pas en cartes. Il defile dans <code>pg-table-wrap</code>, en-tetes figes par <code>pg-table--sticky</code>.</td></tr>
+<tr><td><code class="pg-code c-old">num</code></td><td><code class="pg-code">pg-cell--num</code></td><td class="c-note"><b>369 usages, la classe la plus employee de l'application.</b> Aligne a droite, DM Mono, chasse fixe.</td></tr>
+<tr><td><code class="pg-code c-old">text-right</code></td><td><code class="pg-code">pg-cell--num</code></td><td class="c-note">Quand il s'agit d'un nombre. Sinon, aucune : le systeme n'a pas d'utilitaires.</td></tr>
+<tr><td><code class="pg-code c-old">text-center</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Aucun utilitaire d'alignement. L'alignement appartient au type de cellule.</td></tr>
+<tr><td><code class="pg-code c-old">text-muted</code></td><td><code class="pg-code">pg-caption</code></td><td class="c-note">Ou <code>pg-cell__sub</code> dans un tableau.</td></tr>
+<tr><td><code class="pg-code c-old">val-pos</code></td><td><code class="pg-code">pg-delta--positive</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">val-neg</code></td><td><code class="pg-code">pg-delta--negative</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">val-zero</code></td><td><code class="pg-code">pg-delta--none</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">val-warn</code></td><td><code class="pg-code">pg-kpi__value--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">is-sorted-asc</code></td><td><code class="pg-code">aria-sort="ascending"</code></td><td class="c-note"><b>Attribut, pas classe.</b> L'indicateur visuel et l'annonce au lecteur d'ecran ne peuvent plus se desynchroniser.</td></tr>
+<tr><td><code class="pg-code c-old">is-sorted-desc</code></td><td><code class="pg-code">aria-sort="descending"</code></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">sig-table</code></td><td><code class="pg-code">pg-table&nbsp;pg-table--ledger</code></td><td class="c-note">Soldes intermediaires de gestion.</td></tr>
+<tr><td><code class="pg-code c-old">sig-strong</code></td><td><code class="pg-code">pg-ledger__result</code></td><td class="c-note">Ligne de resultat : filet au-dessus, graisse renforcee.</td></tr>
+<tr><td><code class="pg-code c-old">acc-matrix</code></td><td><code class="pg-code">pg-table</code></td><td class="c-note">Matrice des droits.</td></tr>
+<tr><td><code class="pg-code c-old">acc-matrix-wrap</code></td><td><code class="pg-code">pg-table-wrap</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">acc-cell</code></td><td><code class="pg-code">pg-cell--tight</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">acc-group</code></td><td><code class="pg-code">pg-table__group</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">acc-rolecol</code></td><td><code class="pg-code">pg-cell--primary</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">acc-modcol</code></td><td><code class="pg-code">pg-cell--primary</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">acc-cellcol</code></td><td><code class="pg-code">pg-cell--tight</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cli-empty</code></td><td><code class="pg-code">pg-empty-state</code></td><td class="c-note">Avec <code>__icon</code>, <code>__title</code>, <code>__text</code>, <code>__action</code>.</td></tr>
+<tr><td><code class="pg-code c-old">frn-empty</code></td><td><code class="pg-code">pg-empty-state</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">row-retard</code></td><td><code class="pg-code">pg-status--warning</code></td><td class="c-note">L'etat va dans une cellule de statut, pas sur la ligne : une ligne entiere coloree en jaune rend les chiffres illisibles.</td></tr>
+<tr><td><code class="pg-code c-old">row-manuel</code></td><td><code class="pg-code">pg-tag</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">archive-chips</code></td><td><code class="pg-code">pg-tag</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">chip</code></td><td><code class="pg-code">pg-tag</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">export-bar</code></td><td><code class="pg-code">pg-table-bar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">exp-sel</code></td><td><code class="pg-code">pg-bulk</code></td><td class="c-note">Barre d'actions groupees, avec <code>pg-bulk__count</code>.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-journal">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Journal de station</h2>
+    <span class="pg-tag">components.css · forms.css</span>
+    <span class="pg-results">77 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">jr-entete</code></td><td><code class="pg-code">pg-page-header</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-entete__ca</code></td><td><code class="pg-code">pg-page-header__status</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-entete__meta</code></td><td><code class="pg-code">pg-page-header__meta</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-cartouche</code></td><td><code class="pg-code">pg-kv</code></td><td class="c-note">Bloc cle-valeur ; <code>pg-kv__key</code> / <code>pg-kv__val</code>.</td></tr>
+<tr><td><code class="pg-code c-old">jr-corps</code></td><td><code class="pg-code">pg-section</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-section</code></td><td><code class="pg-code">pg-section</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-sous-titre</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-titre-action</code></td><td><code class="pg-code">pg-section__head</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-grid</code></td><td><code class="pg-code">pg-form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-table</code></td><td><code class="pg-code">pg-table&nbsp;pg-table--entry</code></td><td class="c-note"><code>--entry</code> passe les lignes a 48&nbsp;px : la hauteur de saisie, pas de lecture.</td></tr>
+<tr><td><code class="pg-code c-old">jr-cell</code></td><td><code class="pg-code">pg-cell--num</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-ligne</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Un <code>&lt;tr&gt;</code> ordinaire.</td></tr>
+<tr><td><code class="pg-code c-old">jr-ligne__sup</code></td><td><code class="pg-code">pg-cell__sub</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-col-actions</code></td><td><code class="pg-code">pg-cell--actions</code></td><td class="c-note">Ne s'imprime pas.</td></tr>
+<tr><td><code class="pg-code c-old">jr-input-num</code></td><td><code class="pg-code">pg-input&nbsp;pg-input--num</code></td><td class="c-note"><code>--w4</code> a <code>--w12</code> pour caler la largeur sur le nombre de chiffres attendus.</td></tr>
+<tr><td><code class="pg-code c-old">jr-inline-field</code></td><td><code class="pg-code">pg-field</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-inline-fields</code></td><td><code class="pg-code">pg-form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-readonly</code></td><td><code class="pg-code">pg-cell--computed</code></td><td class="c-note">Valeur calculee : fond legerement creuse, non saisissable.</td></tr>
+<tr><td><code class="pg-code c-old">jr-calc</code></td><td><code class="pg-code">pg-cell--computed</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-calc--bloc</code></td><td><code class="pg-code">pg-kv</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-calc--fort</code></td><td><code class="pg-code">pg-kv__val--num</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-total</code></td><td><code class="pg-code">pg-table__group</code></td><td class="c-note">Ligne de total ; <code>break-after: avoid</code> a l'impression.</td></tr>
+<tr><td><code class="pg-code c-old">jr-stats</code></td><td><code class="pg-code">pg-kpi</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-stat</code></td><td><code class="pg-code">pg-kpi__cell</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-stat__label</code></td><td><code class="pg-code">pg-kpi__label</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-stat__value</code></td><td><code class="pg-code">pg-kpi__value</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-stat__hint</code></td><td><code class="pg-code">pg-kpi__foot</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-stat--danger</code></td><td><code class="pg-code">pg-kpi__value--critical</code></td><td class="c-note">Le modificateur descend sur la valeur, pas sur la case : c'est le chiffre qui est critique, pas le cadre.</td></tr>
+<tr><td><code class="pg-code c-old">jr-stat--success</code></td><td><code class="pg-code">pg-kpi__value--positive</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-alerte</code></td><td><code class="pg-code">pg-banner</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-alerte--danger</code></td><td><code class="pg-code">pg-banner--critical</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-alerte--warning</code></td><td><code class="pg-code">pg-banner--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-alerte--success</code></td><td><code class="pg-code">pg-banner--success</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-bandeau</code></td><td><code class="pg-code">pg-banner&nbsp;pg-banner--info</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-controle</code></td><td><code class="pg-code">pg-check-item</code></td><td class="c-note"><b>La liste « Controles avant soumission ».</b></td></tr>
+<tr><td><code class="pg-code c-old">jr-controle--ok</code></td><td><code class="pg-code">pg-check-item--ok</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-controle--warning</code></td><td><code class="pg-code">pg-check-item--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-controle--danger</code></td><td><code class="pg-code">pg-check-item--blocking</code></td><td class="c-note"><b>Renomme exprès.</b> « danger » decrit une couleur ; « blocking » dit ce qui se passe : la soumission est refusee. C'est la seule variante qui desactive le bouton.</td></tr>
+<tr><td><code class="pg-code c-old">jr-recap</code></td><td><code class="pg-code">pg-kv</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-recap-ligne</code></td><td><code class="pg-code">pg-kv__key</code></td><td class="c-note">La valeur va dans <code>pg-kv__val</code>, ou <code>pg-kv__val--num</code> si c est un montant.</td></tr>
+<tr><td><code class="pg-code c-old">jr-recap-ligne--alerte</code></td><td><code class="pg-code">pg-override</code></td><td class="c-note">Un ecart franchi et assume ; <code>pg-overrides</code> pour la liste.</td></tr>
+<tr><td><code class="pg-code c-old">jr-stepper</code></td><td><code class="pg-code">pg-steps</code></td><td class="c-note">Progression a segments. <code>pg-stepper</code> pour un fil d'etapes numerotees.</td></tr>
+<tr><td><code class="pg-code c-old">jr-sync</code></td><td><code class="pg-code">pg-autosave</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-sync--ok</code></td><td><code class="pg-code">pg-autosave</code></td><td class="c-note">Etat par <code>data-etat</code> sur l'element.</td></tr>
+<tr><td><code class="pg-code c-old">jr-sync--attente</code></td><td><code class="pg-code">pg-autosave</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-sync--offline</code></td><td><code class="pg-code">pg-autosave</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-sync--conflit</code></td><td><code class="pg-code">pg-autosave</code></td><td class="c-note">Le conflit reste le seul cas ou l'indicateur devient rouge.</td></tr>
+<tr><td><code class="pg-code c-old">jr-actions</code></td><td><code class="pg-code">pg-actionbar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-actions--barre</code></td><td><code class="pg-code">pg-actionbar</code></td><td class="c-note">Collante en bas, avec <code>pg-actionbar__info</code> a gauche.</td></tr>
+<tr><td><code class="pg-code c-old">jr-actions__grp</code></td><td><code class="pg-code">pg-btn-group</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-barre-actions</code></td><td><code class="pg-code">pg-actionbar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-check</code></td><td><code class="pg-code">pg-check</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-note</code></td><td><code class="pg-code">pg-field__help</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-certif</code></td><td><code class="pg-code">pg-card</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">jr-detail</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Ligne repliable de detail. <b>Aucun equivalent</b> : a recomposer avec <code>pg-drawer</code> (panneau lateral) ou une ligne <code>pg-table__group</code>.</td></tr>
+<tr><td><code class="pg-code c-old">jr-row-detail</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">jr-cell</code></td><td><code class="pg-code">pg-cell--num</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">saisie-grid</code></td><td><code class="pg-code">pg-form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">saisie-head</code></td><td><code class="pg-code">pg-section__head</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">saisie-head--blue</code></td><td><code class="pg-code">pg-section__head</code></td><td class="c-note"><b>Sans equivalent.</b> Un en-tete de section n'est pas colore par categorie : la couleur est reservee au statut.</td></tr>
+<tr><td><code class="pg-code c-old">saisie-head--green</code></td><td><code class="pg-code">pg-section__head</code></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">saisie-sub</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">saisie-piece</code></td><td><code class="pg-code">pg-file</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">saisie-piece--empty</code></td><td><code class="pg-code">pg-drop&nbsp;pg-drop--compact</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">stepper</code></td><td><code class="pg-code">pg-stepper</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">step</code></td><td><code class="pg-code">pg-step</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">step__num</code></td><td><code class="pg-code">pg-step__num</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">step__sep</code></td><td><code class="pg-code">pg-stepper__sep</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">recap-grid</code></td><td><code class="pg-code">pg-kv</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pump-row</code></td><td><code class="pg-code">pg-repeat__row</code></td><td class="c-note">Ligne ajoutable ; <code>[data-pg-repeat]</code> gere l'ajout et le retrait.</td></tr>
+<tr><td><code class="pg-code c-old">prix-row</code></td><td><code class="pg-code">pg-repeat__row</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cmd-ligne</code></td><td><code class="pg-code">pg-repeat__row</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cmd-lignes</code></td><td><code class="pg-code">pg-repeat</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cmd-ligne-del</code></td><td><code class="pg-code">pg-repeat__remove</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cmd-prod</code></td><td><code class="pg-code">pg-field</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cmd-qte</code></td><td><code class="pg-code">pg-input&nbsp;pg-input--num</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cmd-cuve-info</code></td><td><code class="pg-code">pg-field__help</code></td><td class="c-note"></td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-indicateurs">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Indicateurs, jauges, graphiques</h2>
+    <span class="pg-tag">components.css · charts.css</span>
+    <span class="pg-results">83 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">kpi-grid</code></td><td><code class="pg-code">pg-kpi</code></td><td class="c-note"><code>pg-kpi--2</code> a <code>--5</code> fixent le nombre de colonnes.</td></tr>
+<tr><td><code class="pg-code c-old">kpi-grid--5</code></td><td><code class="pg-code">pg-kpi--5</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi</code></td><td><code class="pg-code">pg-kpi__cell</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi-box</code></td><td><code class="pg-code">pg-kpi__cell</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi__label</code></td><td><code class="pg-code">pg-kpi__label</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi-box__label</code></td><td><code class="pg-code">pg-kpi__label</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi__value</code></td><td><code class="pg-code">pg-kpi__value</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi-box__value</code></td><td><code class="pg-code">pg-kpi__value</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi__unit</code></td><td><code class="pg-code">pg-value__unit</code></td><td class="c-note">L'unite passe a 0,8&nbsp;em : elle ne doit pas concurrencer le chiffre.</td></tr>
+<tr><td><code class="pg-code c-old">kpi-box__unit</code></td><td><code class="pg-code">pg-value__unit</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi__value--danger</code></td><td><code class="pg-code">pg-kpi__value--critical</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi__value--warning</code></td><td><code class="pg-code">pg-kpi__value--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi__value--success</code></td><td><code class="pg-code">pg-kpi__value--positive</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi__value--primary</code></td><td><code class="pg-code">pg-kpi__value</code></td><td class="c-note"><b>Sans equivalent.</b> Un KPI n'est pas « de marque » : il est neutre, ou il porte un etat.</td></tr>
+<tr><td><code class="pg-code c-old">kpi__value--accent</code></td><td><code class="pg-code">pg-kpi__value</code></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">kpi__value--info</code></td><td><code class="pg-code">pg-kpi__value</code></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">kpi__delta</code></td><td><code class="pg-code">pg-trend</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi__delta--up</code></td><td><code class="pg-code">pg-trend--up&nbsp;pg-trend--good</code></td><td class="c-note"><b>Deux axes separes.</b> La direction (<code>--up</code>) et le jugement (<code>--good</code>) ne sont pas la meme chose : une hausse des manquants monte et c'est mauvais.</td></tr>
+<tr><td><code class="pg-code c-old">kpi__delta--down</code></td><td><code class="pg-code">pg-trend--down&nbsp;pg-trend--bad</code></td><td class="c-note">Idem, a qualifier au cas par cas.</td></tr>
+<tr><td><code class="pg-code c-old">kpi-evo</code></td><td><code class="pg-code">pg-trend</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi-evo--up</code></td><td><code class="pg-code">pg-trend--up</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi-evo--down</code></td><td><code class="pg-code">pg-trend--down</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi-graph</code></td><td><code class="pg-code">pg-card</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi-graph__chart</code></td><td><code class="pg-code">pg-chart</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">kpi-graph__kpis</code></td><td><code class="pg-code">pg-kpi</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">gauge</code></td><td><code class="pg-code">pg-tank</code></td><td class="c-note">Cuve verticale, plus une barre : la forme dit ce qu'elle mesure.</td></tr>
+<tr><td><code class="pg-code c-old">gauge__fill</code></td><td><code class="pg-code">pg-tank__fill</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">gauge__fill--danger</code></td><td><code class="pg-code">pg-tank--critical</code></td><td class="c-note">Le modificateur monte sur la cuve entiere.</td></tr>
+<tr><td><code class="pg-code c-old">gauge__fill--warning</code></td><td><code class="pg-code">pg-tank--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">gauge__pct</code></td><td><code class="pg-code">pg-tank__pct</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">gauge-cap</code></td><td><code class="pg-code">pg-tank__cap</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-row</code></td><td><code class="pg-code">pg-tanks</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-station</code></td><td><code class="pg-code">pg-card</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-station__title</code></td><td><code class="pg-code">pg-card__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-station__body</code></td><td><code class="pg-code">pg-card__body</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-station__gauges</code></td><td><code class="pg-code">pg-tanks</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-station__link</code></td><td><code class="pg-code">pg-kpi__cell--link</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-station--appro</code></td><td><code class="pg-code">pg-card--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-sec</code></td><td><code class="pg-code">pg-section</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-sec__h</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-autres</code></td><td><code class="pg-code">pg-section</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-autres__t</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cuve-sec--autres</code></td><td><code class="pg-code">pg-section</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">podium-bar__title</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">progress</code></td><td><code class="pg-code">pg-progress</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">progress__fill</code></td><td><code class="pg-code">pg-progress__bar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">progress__fill--danger</code></td><td><code class="pg-code">pg-bar--critical</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">progress__fill--warning</code></td><td><code class="pg-code">pg-bar--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">progress-head</code></td><td><code class="pg-code">pg-progress__label</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">progress-head__val</code></td><td><code class="pg-code">pg-progress__pct</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">progress-foot</code></td><td><code class="pg-code">pg-caption</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">chart-card</code></td><td><code class="pg-code">pg-card</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">chart-card__title</code></td><td><code class="pg-code">pg-chart__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">chart-canvas-wrap</code></td><td><code class="pg-code">pg-chart</code></td><td class="c-note"><b>Plus de &lt;canvas&gt;.</b> Le graphique est du SVG genere : il s'imprime net et suit le theme.</td></tr>
+<tr><td><code class="pg-code c-old">chart-canvas-wrap--sm</code></td><td><code class="pg-code">pg-chart</code></td><td class="c-note">La taille vient du conteneur, mesure au rendu.</td></tr>
+<tr><td><code class="pg-code c-old">charts-grid</code></td><td><code class="pg-code">pg-ledger-pair</code></td><td class="c-note">Pour le Bilan et le Compte de resultat : deux tableaux dont les totaux doivent coincider. Ailleurs, <code>pg-form pg-form--2</code>.</td></tr>
+<tr><td><code class="pg-code c-old">pg-tooltip</code></td><td><code class="pg-code">pg-chart__readout</code></td><td class="c-note"><b>Attention</b> : cette classe porte deja le prefixe <code>pg-</code>. Voir la note sur les collisions.</td></tr>
+<tr><td><code class="pg-code c-old">pg-tooltip__title</code></td><td><code class="pg-code">pg-chart__readout</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pg-tooltip__row</code></td><td><code class="pg-code">pg-chart__key</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pg-tooltip__dot</code></td><td><code class="pg-code">pg-chart__key-swatch</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pg-anim</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Animation d'entree des graphiques Chart.js. Sans objet.</td></tr>
+<tr><td><code class="pg-code c-old">rank-grid</code></td><td><code class="pg-code">pg-table</code></td><td class="c-note">Le classement redevient un tableau triable.</td></tr>
+<tr><td><code class="pg-code c-old">rank-list</code></td><td><code class="pg-code">pg-table</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rank-row</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Un <code>&lt;tr&gt;</code>.</td></tr>
+<tr><td><code class="pg-code c-old">rank-badge</code></td><td><code class="pg-code">pg-cell--rank</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rank-badge--podium</code></td><td><code class="pg-code">pg-cell--rank</code></td><td class="c-note">Les trois premiers ne changent pas de forme, seulement de graisse.</td></tr>
+<tr><td><code class="pg-code c-old">rank-name</code></td><td><code class="pg-code">pg-cell--primary</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rank-station</code></td><td><code class="pg-code">pg-entity</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rank-val</code></td><td><code class="pg-code">pg-cell--num</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rank-card</code></td><td><code class="pg-code">pg-card</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">podium-item</code></td><td><code class="pg-code">pg-cell--rank</code></td><td class="c-note"><b>Le podium disparait.</b> Trois hauteurs de barres pour trois valeurs, c'est un tableau de trois lignes qui se lit plus vite.</td></tr>
+<tr><td><code class="pg-code c-old">podium-bar</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">podium-item__medal</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">podium-item__ca</code></td><td><code class="pg-code">pg-cell--num</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">podium-item__name</code></td><td><code class="pg-code">pg-cell--primary</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">dash-band</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pres-carte</code></td><td><code class="pg-code">pg-card</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pres-point</code></td><td><code class="pg-code">pg-status</code></td><td class="c-note">Une pastille seule ne dit pas ce qu elle signale ; <code>pg-status</code> porte un libelle.</td></tr>
+<tr><td><code class="pg-code c-old">pres-pouls</code></td><td><code class="pg-code">pg-live</code></td><td class="c-note"><b>Devient un composant.</b> Une page qui se rafraichit toute seule doit le dire, sinon l utilisateur recharge pour verifier. Trois etats, et la pulsation s arrete sous <code>prefers-reduced-motion</code>.</td></tr>
+<tr><td><code class="pg-code c-old">impact-cascade</code></td><td><code class="pg-code">pg-checks</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">impact-line</code></td><td><code class="pg-code">pg-check-item</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">impact-line__icon</code></td><td><code class="pg-code">pg-check-item__icon</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">impact-line__detail</code></td><td><code class="pg-code">pg-check-item__hint</code></td><td class="c-note"></td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-retours">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Retours, modales, fichiers</h2>
+    <span class="pg-tag">components.css</span>
+    <span class="pg-results">90 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">badge</code></td><td><code class="pg-code">pg-status</code></td><td class="c-note"><b>Deux familles distinctes desormais.</b> <code>pg-status</code> pour un etat (colore) ; <code>pg-tag</code> pour une categorie (achromatique). L'ancien <code>badge</code> melangeait les deux : un role d'utilisateur etait affiche en rouge comme une alerte.</td></tr>
+<tr><td><code class="pg-code c-old">badge--danger</code></td><td><code class="pg-code">pg-status--critical</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">badge--warning</code></td><td><code class="pg-code">pg-status--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">badge--success</code></td><td><code class="pg-code">pg-status--success</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">badge--info</code></td><td><code class="pg-code">pg-status--info</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">badge--neutral</code></td><td><code class="pg-code">pg-status--neutral</code></td><td class="c-note">Ou <code>pg-tag</code> si c'est une categorie et non un etat.</td></tr>
+<tr><td><code class="pg-code c-old">role-badge</code></td><td><code class="pg-code">pg-tag</code></td><td class="c-note">Un role est une categorie.</td></tr>
+<tr><td><code class="pg-code c-old">role-mod</code></td><td><code class="pg-code">pg-tag</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sante-badge</code></td><td><code class="pg-code">pg-status</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sante-badge--danger</code></td><td><code class="pg-code">pg-status--critical</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sante-badge--warning</code></td><td><code class="pg-code">pg-status--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sante-badge--success</code></td><td><code class="pg-code">pg-status--success</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">sante-badge__dot</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>Supprime.</b> Aucune pastille avant un libelle de statut.</td></tr>
+<tr><td><code class="pg-code c-old">appro-badge</code></td><td><code class="pg-code">pg-status--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">appro-banner</code></td><td><code class="pg-code">pg-banner&nbsp;pg-banner--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">appro-banner__btn</code></td><td><code class="pg-code">pg-banner__action</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">alert</code></td><td><code class="pg-code">pg-banner</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">alert--danger</code></td><td><code class="pg-code">pg-banner--critical</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">alert--warning</code></td><td><code class="pg-code">pg-banner--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">alert--success</code></td><td><code class="pg-code">pg-banner--success</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">alert--info</code></td><td><code class="pg-code">pg-banner--info</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cfa</code></td><td><code class="pg-code">pg-banner&nbsp;pg-banner--neutral</code></td><td class="c-note">Encart d'explication.</td></tr>
+<tr><td><code class="pg-code c-old">cfa--danger</code></td><td><code class="pg-code">pg-banner--critical</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cfa--attention</code></td><td><code class="pg-code">pg-banner--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cfa--info</code></td><td><code class="pg-code">pg-banner--info</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cfa__texte</code></td><td><code class="pg-code">pg-banner__text</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cfa__signe</code></td><td><code class="pg-code">pg-banner__icon</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">toast</code></td><td><code class="pg-code">pg-toast</code></td><td class="c-note">Structure enrichie : <code>__icon</code>, <code>__title</code>, <code>__text</code>, <code>__action</code>, <code>__close</code>.</td></tr>
+<tr><td><code class="pg-code c-old">toast-container</code></td><td><code class="pg-code">pg-toasts</code></td><td class="c-note">Cree automatiquement s'il n'existe pas.</td></tr>
+<tr><td><code class="pg-code c-old">toast__msg</code></td><td><code class="pg-code">pg-toast__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">toast--success</code></td><td><code class="pg-code">pg-toast--success</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">toast--error</code></td><td><code class="pg-code">pg-toast--error</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">toast--warning</code></td><td><code class="pg-code">pg-toast--warning</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">toast--info</code></td><td><code class="pg-code">pg-toast</code></td><td class="c-note">Le ton neutre est le defaut, sans modificateur.</td></tr>
+<tr><td><code class="pg-code c-old">modal</code></td><td><code class="pg-code">pg-modal</code></td><td class="c-note"><b>Devient un <code>&lt;dialog&gt;</code> natif</b> : pieges de focus, Echap et voile sont geres par le navigateur.</td></tr>
+<tr><td><code class="pg-code c-old">modal-overlay</code></td><td><code class="pg-code">pg-modal::backdrop</code></td><td class="c-note">Plus d'element : c'est un pseudo-element.</td></tr>
+<tr><td><code class="pg-code c-old">modal__header</code></td><td><code class="pg-code">pg-modal__head</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">modal__title</code></td><td><code class="pg-code">pg-modal__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">modal__body</code></td><td><code class="pg-code">pg-modal__body</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">modal__footer</code></td><td><code class="pg-code">pg-modal__foot</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">modal__close</code></td><td><code class="pg-code">[data-pg-close]</code></td><td class="c-note">Attribut ; habillage <code>pg-btn pg-btn--icon</code>.</td></tr>
+<tr><td><code class="pg-code c-old">modal--doc</code></td><td><code class="pg-code">pg-modal--lg</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">overlay</code></td><td><code class="pg-code">pg-spotlight</code></td><td class="c-note">Voile de visite guidee.</td></tr>
+<tr><td><code class="pg-code c-old">ob-overlay</code></td><td><code class="pg-code">pg-spotlight</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-box</code></td><td><code class="pg-code">pg-coach</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-box__title</code></td><td><code class="pg-code">pg-coach__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-box__text</code></td><td><code class="pg-code">pg-coach__text</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-box__step</code></td><td><code class="pg-code">pg-coach__step</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-box__actions</code></td><td><code class="pg-code">pg-coach__foot</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-spot</code></td><td><code class="pg-code">pg-spotlight</code></td><td class="c-note">La decoupe suit l'element cible.</td></tr>
+<tr><td><code class="pg-code c-old">ob-dim</code></td><td><code class="pg-code">pg-spotlight</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-active</code></td><td><code class="pg-code">.is-active</code></td><td class="c-note">Sur l element mis en avant pendant la visite.</td></tr>
+<tr><td><code class="pg-code c-old">ob-modlist</code></td><td><code class="pg-code">pg-checks</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-slide-title</code></td><td><code class="pg-code">pg-coach__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ob-slide-center</code></td><td><code class="pg-code">pg-coach</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">exp-prog__ico</code></td><td><code class="pg-code">pg-progress__label</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">upload-zone</code></td><td><code class="pg-code">pg-drop</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">upload-zone__icon</code></td><td><code class="pg-code">pg-drop__icon</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">upload-zone__title</code></td><td><code class="pg-code">pg-drop__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">upload-zone__hint</code></td><td><code class="pg-code">pg-drop__hint</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">piece-row</code></td><td><code class="pg-code">pg-file</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">piece-row__name</code></td><td><code class="pg-code">pg-file__name</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">piece-row__meta</code></td><td><code class="pg-code">pg-file__meta</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">piece-row__del</code></td><td><code class="pg-code">pg-file__actions</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">piece-badge</code></td><td><code class="pg-code">pg-file__type</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">piece-badge--pdf</code></td><td><code class="pg-code">pg-file__type</code></td><td class="c-note">Le type est un libelle, pas une couleur.</td></tr>
+<tr><td><code class="pg-code c-old">piece-badge--img</code></td><td><code class="pg-code">pg-file__type</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">exp-prog</code></td><td><code class="pg-code">pg-progress</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">exp-prog-overlay</code></td><td><code class="pg-code">pg-modal--progress</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">exp-prog__bar</code></td><td><code class="pg-code">pg-progress__box</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">exp-prog__fill</code></td><td><code class="pg-code">pg-progress__bar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">exp-prog__label</code></td><td><code class="pg-code">pg-progress__label</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">exp-prog__pct</code></td><td><code class="pg-code">pg-progress__pct</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">spinner</code></td><td><code class="pg-code">pg-loadbar</code></td><td class="c-note"><b>Le tourniquet disparait.</b> Il tourne sans rien dire. La barre de chargement progresse par paliers decroissants et ne finit jamais seule.</td></tr>
+<tr><td><code class="pg-code c-old">loader</code></td><td><code class="pg-code">pg-loadbar</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">loading-center</code></td><td><code class="pg-code">pg-skeleton</code></td><td class="c-note">Pour un tableau, la silhouette vaut mieux qu'un tourniquet centre : elle montre la forme de ce qui arrive.</td></tr>
+<tr><td><code class="pg-code c-old">has-tip</code></td><td><code class="pg-code">pg-tip</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">doc-frame</code></td><td><code class="pg-code">pg-modal--lg</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">autosave-indic</code></td><td><code class="pg-code">pg-autosave</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">msg-recipients</code></td><td><code class="pg-code">pg-form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">msg-recip</code></td><td><code class="pg-code">pg-check</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">msg-recip-group</code></td><td><code class="pg-code">pg-form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">msg-recip-head</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">msg-grp</code></td><td><code class="pg-code">pg-tag</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">msg-to</code></td><td><code class="pg-code">pg-entity</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">help-list</code></td><td><code class="pg-code">pg-checks</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">help-item</code></td><td><code class="pg-code">pg-check-item</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">help-item__ico</code></td><td><code class="pg-code">pg-check-item__icon</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">help-item__label</code></td><td><code class="pg-code">pg-check-item__body</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">help-item__go</code></td><td><code class="pg-code">pg-check-item__action</code></td><td class="c-note"></td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-filtres">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Filtres et recherche</h2>
+    <span class="pg-tag">forms.css</span>
+    <span class="pg-results">34 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">filter-bar</code></td><td><code class="pg-code">pg-filters</code></td><td class="c-note"><b>Une seule grammaire.</b> L'application en avait quatre : champs libres, selects nus, boutons segmentes, et une barre de dates a part.</td></tr>
+<tr><td><code class="pg-code c-old">filter-field</code></td><td><code class="pg-code">pg-filter</code></td><td class="c-note">Bouton porteur d'un libelle et d'une valeur : <code>pg-filter__value</code>.</td></tr>
+<tr><td><code class="pg-code c-old">filter-reset</code></td><td><code class="pg-code">pg-btn&nbsp;pg-btn--ghost</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">fiche-periode</code></td><td><code class="pg-code">pg-daterange</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">fiche-periode__grid</code></td><td><code class="pg-code">pg-daterange</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">fiche-periode__lbl</code></td><td><code class="pg-code">pg-field__label</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rap-head</code></td><td><code class="pg-code">pg-page-header</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rap-head__title</code></td><td><code class="pg-code">pg-page-header__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rap-head__meta</code></td><td><code class="pg-code">pg-page-header__meta</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rap-cat</code></td><td><code class="pg-code">pg-section</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rap-cat__h</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rap-comp__h</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">rap-list</code></td><td><code class="pg-code">pg-table</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">autres-grid</code></td><td><code class="pg-code">pg-form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">autres-group</code></td><td><code class="pg-code">pg-section</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">autres-group__h</code></td><td><code class="pg-code">pg-section__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">res-grp</code></td><td><code class="pg-code">pg-ledger__group</code></td><td class="c-note">Rubrique et son sous-total.</td></tr>
+<tr><td><code class="pg-code c-old">res-ligne</code></td><td><code class="pg-code">pg-ledger__detail</code></td><td class="c-note">Ligne de detail, en retrait sous sa rubrique.</td></tr>
+<tr><td><code class="pg-code c-old">emprunt-bandeau</code></td><td><code class="pg-code">pg-banner&nbsp;pg-banner--info</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">emprunt-bandeau__qui</code></td><td><code class="pg-code">pg-banner__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">emprunt-bandeau__quoi</code></td><td><code class="pg-code">pg-banner__sub</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">emprunt-bandeau__par</code></td><td><code class="pg-code">pg-banner__sub</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">emprunt-bandeau__sortie</code></td><td><code class="pg-code">pg-banner__action</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">cfg-info</code></td><td><code class="pg-code">pg-kv</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">wizard-panel</code></td><td><code class="pg-code">pg-modal</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pane</code></td><td><code class="pg-code">pg-auth__card</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pane-login</code></td><td><code class="pg-code">pg-auth__form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pane-reset</code></td><td><code class="pg-code">pg-auth__form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pane-body</code></td><td><code class="pg-code">pg-auth__form</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">pane-foot</code></td><td><code class="pg-code">pg-auth__foot</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ov-login</code></td><td><code class="pg-code">pg-auth</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ov-reset</code></td><td><code class="pg-code">pg-auth</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ov-credit</code></td><td><code class="pg-code">pg-auth__legal</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">ov-slot</code></td><td><code class="pg-code">pg-auth__brand</code></td><td class="c-note"></td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-comptabilite">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Comptabilite</h2>
+    <span class="pg-tag">components.css</span>
+    <span class="pg-results">10 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">table</code></td><td><code class="pg-code">pg-table&nbsp;pg-table--ledger</code></td><td class="c-note"><b>Les cinq vues comptables prennent la variante.</b> Journal general, Grand Livre, Balance, Bilan, Compte de resultat. Elle ajoute les chiffres tabulaires, resserre les lignes, retire le zebrage et style le <code>&lt;tfoot&gt;</code> &mdash; que l'ancienne feuille laissait sans regle.</td></tr>
+<tr><td><code class="pg-code c-old">num</code></td><td><code class="pg-code">pg-cell--dc</code></td><td class="c-note">Dans une colonne Debit ou Credit. <b>Une case vide y reste vide</b> : elle dit &laquo; pas de mouvement de ce cote &raquo;, ce qui est exact. Ailleurs, <code>pg-cell--num</code>.</td></tr>
+<tr><td><code class="pg-code c-old">num</code></td><td><code class="pg-code">pg-cell--balance</code></td><td class="c-note">Dans la colonne Solde : un etat, pas un mouvement. Fond creuse et graisse moyenne le detachent des deux colonnes qui le precedent.</td></tr>
+<tr><td><code class="pg-code c-old">badge--success</code></td><td><code class="pg-code">pg-ledger-check</code></td><td class="c-note"><b>L'equilibre n'est pas un badge.</b> Le comptable cherche <em>l'ecart</em>, pas la mention &laquo; Equilibre &raquo;. Le bandeau affiche les deux totaux et, s'il y a lieu, la difference &mdash; et il passe AU-DESSUS du tableau.</td></tr>
+<tr><td><code class="pg-code c-old">badge--danger</code></td><td><code class="pg-code">pg-ledger-check</code></td><td class="c-note">Idem, <code>data-state="unbalanced"</code>. Seul endroit colore de la page.</td></tr>
+<tr><td><code class="pg-code c-old">placeholder</code></td><td><code class="pg-code">pg-empty-state</code></td><td class="c-note">&laquo; Aucun mouvement sur la periode &raquo;.</td></tr>
+<tr><td><code class="pg-code c-old">row-manuel</code></td><td><code class="pg-code">pg-tag</code></td><td class="c-note">Ecriture saisie a la main : une categorie, pas une alerte. L'ancienne version teintait la ligne entiere.</td></tr>
+<tr><td><code class="pg-code c-old">card</code></td><td><code class="pg-code">pg-ledger-pair__side</code></td><td class="c-note">Pour les deux volets Actif/Passif et Charges/Produits, qui passent l'un sous l'autre en dessous de 900 px et a l'impression.</td></tr>
+<tr><td><code class="pg-code c-old">card__title</code></td><td><code class="pg-code">pg-ledger-pair__title</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">text-muted</code></td><td><code class="pg-code">pg-ledger__op</code></td><td class="c-note">La colonne du signe d'operation (+ &minus; =), pour que les libelles de SIG restent alignes entre eux.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="pg-section" id="c-utilitaires">
+  <div class="pg-section__head">
+    <h2 class="pg-section__title">Utilitaires et etats</h2>
+    <span class="pg-tag">base.css · layout.css</span>
+    <span class="pg-results">24 classes</span>
+  </div>
+  <div class="pg-table-wrap">
+    <table class="pg-table">
+      <thead><tr><th style="width:20%">Existant</th><th style="width:22%">Design system</th><th>Note</th></tr></thead>
+      <tbody><tr><td><code class="pg-code c-old">mb-1 … mb-4</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>Retire, sans remplacement.</b> Le bloc porte desormais sa propre marge basse. Voir la consigne en tete de section.</td></tr>
+<tr><td><code class="pg-code c-old">mt-1 … mt-6</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem. Une marge HAUTE est presque toujours la marge basse du bloc precedent, vue de l'autre cote.</td></tr>
+<tr><td><code class="pg-code c-old">gap-2 … gap-4</code></td><td><span class="c-none">aucun</span></td><td class="c-note">L'ecart entre elements freres appartient au conteneur : <code>pg-form</code>, <code>pg-btn-group</code>, <code>pg-filters</code>, <code>pg-tanks</code> le declarent chacun.</td></tr>
+<tr><td><code class="pg-code c-old">flex</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>104 usages &mdash; le plus employe des seize.</b> Presque jamais un vrai besoin de <code>display:flex</code> : c'est un composant qui manquait. Voir la table de la consigne.</td></tr>
+<tr><td><code class="pg-code c-old">flex-center</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Idem : <code>pg-table-bar</code>, <code>pg-card__head</code>, <code>pg-section__head</code> alignent deja leur contenu.</td></tr>
+<tr><td><code class="pg-code c-old">grow</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>36 usages, tous le meme geste</b> : un <code>&lt;div class="grow"&gt;&lt;/div&gt;</code> vide qui pousse les actions a droite. Les conteneurs du systeme le font eux-memes &mdash; le div vide disparait.</td></tr>
+<tr><td><code class="pg-code c-old">is-hidden</code></td><td><code class="pg-code">hidden</code></td><td class="c-note"><b>Attribut natif.</b> <code>el.hidden = true</code> ; le systeme ne redefinit pas ce que le HTML sait faire.</td></tr>
+<tr><td><code class="pg-code c-old">is-visible</code></td><td><span class="c-none">aucun</span></td><td class="c-note">L'absence de <code>hidden</code>.</td></tr>
+<tr><td><code class="pg-code c-old">is-active</code></td><td><code class="pg-code">.is-active</code></td><td class="c-note">Conserve tel quel.</td></tr>
+<tr><td><code class="pg-code c-old">is-actif</code></td><td><code class="pg-code">.is-active</code></td><td class="c-note"><b>Doublon franco-anglais</b> : deux orthographes pour le meme etat. A unifier.</td></tr>
+<tr><td><code class="pg-code c-old">is-open</code></td><td><code class="pg-code">hidden</code></td><td class="c-note"><b>Attribut, dans les deux sens.</b> Un menu s ouvre en retirant <code>hidden</code> et en passant <code>aria-expanded</code> a vrai ; une modale porte <code>open</code>, pose par le navigateur.</td></tr>
+<tr><td><code class="pg-code c-old">is-loading</code></td><td><code class="pg-code">aria-busy="true"</code></td><td class="c-note"><b>Attribut.</b> Annonce au lecteur d'ecran en meme temps qu'au style.</td></tr>
+<tr><td><code class="pg-code c-old">is-invalid</code></td><td><code class="pg-code">aria-invalid="true"</code></td><td class="c-note">Idem.</td></tr>
+<tr><td><code class="pg-code c-old">is-danger</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Trop general : utiliser la variante du composant concerne.</td></tr>
+<tr><td><code class="pg-code c-old">is-done</code></td><td><code class="pg-code">.is-done</code></td><td class="c-note">Conserve, sur <code>pg-step</code>.</td></tr>
+<tr><td><code class="pg-code c-old">is-saving</code></td><td><code class="pg-code">pg-autosave[data-etat="saving"]</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">is-saved</code></td><td><code class="pg-code">pg-autosave[data-etat="saved"]</code></td><td class="c-note"></td></tr>
+<tr><td><code class="pg-code c-old">is-off</code></td><td><code class="pg-code">disabled</code></td><td class="c-note"><b>Attribut natif</b> sur les controles.</td></tr>
+<tr><td><code class="pg-code c-old">is-drag</code></td><td><code class="pg-code">.is-drag</code></td><td class="c-note">Conserve, sur <code>pg-drop</code>.</td></tr>
+<tr><td><code class="pg-code c-old">is-sorted-desc</code></td><td><code class="pg-code">aria-sort</code></td><td class="c-note">Voir la section Tableaux.</td></tr>
+<tr><td><code class="pg-code c-old">badge-- · alert-- · cfa-- · val- …</code></td><td><span class="c-none">aucun</span></td><td class="c-note"><b>Ce ne sont pas des classes : ce sont des gabarits qui ont fuite.</b> Neuf d entre elles apparaissent dans le HTML genere, produites par <code>'badge badge--' + type</code> quand <code>type</code> est vide. Elles ne correspondent a aucune regle CSS et ne font donc rien — mais elles signalent chacune un chemin ou le type n a pas ete transmis. A verifier au passage.</td></tr>
+<tr><td><code class="pg-code c-old">fa-eye · fa-envelope · fa-regular</code></td><td><code class="pg-code">pg-icon</code></td><td class="c-note"><b>Restes de Font Awesome.</b> Trois classes orphelines : la police n'est plus chargee. A remplacer par le sprite.</td></tr>
+<tr><td><code class="pg-code c-old">w3 · org · sub · main</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Classes sans regle CSS associee, ou vestiges. A supprimer.</td></tr>
+<tr><td><code class="pg-code c-old">onclick</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Une classe nommee <code>onclick</code> : erreur de frappe dans un <code>class=</code>. A supprimer.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+      <!-- ============================================================ -->
+      <section class="pg-section" id="variables">
+        <div class="pg-section__head"><h2 class="pg-section__title">Variables CSS</h2></div>
+
+        <div class="pg-banner pg-banner--critical">
+          <svg class="pg-icon pg-banner__icon"><use href="#i-alert"></use></svg>
+          <div class="pg-banner__text">
+            <div class="pg-banner__title">Ne pas ecrire <code>--color-primary: var(--action-primary-bg)</code></div>
+            <div class="pg-banner__sub">Le raccourci qui parait evident est celui qui casse tout en silence.</div>
+          </div>
+        </div>
+
+        <p class="c-lede">Les 75 variables existantes sont nommees par <b>apparence</b>
+        (<code class="pg-code">--color-primary</code>, <code class="pg-code">--color-accent</code>).
+        Celles du design system sont nommees par <b>role</b>
+        (<code class="pg-code">--action-primary-bg</code>, <code class="pg-code">--status-warning-text</code>).
+        Ce n'est pas une difference de vocabulaire&nbsp;: c'est une difference de cardinalite.</p>
+
+        <p class="c-lede"><code class="pg-code">--color-primary</code> apparait
+        <b>31 fois</b> dans les feuilles existantes, reparties sur
+        <code class="pg-code">color</code> (12), <code class="pg-code">background</code> (7),
+        <code class="pg-code">border-color</code> (3) et <code class="pg-code">accent-color</code>.
+        Un alias unique donnerait au texte d'un lien la couleur du fond d'un bouton. Il faut donc
+        remplacer chaque usage par le role correspondant, un par un &mdash; c'est mecanique,
+        mais ca ne s'automatise pas.</p>
+
+        <div class="pg-table-wrap">
+          <table class="pg-table">
+            <thead><tr><th>Existant</th><th>Selon le role</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td><code class="pg-code c-old">--color-primary</code></td><td><code class="pg-code">--action-primary-bg</code><br><code class="pg-code">--text-primary</code><br><code class="pg-code">--border-strong</code></td><td class="c-note">Selon qu'il s'agit d'un fond de bouton, d'un texte ou d'un filet. Le rouille <code>#9C3D1E</code> devient de l'encre&nbsp;: la couleur ne sert plus a marquer la marque.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-accent</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Le dore n'a pas de role. Ce qu'il soulignait releve soit du statut, soit de rien.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-ink</code></td><td><code class="pg-code">--text-primary</code></td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--color-text</code></td><td><code class="pg-code">--text-primary</code></td><td class="c-note">Les deux existaient en parallele.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-muted</code></td><td><code class="pg-code">--text-secondary</code></td><td class="c-note"><code>--text-muted</code> descend encore d'un cran.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-muted-fort</code></td><td><code class="pg-code">--text-secondary</code></td><td class="c-note">Le doublon disparait.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-bg</code></td><td><code class="pg-code">--surface-page</code></td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--color-surface</code></td><td><code class="pg-code">--surface-raised</code></td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--color-surface-alt</code></td><td><code class="pg-code">--surface-sunken</code></td><td class="c-note">Creuse, pas surelevee&nbsp;: c'est ce que la valeur faisait deja.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-border</code></td><td><code class="pg-code">--border-default</code></td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--color-border-strong</code></td><td><code class="pg-code">--border-strong</code></td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--field-bg</code></td><td><code class="pg-code">--surface-raised</code></td><td class="c-note"><b>Le champ devient blanc.</b> Le beige <code>#F7E3D5</code> associe a une bordure <code>#1B0F05</code> donnait a tous les champs l'aspect d'un champ en erreur&nbsp;: il ne restait plus rien pour signaler une vraie erreur.</td></tr>
+              <tr><td><code class="pg-code c-old">--field-border</code></td><td><code class="pg-code">--border-default</code></td><td class="c-note">Idem. L'erreur prend <code>--status-critical-border</code>.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-success</code></td><td><code class="pg-code">--status-success-text</code></td><td class="c-note">Trois roles distincts par statut&nbsp;: <code>-bg</code>, <code>-text</code>, <code>-border</code>.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-success-soft</code></td><td><code class="pg-code">--status-success-bg</code></td><td class="c-note">Plus de <code>rgba()</code>&nbsp;: une couleur opaque se compose et se mesure.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-danger</code></td><td><code class="pg-code">--status-critical-text</code></td><td class="c-note"><b>« danger » devient « critical »</b> partout&nbsp;: le mot decrit l'etat des donnees, pas l'emotion.</td></tr>
+              <tr><td><code class="pg-code c-old">--color-warning</code></td><td><code class="pg-code">--status-warning-text</code></td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--color-info</code></td><td><code class="pg-code">--status-info-text</code></td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--ring</code></td><td><code class="pg-code">--focus-ring</code></td><td class="c-note">Double anneau&nbsp;: il reste visible sur fond clair comme sur fond colore.</td></tr>
+              <tr><td><code class="pg-code c-old">--ring-accent</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Un seul anneau de focus, partout.</td></tr>
+              <tr><td><code class="pg-code c-old">--font</code></td><td><code class="pg-code">--font-sans</code></td><td class="c-note">Inter &rarr; DM&nbsp;Sans. Les chiffres passent a <code>--font-numeric</code> (DM&nbsp;Mono)&nbsp;: DM&nbsp;Sans n'a pas de chasse tabulaire, verifie au navigateur.</td></tr>
+              <tr><td><code class="pg-code c-old">--fs-xs</code> &hellip; <code class="pg-code c-old">--fs-2xl</code></td><td><code class="pg-code">--text-*-size</code></td><td class="c-note">Six tailles nues deviennent sept roles qui portent aussi graisse, interligne et interlettrage.</td></tr>
+              <tr><td><code class="pg-code c-old">--sp-1</code> &hellip; <code class="pg-code c-old">--sp-8</code></td><td><code class="pg-code">--space-1</code> &hellip; <code class="pg-code">--space-12</code></td><td class="c-note">Echelle en pixels, pas en <code>rem</code>&nbsp;: un espacement ne doit pas grandir quand l'utilisateur agrandit le texte.</td></tr>
+              <tr><td><code class="pg-code c-old">--radius-sm</code> (9px)</td><td><code class="pg-code">--radius-sm</code> (4px)</td><td class="c-note"><b>Meme nom, valeur differente.</b> Piege&nbsp;: verifier que l'ancienne feuille est bien retiree, sinon les rayons se melangent.</td></tr>
+              <tr><td><code class="pg-code c-old">--radius</code> (14px)</td><td><code class="pg-code">--radius-md</code> (6px)</td><td class="c-note">Les arrondis se resserrent&nbsp;: 14&nbsp;px sur une cellule de tableau adoucit la grille jusqu'a la dissoudre.</td></tr>
+              <tr><td><code class="pg-code c-old">--shadow</code> &hellip; <code class="pg-code c-old">--shadow-lg</code></td><td><code class="pg-code">--shadow-xs</code> &hellip; <code class="pg-code">--shadow-md</code></td><td class="c-note">Plus d'ombre teintee de brun. Trois niveaux au lieu de quatre.</td></tr>
+              <tr><td><code class="pg-code c-old">--header-h</code> (62px)</td><td><code class="pg-code">--topbar-height</code> (56px)</td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--sidebar-w</code> (248px)</td><td><code class="pg-code">--sidebar-width</code> (240px)</td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--t</code>, <code class="pg-code c-old">--t-fast</code></td><td><code class="pg-code">--duration-*</code> + <code class="pg-code">--ease-*</code></td><td class="c-note">Duree et courbe separees&nbsp;: on change souvent l'une sans l'autre.</td></tr>
+              <tr><td><code class="pg-code c-old">--ease-spring</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Aucun rebond&nbsp;: un outil de saisie n'a pas besoin d'elasticite.</td></tr>
+              <tr><td><code class="pg-code c-old">--z-header</code> &hellip; <code class="pg-code c-old">--z-toast</code></td><td><span class="c-none">aucun</span></td><td class="c-note">Les valeurs de <code>z-index</code> sont ecrites dans les composants qui en ont besoin, avec le commentaire qui dit pourquoi. Quatre variables globales ne disaient pas ce qui devait passer devant quoi.</td></tr>
+              <tr><td><code class="pg-code c-old">--tooltip-bg</code>, <code class="pg-code c-old">--tooltip-fg</code></td><td><code class="pg-code">--surface-inverse</code>, <code class="pg-code">--text-inverse</code></td><td class="c-note"></td></tr>
+              <tr><td><code class="pg-code c-old">--color-overlay</code></td><td><code class="pg-code">--surface-overlay</code></td><td class="c-note"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <section class="pg-section" id="comportements">
+        <div class="pg-section__head"><h2 class="pg-section__title">La ou les deux JavaScript se recouvrent</h2></div>
+        <p class="c-lede">Huit endroits font le meme travail des deux cotes. Pour chacun, une seule
+        implementation doit rester &mdash; et ce n'est pas toujours la mienne.</p>
+
+        <div class="pg-table-wrap">
+          <table class="pg-table">
+            <thead><tr><th>Sujet</th><th>Existant</th><th>Design system</th><th>Qui gagne</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><b>Theme sombre</b></td>
+                <td><code class="pg-code c-old">js/theme-boot.js</code></td>
+                <td><code class="pg-code">js/theme-boot.js</code></td>
+                <td class="c-note"><span class="pg-status pg-status--success">Remplacement direct</span><br>
+                Meme nom de fichier, meme cle <code>petrogest_theme</code>, meme attribut
+                <code>data-theme</code>. Le mien est un sur-ensemble&nbsp;: trois etats au lieu de deux
+                (le troisieme suit le systeme et continue de le suivre en cours de session).
+                <b>Aucune migration&nbsp;: on ecrase le fichier.</b></td>
+              </tr>
+              <tr>
+                <td><b>File d'attente hors ligne</b></td>
+                <td><code class="pg-code c-old">js/offline.js</code><br>IndexedDB <code>journal_queue</code></td>
+                <td><code class="pg-code">pg.queue.*</code><br>localStorage</td>
+                <td class="c-note"><span class="pg-status pg-status--info">L'existant gagne</span><br>
+                <b>Retirer la file du design system.</b> Celle de l'application est plus solide&nbsp;:
+                IndexedDB au lieu de localStorage, et elle sait deja qu'un journal <em>soumis</em>
+                ne doit jamais etre ecrase par un brouillon hors ligne. La mienne montrait le
+                principe&nbsp;; celle-la connait le metier.</td>
+              </tr>
+              <tr>
+                <td><b>Toast</b></td>
+                <td><code class="pg-code c-old">showToast(msg, type, duree)</code><br>157 appels</td>
+                <td><code class="pg-code">pgToast({titre, texte, action})</code></td>
+                <td class="c-note"><span class="pg-status pg-status--warning">Adaptateur</span><br>
+                Trois lignes suffisent pour garder les 157 appels. Voir plus bas.</td>
+              </tr>
+              <tr>
+                <td><b>Modale</b></td>
+                <td><code class="pg-code c-old">openModal</code> / <code class="pg-code c-old">closeModal</code><br>123 appels</td>
+                <td><code class="pg-code">&lt;dialog&gt;</code> + <code class="pg-code">[data-pg-open]</code></td>
+                <td class="c-note"><span class="pg-status pg-status--warning">Adaptateur</span><br>
+                Reecrire les deux fonctions pour appeler <code>showModal()</code> et
+                <code>close()</code>&nbsp;: les 123 appels ne changent pas. On gagne le piege de focus,
+                Echap et le voile, geres par le navigateur.</td>
+              </tr>
+              <tr>
+                <td><b>Tri des tableaux</b></td>
+                <td><code class="pg-code c-old">.table--sortable th[data-sort]</code></td>
+                <td><code class="pg-code">&lt;th&gt;&lt;button data-pg-sort&gt;</code></td>
+                <td class="c-note"><span class="pg-status pg-status--warning">Balisage a changer</span><br>
+                Le declencheur devient un vrai bouton&nbsp;: un <code>&lt;th&gt;</code> cliquable
+                n'est pas atteignable au clavier. L'etat passe de <code>.is-sorted-asc</code> a
+                <code>aria-sort</code>. Meme trois types&nbsp;: <code>text</code>, <code>num</code>, <code>date</code>.</td>
+              </tr>
+              <tr>
+                <td><b>Menu d'actions</b></td>
+                <td><code class="pg-code c-old">toggleActionsMenu()</code></td>
+                <td><code class="pg-code">[data-pg-menu]</code></td>
+                <td class="c-note"><span class="pg-status pg-status--success">Le design system gagne</span><br>
+                Supprimer la fonction. Le positionnement (vers le haut si la place manque en bas),
+                la fermeture au clic exterieur et a Echap sont inclus.</td>
+              </tr>
+              <tr>
+                <td><b>Onglets</b></td>
+                <td><code class="pg-code c-old">adminSetTab()</code>, <code class="pg-code c-old">comptaSetVue()</code>, <code class="pg-code c-old">msgSetBox()</code></td>
+                <td><code class="pg-code">[data-pg-tabs]</code></td>
+                <td class="c-note"><span class="pg-status pg-status--neutral">Au cas par cas</span><br>
+                Quand l'onglet ne fait que montrer un panneau deja rendu, l'attribut suffit et la
+                fonction disparait. Quand il declenche un chargement, garder la fonction.</td>
+              </tr>
+              <tr>
+                <td><b>Graphiques</b></td>
+                <td>Chart.js <b>205&nbsp;Ko</b><br>+ <code class="pg-code c-old">chart-theme.js</code> 18&nbsp;Ko<br>12 instances, 9 <code>&lt;canvas&gt;</code></td>
+                <td><code class="pg-code">js/charts.js</code><br><b>18&nbsp;Ko</b>, SVG</td>
+                <td class="c-note"><span class="pg-status pg-status--success">Le design system gagne</span><br>
+                <b>205&nbsp;Ko en moins.</b> Le SVG s'imprime net, suit le theme sombre sans
+                configuration, et se declare en JSON dans le balisage.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <section class="pg-section" id="adaptateurs">
+        <div class="pg-section__head"><h2 class="pg-section__title">Les adaptateurs</h2></div>
+        <p class="c-lede">Deux fonctions a reecrire, et 280 appels n'ont pas besoin d'etre touches.
+        C'est le meilleur rapport effort/risque de toute la migration&nbsp;: on ne modifie pas
+        280 sites d'appel, donc on n'en casse aucun.</p>
+
+        <div class="pg-card">
+          <div class="pg-card__head"><span class="pg-card__title">showToast &rarr; pgToast &middot; 157 appels preserves</span></div>
+          <div class="pg-card__body">
+            <pre class="pg-code" style="margin:0;overflow-x:auto"><code>function showToast(message, type, duration) {
+  return pgToast({
+    titre: message,
+    type:  type === 'error' ? 'error' : type,   <span style="color:var(--text-muted)">// 'info' = defaut sans modificateur</span>
+    duree: duration
+  });
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="pg-card" style="margin-top:var(--space-4)">
+          <div class="pg-card__head"><span class="pg-card__title">openModal / closeModal &rarr; &lt;dialog&gt; &middot; 123 appels preserves</span></div>
+          <div class="pg-card__body">
+            <pre class="pg-code" style="margin:0;overflow-x:auto"><code>function openModal(id)  { var d = document.getElementById(id); if (d) d.showModal(); }
+function closeModal(id) {
+  var d = id ? document.getElementById(id) : document.querySelector('dialog[open]');
+  if (d) d.close();
+}</code></pre>
+            <p class="c-note" style="margin-top:var(--space-3)">Le balisage passe de
+            <code class="pg-code">&lt;div class="modal"&gt;</code> a
+            <code class="pg-code">&lt;dialog class="pg-modal"&gt;</code>, et
+            <code class="pg-code">.modal-overlay</code> disparait&nbsp;: c'est desormais
+            <code class="pg-code">::backdrop</code>.</p>
+          </div>
+        </div>
+
+        <div class="pg-card" style="margin-top:var(--space-4)">
+          <div class="pg-card__head"><span class="pg-card__title">Ce qu'il ne faut PAS adapter</span></div>
+          <div class="pg-card__body">
+            <p class="c-note" style="margin:0">Ne pas ecrire d'adaptateur pour les classes.
+            Un <code class="pg-code">.btn { @extend .pg-btn }</code> ou une regle
+            <code class="pg-code">.btn, .pg-btn { ... }</code> ferait tenir les deux systemes
+            en meme temps, et personne ne saurait plus lequel s'applique. Les classes se
+            remplacent dans le HTML genere, module par module.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <section class="pg-section" id="ordre">
+        <div class="pg-section__head"><h2 class="pg-section__title">Dans quel ordre</h2></div>
+        <p class="c-lede">L'ordre n'est pas indifferent&nbsp;: il est choisi pour que chaque etape
+        soit verifiable et annulable seule, et pour que la plus risquee arrive quand l'equipe
+        connait deja le systeme.</p>
+
+        <div class="pg-table-wrap">
+          <table class="pg-table">
+            <thead><tr><th style="width:44px">&nbsp;</th><th>Etape</th><th>Pourquoi la</th></tr></thead>
+            <tbody>
+              <tr><td class="pg-cell--rank">1</td><td><b>Remplacer les feuilles de style et <code class="pg-code">theme-boot.js</code></b><br><span class="c-note">Retirer les 6 CSS, lier <code>petrogest.build.css</code></span></td><td class="c-note">Tout casse d'un coup, visuellement &mdash; c'est voulu. Une cohabitation, meme temporaire, rend impossible de savoir quelle regle s'applique. Le theme sombre, lui, marche immediatement.</td></tr>
+              <tr><td class="pg-cell--rank">2</td><td><b>La coque</b><br><span class="c-note">sidebar, topbar, page-header, section</span></td><td class="c-note">Elle encadre tout le reste. Une fois juste, chaque module se corrige dans un cadre stable.</td></tr>
+              <tr><td class="pg-cell--rank">3</td><td><b>Les deux adaptateurs</b><br><span class="c-note">toast, modale</span></td><td class="c-note">280 appels redeviennent corrects sans etre touches. A faire avant les modules, pas apres.</td></tr>
+              <tr><td class="pg-cell--rank">4</td><td><b>Un module simple, en entier</b><br><span class="c-note">Fournisseurs &mdash; 8 actions, 22&nbsp;Ko</span></td><td class="c-note">Le plus petit module complet&nbsp;: liste, filtres, modale, suppression groupee. Il sert d'etalon pour estimer les autres.</td></tr>
+              <tr><td class="pg-cell--rank">5</td><td><b>Les graphiques</b><br><span class="c-note">retirer Chart.js et <code class="pg-code">chart-theme.js</code></span></td><td class="c-note">Independant du reste&nbsp;: 12 instances, isolables une par une. C'est aussi la que se retirent les cinq classes <code>pg-tooltip*</code>.</td></tr>
+              <tr><td class="pg-cell--rank">6</td><td><b>Les modules de lecture</b><br><span class="c-note">tableau de bord, rapports, stations, clients, commandes&hellip;</span></td><td class="c-note">Ils lisent&nbsp;: une erreur d'affichage se voit et ne corrompt rien.</td></tr>
+              <tr><td class="pg-cell--rank">7</td><td><b>Le journal de saisie</b><br><span class="c-note"><code class="pg-code">journal-saisie.js</code> &mdash; 70&nbsp;Ko, 17 actions, 135 champs</span></td><td class="c-note"><b>En dernier, et seul.</b> C'est le seul module ou une erreur de balisage produit une <em>fausse donnee comptable</em> plutot qu'un affichage laid. A ce stade l'equipe connait le systeme.</td></tr>
+              <tr><td class="pg-cell--rank">8</td><td><b>Administration</b><br><span class="c-note">76&nbsp;Ko, 32 actions, 8 onglets</span></td><td class="c-note">Le plus gros fichier, mais le moins frequente&nbsp;: son cout est eleve, son risque faible.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <section class="pg-section" id="espacement">
+        <div class="pg-section__head"><h2 class="pg-section__title">Les utilitaires d'espacement</h2></div>
+
+        <div class="pg-banner pg-banner--info">
+          <svg class="pg-icon pg-banner__icon"><use href="#i-help"></use></svg>
+          <div class="pg-banner__text">
+            <div class="pg-banner__title">Decision : ils disparaissent au fil de la migration</div>
+            <div class="pg-banner__sub">Aucun equivalent n'est fourni, et il ne faut pas en recreer.
+            <b>425 occurrences</b> sur seize classes &mdash; <code class="pg-code">mb-1..4</code>,
+            <code class="pg-code">mt-1..6</code>, <code class="pg-code">gap-2..4</code>,
+            <code class="pg-code">flex</code>, <code class="pg-code">flex-center</code>,
+            <code class="pg-code">grow</code>.</div>
+          </div>
+        </div>
+
+        <p class="c-lede">Un utilitaire decide l'espace <b>au point d'appel</b>&nbsp;:
+        <code class="pg-code">&lt;div class="card mb-4"&gt;</code>. Il y a 425 decisions de ce
+        genre dans le code, et rien ne garantit qu'elles concordent &mdash; la meme carte porte
+        <code class="pg-code">mb-4</code> ici et <code class="pg-code">mb-3</code> trois ecrans
+        plus loin. C'est ainsi qu'une interface se defait&nbsp;: pas d'un coup, mais d'un ecart
+        de quatre pixels a la fois.</p>
+
+        <p class="c-lede">Dans ce systeme, <b>un bloc de niveau page sait de combien il s'ecarte
+        du suivant</b>. La regle est declaree une fois, dans <code class="pg-code">base.css</code>,
+        et s'applique a dix-huit composants&nbsp;: 16&nbsp;px entre deux blocs, 40&nbsp;px entre
+        deux sections, et zero en queue de conteneur. Rien a poser dans le balisage.</p>
+
+        <div class="pg-ledger-check" data-state="balanced">
+          <div class="pg-ledger-check__state">Deux niveaux de rythme, et c'est tout</div>
+          <dl class="pg-ledger-check__sides">
+            <div class="pg-ledger-check__side"><dt class="pg-ledger-check__label">entre deux blocs</dt><dd class="pg-ledger-check__value">16 px</dd></div>
+            <div class="pg-ledger-check__side"><dt class="pg-ledger-check__label">entre deux sections</dt><dd class="pg-ledger-check__value">40 px</dd></div>
+            <div class="pg-ledger-check__side"><dt class="pg-ledger-check__label">en queue de conteneur</dt><dd class="pg-ledger-check__value">0</dd></div>
+          </dl>
+        </div>
+
+        <div class="pg-section__head" style="margin-top:var(--space-8)"><h3 class="pg-section__title">Ce qu'on rencontre reellement</h3></div>
+        <p class="c-lede">Les treize combinaisons ci-dessous couvrent la grande majorite des 425
+        occurrences. <b>Dans presque tous les cas, l'utilitaire improvisait un composant qui
+        existe maintenant</b> &mdash; il n'y a pas d'espace a reinventer, il y a un composant a
+        reconnaitre.</p>
+
+        <div class="pg-table-wrap">
+          <table class="pg-table">
+            <thead><tr><th style="width:30%">Dans le code actuel</th><th class="pg-cell--dc">Fois</th><th>A ecrire</th></tr></thead>
+            <tbody>
+              <tr><td><code class="pg-code c-old">grow</code> <span class="c-note">(div vide)</span></td><td class="pg-cell--dc">36</td><td class="c-note"><b>Rien.</b> Le <code>&lt;div class="grow"&gt;&lt;/div&gt;</code> vide servait a pousser les actions a droite. <code>pg-table-bar</code>, <code>pg-card__head</code>, <code>pg-section__head</code>, <code>pg-page-header__top</code> et <code>pg-actionbar</code> le font eux-memes. <b>Le div disparait.</b></td></tr>
+              <tr><td><code class="pg-code c-old">card mb-4</code></td><td class="pg-cell--dc">35</td><td class="c-note"><code class="pg-code">pg-card</code> seul. Si les cartes se suivent, le rythme vient de la regle. Si chacune est un sujet distinct, chacune va dans sa <code class="pg-code">pg-section</code>.</td></tr>
+              <tr><td><code class="pg-code c-old">text-muted mb-3</code></td><td class="pg-cell--dc">31</td><td class="c-note"><code class="pg-code">pg-caption</code> dans un <code>pg-section__head</code>, ou <code class="pg-code">pg-field__help</code> sous un champ. Un texte d'explication appartient a ce qu'il explique.</td></tr>
+              <tr><td><code class="pg-code c-old">mt-2</code> <span class="c-note">(seul)</span></td><td class="pg-cell--dc">30</td><td class="c-note"><b>Rien.</b> Une marge haute est presque toujours la marge basse du bloc precedent, vue de l'autre cote.</td></tr>
+              <tr><td><code class="pg-code c-old">kpi-grid mb-4</code></td><td class="pg-cell--dc">10</td><td class="c-note"><code class="pg-code">pg-kpi pg-kpi--4</code>. Le nombre de colonnes se declare, la marge non.</td></tr>
+              <tr><td><code class="pg-code c-old">flex flex-center mb-3</code></td><td class="pg-cell--dc">8</td><td class="c-note"><code class="pg-code">pg-table-bar</code> au-dessus d'un tableau, <code class="pg-code">pg-card__head</code> en tete de carte. <b>Trois utilitaires pour fabriquer une barre qui existe.</b></td></tr>
+              <tr><td><code class="pg-code c-old">btn btn--ghost btn--sm mb-3</code><br><span class="c-note">« ← Retour a la liste »</span></td><td class="pg-cell--dc">7</td><td class="c-note"><code class="pg-code">pg-page-header__back</code>, qui connait sa place et son air. Le retour n'est pas un bouton pose au hasard&nbsp;: c'est une piece de l'en-tete.</td></tr>
+              <tr><td><code class="pg-code c-old">card mb-3</code> · <code class="pg-code c-old">card mt-3</code></td><td class="pg-cell--dc">12</td><td class="c-note">Comme <code>card mb-4</code>. Trois valeurs differentes pour le meme geste&nbsp;: c'est exactement ce que la regle unique supprime.</td></tr>
+              <tr><td><code class="pg-code c-old">jr-stats mb-3</code></td><td class="pg-cell--dc">6</td><td class="c-note"><code class="pg-code">pg-kpi</code>.</td></tr>
+              <tr><td><code class="pg-code c-old">filter-bar mb-3</code></td><td class="pg-cell--dc">5</td><td class="c-note"><code class="pg-code">pg-filters</code>.</td></tr>
+              <tr><td><code class="pg-code c-old">flex gap-3</code> · <code class="pg-code c-old">flex gap-2</code></td><td class="pg-cell--dc">8</td><td class="c-note">Selon le contenu&nbsp;: <code class="pg-code">pg-btn-group</code> pour des boutons, <code class="pg-code">pg-form</code> pour des champs, <code class="pg-code">pg-tanks</code> pour des jauges. <b>Regarder ce qu'il y a dedans avant de choisir.</b></td></tr>
+              <tr><td><code class="pg-code c-old">form-group grow</code> · <code class="pg-code c-old">form-group mt-3</code></td><td class="pg-cell--dc">6</td><td class="c-note"><code class="pg-code">pg-field</code> dans un <code class="pg-code">pg-form</code>&nbsp;: la grille repartit les largeurs et pose les ecarts.</td></tr>
+              <tr><td><code class="pg-code c-old">charts-grid mb-4</code></td><td class="pg-cell--dc">3</td><td class="c-note"><code class="pg-code">pg-form pg-form--2</code>, ou <code class="pg-code">pg-ledger-pair</code> pour le Bilan et le Compte de resultat.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pg-section__head" style="margin-top:var(--space-8)"><h3 class="pg-section__title">La marche a suivre</h3></div>
+
+        <div class="pg-checks">
+          <div class="pg-check-item pg-check-item--ok">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-check"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Ce n'est pas un chantier separe</b>
+              <div class="pg-check-item__hint">Aucune passe de 425 corrections a programmer. La regle s'applique <b>quand on touche un module de toute facon</b>, en meme temps que le remplacement des classes. Un module converti ne contient plus d'utilitaire&nbsp;; les modules pas encore touches gardent les leurs, et l'ancienne feuille de style est deja partie &mdash; ils s'afficheront simplement sans ces marges, ce qui est le signal qu'ils restent a faire.</div>
+            </div>
+          </div>
+          <div class="pg-check-item pg-check-item--ok">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-check"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Chercher le composant avant de chercher la marge</b>
+              <div class="pg-check-item__hint">Devant <code>flex flex-center mb-3</code>, la question n'est pas «&nbsp;ou remettre ces 12&nbsp;px&nbsp;» mais «&nbsp;qu'est-ce que cette barre&nbsp;?&nbsp;». Neuf fois sur dix elle a un nom dans le systeme, et le nom apporte l'espacement avec lui.</div>
+            </div>
+          </div>
+          <div class="pg-check-item pg-check-item--warning">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-alert"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Quand vraiment rien ne convient</b>
+              <div class="pg-check-item__hint">Ecrire la regle dans le CSS du composant concerne, avec un token d'espacement &mdash; jamais une classe utilitaire dans le balisage, jamais un <code>style="margin-bottom:…"</code>. Si le cas se represente trois fois, c'est qu'il manque un composant&nbsp;: le signaler plutot que le contourner.</div>
+            </div>
+          </div>
+          <div class="pg-check-item pg-check-item--blocking">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-alert"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Ne pas recreer une feuille d'utilitaires «&nbsp;le temps de la migration&nbsp;»</b>
+              <div class="pg-check-item__hint">C'est l'option qui a ete ecartee. Une feuille de transition ne s'enleve jamais&nbsp;: elle redevient le chemin le plus court, et l'ancien systeme repousse une classe a la fois. La decision est prise&nbsp;; c'est le seul point de cette table ou il n'y a pas de marge d'appreciation.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <section class="pg-section" id="angles">
+        <div class="pg-section__head"><h2 class="pg-section__title">Ce que cette table ne couvre pas</h2></div>
+
+        <div class="pg-checks">
+          <div class="pg-checks__head"><span class="pg-checks__title">A traiter avant de considerer la migration complete</span></div>
+
+          <div class="pg-check-item pg-check-item--blocking">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-alert"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Les utilitaires d'espacement n'ont aucun equivalent</b>
+              <div class="pg-check-item__hint"><code>mb-1</code> a <code>mb-4</code>, <code>mt-1</code> a
+              <code>mt-6</code>, <code>gap-2</code> a <code>gap-4</code>, <code>flex</code>,
+              <code>flex-center</code>, <code>grow</code> &mdash; environ 300 usages.
+              Le design system n'a pas d'utilitaires&nbsp;: l'espacement appartient aux composants,
+              qui se placent correctement les uns par rapport aux autres.
+              <b>C'est le seul point de cette table qui demande une decision et pas une substitution.</b>
+              Deux voies&nbsp;: les supprimer au fur et a mesure (l'espacement vient alors du
+              composant), ou conserver ces onze classes dans une petite feuille a part.
+              Je recommande la premiere&nbsp;: la seconde reintroduit lentement l'ancien systeme.</div>
+            </div>
+          </div>
+
+          <div class="pg-check-item pg-check-item--ok">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-check"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Les trois zones ont &eacute;t&eacute; lues</b>
+              <div class="pg-check-item__hint">Comptabilit&eacute; (<code>comptabilite.js</code>, cinq vues&nbsp;: Journal g&eacute;n&eacute;ral, Grand Livre, Balance, Bilan OHADA, Compte de r&eacute;sultat SYSCOHADA avec soldes interm&eacute;diaires) ; Administration (<b>onze onglets</b>, pas sept &mdash; utilisateurs, pr&eacute;sence, r&ocirc;les, niveaux d'acc&egrave;s, r&eacute;initialisations, compagnies, cat&eacute;gories, produits, param&egrave;tres, import, donn&eacute;es) ; <code>presence.js</code> et <code>import.js</code>. Leurs classes sont dans la table, et le composant qui leur manquait existe.</div>
+            </div>
+          </div>
+
+          <div class="pg-check-item pg-check-item--ok">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-check"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Les tableaux comptables ont maintenant leur composant</b>
+              <div class="pg-check-item__hint"><code>pg-table--ledger</code> et ses onze classes r&eacute;pondent aux quatre traits que ces tableaux ont et que les autres n'ont pas&nbsp;: ils se totalisent (<code>&lt;tfoot&gt;</code> stylé, que l'ancienne feuille laissait sans r&egrave;gle), ils ont une hi&eacute;rarchie &agrave; trois niveaux dans le corps, ils s'&eacute;quilibrent (<code>pg-ledger-check</code>, au-dessus du tableau), et une case vide y veut dire &laquo;&nbsp;pas de mouvement&nbsp;&raquo; plut&ocirc;t que &laquo;&nbsp;donn&eacute;e absente&nbsp;&raquo;. Voir la section <a href="design-system.html#c-ledger">Tableaux comptables</a> du design system.</div>
+            </div>
+          </div>
+
+          <div class="pg-check-item pg-check-item--warning">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-alert"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Lues dans le code, pas vues &agrave; l'&eacute;cran</b>
+              <div class="pg-check-item__hint">Je n'ai pas eu de session ouverte sur ces &eacute;crans&nbsp;: j'ai lu le HTML qu'ils produisent, pas le r&eacute;sultat avec de vraies donn&eacute;es. Le balisage propos&eacute; est donc exact, mais <b>le volume ne l'est pas forc&eacute;ment</b> &mdash; un Grand Livre &agrave; quarante comptes ou une matrice de droits &agrave; quinze r&ocirc;les peuvent demander un ajustement que seule la vraie donn&eacute;e r&eacute;v&eacute;lera. &Agrave; regarder au moment de migrer ces modules, pas avant.</div>
+            </div>
+          </div>
+
+          <div class="pg-check-item pg-check-item--ok">
+            <svg class="pg-icon pg-check-item__icon"><use href="#i-check"></use></svg>
+            <div class="pg-check-item__body">
+              <b>Les 375 classes reellement utilisees sont couvertes</b>
+              <div class="pg-check-item__hint">Verifie a la generation&nbsp;: chaque classe de la colonne
+              de gauche a ete trouvee dans le code telecharge, chaque classe de droite dans le CSS du
+              design system. Les seules non listees sont neuf gabarits en fuite du type
+              <code>badge--</code>, sans regle CSS associee.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <p class="c-lede" style="margin-top:var(--space-10);color:var(--text-muted)">
+      Etablie le 9 septembre 2026
+      a partir de la version 243 de la plateforme. Si le code a bouge depuis, les lignes
+      concernant les classes restent valables&nbsp;: c'est le nombre d'appels qui vieillit.</p>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/petrogest.js" defer></script>
+</body>
+</html>

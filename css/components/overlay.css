@@ -1,0 +1,206 @@
+/* ==========================================================================
+   PETROGEST · overlay.css
+   --------------------------------------------------------------------------
+   Barre de chargement, recherche globale, visite guidee.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   BARRE DE CHARGEMENT
+   --------------------------------------------------------------------------
+   Un trait de 2 px en haut de la fenetre pendant un changement de route ou
+   un appel long.
+
+   REGLE : elle ne remplace pas les squelettes de contenu, elle les
+   accompagne. La barre dit « ca travaille », le squelette dit « voila ou
+   la donnee arrivera ». L'une sans l'autre laisse un ecran vide.
+
+   Elle progresse par paliers decroissants et ne finit JAMAIS seule : une
+   barre qui atteint 100 % avant la reponse ment a l'utilisateur.
+   ========================================================================== */
+
+.pg-loadbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 2px;
+  background: transparent;
+  pointer-events: none;
+}
+.pg-loadbar__fill {
+  height: 100%;
+  width: 0;
+  background: var(--grey-900);
+  transition: width 400ms var(--ease-out), opacity var(--duration-base);
+}
+.pg-loadbar.is-done .pg-loadbar__fill { width: 100%; opacity: 0; transition: width 160ms var(--ease-out), opacity 320ms 160ms; }
+
+
+/* ==========================================================================
+   RECHERCHE GLOBALE
+   --------------------------------------------------------------------------
+   Treize sections, des milliers d'enregistrements. Chercher « SOTRACO » ou
+   « journal du 7 septembre » en naviguant coute cinq clics ; ici, deux
+   touches.
+
+   Ctrl+K l'ouvre. C'est la seule fonction de l'application a meriter un
+   raccourci global : elle mene partout.
+
+   La recherche EN-TETE (.pg-search, filters.css) filtre la liste courante.
+   Celle-ci traverse toute l'application. Deux portees, deux composants —
+   les confondre est le piege classique.
+   ========================================================================== */
+
+.pg-palette::backdrop { background: var(--surface-overlay); }
+
+.pg-palette {
+  width: 560px;
+  max-width: calc(100vw - var(--space-8));
+  max-height: 70vh;
+  margin-top: 12vh;
+  padding: 0;
+  background: var(--surface-raised);
+  border: none;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+.pg-palette__field {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: 0 var(--space-6);
+  height: 56px;
+  border-bottom: var(--border-width) solid var(--border-default);
+}
+.pg-palette__field .pg-icon { color: var(--text-muted); flex: none; }
+.pg-palette__input {
+  flex: 1; min-width: 0;
+  border: none; outline: none; background: none;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+.pg-palette__input::placeholder { color: var(--text-disabled); }
+
+.pg-palette__list { max-height: calc(70vh - 108px); overflow-y: auto; padding: var(--space-3); }
+
+.pg-palette__group {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  color: var(--text-disabled);
+}
+
+.pg-palette__item {
+  display: flex; align-items: center; gap: var(--space-4);
+  width: 100%;
+  min-height: 40px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  text-align: left;
+  color: var(--text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+}
+.pg-palette__item:hover,
+.pg-palette__item.is-active { background: var(--surface-selected); color: var(--text-primary); }
+.pg-palette__item .pg-icon { color: var(--text-muted); flex: none; }
+.pg-palette__label { flex: 1; min-width: 0; font-size: var(--text-body-size); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pg-palette__meta  { flex: none; font-size: var(--text-caption-size); color: var(--text-muted); }
+
+/* Le terme trouve est mis en gras, pas surligne en jaune : on ne repeint
+   pas un fond pour signaler une correspondance dans une app ou le fond
+   colore veut dire « anomalie ». */
+.pg-palette__label mark { background: none; color: var(--text-primary); font-weight: var(--weight-semibold); }
+
+.pg-palette__foot {
+  display: flex; align-items: center; gap: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  border-top: var(--border-width) solid var(--border-subtle);
+  background: var(--surface-page);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+}
+.pg-key {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-xs);
+  background: var(--surface-raised);
+  font-family: var(--font-numeric);
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+
+/* ==========================================================================
+   VISITE GUIDEE
+   --------------------------------------------------------------------------
+   La version precedente enchaine VINGT etapes modales bloquantes au premier
+   lancement, dont le contenu est de la documentation (« Le bouton ? »,
+   « Les alertes », « La messagerie »). Personne ne lit vingt modales.
+
+   TROIS REGLES :
+
+   1. Trois etapes maximum. Au-dela, c'est un manuel — sa place est dans
+      l'aide, pas dans un tunnel qui bloque l'ecran.
+   2. Chaque etape DESIGNE un element reel et dit ce qu'on peut en faire.
+      Une etape qui ne pointe rien n'apprend rien.
+   3. « Passer » est toujours visible, au meme endroit, des la premiere
+      etape.
+   ========================================================================== */
+
+/* Le trou dans le voile est fait par une ombre portee de tres grand rayon :
+   l'element designe reste parfaitement net et cliquable. */
+.pg-spotlight {
+  position: fixed;
+  z-index: 95;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 9999px var(--surface-overlay);
+  pointer-events: none;
+  transition: top var(--duration-base) var(--ease-standard),
+              left var(--duration-base) var(--ease-standard),
+              width var(--duration-base) var(--ease-standard),
+              height var(--duration-base) var(--ease-standard);
+}
+.pg-spotlight[hidden] { display: none; }
+
+.pg-coach {
+  position: fixed;
+  z-index: 96;
+  width: 320px;
+  max-width: calc(100vw - var(--space-8));
+  padding: var(--space-6);
+  background: var(--surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.pg-coach[hidden] { display: none; }
+
+.pg-coach__step {
+  font-family: var(--font-numeric);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+.pg-coach__title { font-size: var(--text-body-size); font-weight: var(--weight-semibold); margin-bottom: var(--space-3); }
+.pg-coach__text  { font-size: var(--text-body-size); line-height: 1.25rem; color: var(--text-secondary); }
+.pg-coach__foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+/* Fleche vers l'element designe. */
+.pg-coach::before {
+  content: "";
+  position: absolute;
+  width: 10px; height: 10px;
+  background: var(--surface-raised);
+  transform: rotate(45deg);
+}
+.pg-coach[data-cote="bas"]::before    { top: -5px;    left: 24px; }
+.pg-coach[data-cote="haut"]::before   { bottom: -5px; left: 24px; }
+.pg-coach[data-cote="droite"]::before { left: -5px;   top: 24px; }
+.pg-coach[data-cote="gauche"]::before { right: -5px;  top: 24px; }

@@ -1,0 +1,139 @@
+/* ==========================================================================
+   PETROGEST · modal.css
+   --------------------------------------------------------------------------
+   Bati sur <dialog>. C'est le bon choix en vanilla : le piege de focus, la
+   touche Echap, le fond et la superposition sont fournis par le navigateur.
+   Pas de gestion de focus a ecrire, donc pas de gestion de focus a rater.
+
+   Le bandeau rouille de la version precedente disparait : un en-tete de
+   modale n'a pas besoin d'etre colore pour qu'on comprenne que c'est un
+   en-tete. Le titre et le filet suffisent, et la couleur reste disponible
+   pour ce qui en a besoin — un dialogue destructeur, une erreur.
+
+   La modale ne s'elargit plus « par defaut » : la version precedente
+   donnait la meme largeur aux deux champs de « Nouvelle declaration » et
+   aux huit de « Nouveau client ».
+   ========================================================================== */
+
+.pg-modal {
+  width: 560px;
+  max-width: calc(100vw - var(--space-9));
+  max-height: calc(100vh - var(--space-11));
+  padding: 0;
+  background: var(--surface-raised);
+  border: none;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+.pg-modal--sm { width: 420px; }
+.pg-modal--lg { width: 800px; }
+
+.pg-modal::backdrop { background: var(--surface-overlay); }
+
+/* Le formulaire porte la colonne : en-tete fixe, corps qui defile, pied fixe. */
+.pg-modal__form { display: flex; flex-direction: column; max-height: calc(100vh - var(--space-11)); }
+
+.pg-modal__head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--space-6) var(--space-5);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  flex: none;
+}
+.pg-modal__title { font-size: var(--text-title-size); line-height: var(--text-title-line); font-weight: var(--weight-semibold); letter-spacing: var(--text-title-spacing); }
+.pg-modal__sub   { margin-top: var(--space-2); font-size: var(--text-caption-size); color: var(--text-muted); }
+
+.pg-modal__body { padding: var(--space-6); overflow-y: auto; flex: 1; }
+
+.pg-modal__foot {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-top: var(--border-width) solid var(--border-subtle);
+  background: var(--surface-page);
+  flex: none;
+}
+/* Une information a gauche du pied (compte, avertissement) pousse les
+   boutons a droite. */
+.pg-modal__foot-info { margin-right: auto; font-size: var(--text-caption-size); color: var(--text-muted); }
+
+
+/* --- Dialogue de confirmation ---------------------------------------------
+   Pour une action irreversible. Le « Reequilibrer la comptabilite » de la
+   version precedente ecrivait une ecriture comptable definitive depuis une
+   modale generique : il merite mieux.
+
+   Regle : le dialogue expose CE QUI VA SE PASSER, en chiffres, avant de
+   demander confirmation. Jamais un simple « Etes-vous sur ? ». */
+
+.pg-modal--confirm { width: 460px; }
+.pg-modal--confirm .pg-modal__body { padding-top: var(--space-5); }
+
+.pg-confirm__recap {
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  background: var(--surface-page);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-md);
+}
+.pg-confirm__line { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-5); padding: var(--space-2) 0; }
+.pg-confirm__line + .pg-confirm__line { border-top: var(--border-width) solid var(--border-subtle); }
+.pg-confirm__key { font-size: var(--text-caption-size); color: var(--text-muted); }
+.pg-confirm__val { font-family: var(--font-numeric); font-size: calc(var(--text-body-size) * var(--numeric-scale)); letter-spacing: var(--numeric-tracking); }
+
+/* Bandeau d'avertissement en tete de dialogue destructeur. */
+.pg-confirm__warn {
+  display: flex; gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--status-critical-bg);
+  border: var(--border-width) solid var(--status-critical-border);
+  border-radius: var(--radius-md);
+  color: var(--status-critical-text);
+  font-size: var(--text-body-size);
+  line-height: 1.25rem;
+}
+.pg-confirm__warn .pg-icon { flex: none; margin-top: 2px; }
+
+
+/* --- Modale de progression ------------------------------------------------
+   Export PDF, generation de rapport. Ne se ferme pas au clic exterieur. */
+
+.pg-modal--progress { width: 380px; }
+.pg-progress__box { display: flex; flex-direction: column; align-items: center; gap: var(--space-5); padding: var(--space-9) var(--space-8); text-align: center; }
+.pg-progress__label { font-size: var(--text-body-size); font-weight: var(--weight-medium); }
+
+.pg-progress {
+  width: 100%; height: 6px;
+  background: var(--surface-sunken);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.pg-progress__bar {
+  height: 100%;
+  background: var(--grey-900);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-base) var(--ease-out);
+}
+/* Progression indeterminee : on ne sait pas combien de temps ca prendra. */
+.pg-progress--indeterminate .pg-progress__bar { width: 35% !important; animation: pg-slide 1.2s var(--ease-standard) infinite; }
+@keyframes pg-slide { 0% { margin-left: -35%; } 100% { margin-left: 100%; } }
+
+.pg-progress__pct { font-family: var(--font-numeric); font-size: var(--text-caption-size); color: var(--text-muted); }
+
+
+/* --- Panneau lateral ------------------------------------------------------
+   Meme composant, ancre a droite. Pour ce qui se consulte a cote du
+   contexte plutot qu'a sa place : detail d'une alerte, historique d'une
+   ligne, apercu d'une piece. */
+
+.pg-drawer {
+  width: 480px;
+  max-width: calc(100vw - var(--space-9));
+  height: 100vh;
+  max-height: 100vh;
+  margin: 0 0 0 auto;
+  border-radius: 0;
+}
+.pg-drawer .pg-modal__form { max-height: 100vh; height: 100vh; }

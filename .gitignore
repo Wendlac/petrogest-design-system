@@ -1,0 +1,38 @@
+# ==========================================================================
+# PETROGEST · Design System
+# --------------------------------------------------------------------------
+# Ce depot ne contient aucune dependance d'execution : le systeme s'ouvre
+# dans un navigateur sans rien installer. La liste ci-dessous est donc
+# courte, et c'est voulu.
+#
+# NE SONT PAS IGNORES, deliberement :
+#
+#   assets/icons/            Les 3 229 SVG de Remix Icon (8,9 Mo). C'est la
+#                            matiere premiere de tools/build-icons.js : sans
+#                            eux, le sprite ne peut plus etre regenere apres
+#                            un clonage. Ils ne changent jamais.
+#
+#   css/petrogest.build.css  La feuille concatenee. Elle est generee, mais
+#                            elle est aussi ce que la production doit lier :
+#                            un integrateur doit pouvoir cloner et s'en
+#                            servir sans rien executer. A regenerer apres
+#                            toute modification du CSS :
+#                            node tools/build-css.js
+# ==========================================================================
+
+# Outils de developpement (le systeme lui-meme n'en a aucun)
+node_modules/
+package-lock.json
+
+# Pages temporaires de capture d'ecran
+_cap-*.html
+
+# Systeme d'exploitation et editeurs
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Journaux
+*.log

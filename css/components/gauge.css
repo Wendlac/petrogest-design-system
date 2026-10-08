@@ -1,0 +1,119 @@
+/* ==========================================================================
+   PETROGEST · gauge.css
+   --------------------------------------------------------------------------
+   LA JAUGE DE CUVE. C'est le composant signature de l'application : un
+   reservoir dessine comme un reservoir, rempli en proportion. C'est la
+   meilleure idee visuelle de la version precedente et on la garde.
+
+   Ce qu'on corrige : la MEME donnee y etait rendue de trois facons
+   differentes sur trois ecrans —
+     · jauge verticale         (tableau de bord, « Niveau des cuves »)
+     · barre horizontale       (tableau de bord, « Autonomie par cuve »)
+     · pourcentage en texte    (Rapports, « Niveau des cuves »)
+
+   Deux rendus suffisent, et la regle est simple :
+     .pg-tank  → quand la cuve est le SUJET (fiche station, tableau de bord)
+     .pg-bar   → quand elle est une LIGNE parmi d'autres (table.css)
+
+   Le niveau se passe en pourcentage via --level. Le seuil se declare via
+   une classe, pas en dur : c'est le metier qui decide a partir de quand une
+   cuve est basse.
+   ========================================================================== */
+
+.pg-tank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  width: 76px;
+}
+
+.pg-tank__cap {
+  font-family: var(--font-numeric);
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Le corps du reservoir. Le remplissage part du BAS — c'est ce qui rend le
+   composant immediatement lisible sans legende. */
+.pg-tank__body {
+  position: relative;
+  width: 100%;
+  height: 96px;
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.pg-tank__fill {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: calc(var(--level, 0) * 1%);
+  background: var(--grey-300);
+  transition: height var(--duration-base) var(--ease-out);
+}
+.pg-tank__pct {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-numeric);
+  font-size: var(--text-caption-size);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.pg-tank__name { font-size: var(--text-caption-size); font-weight: var(--weight-medium); }
+.pg-tank__vol  { font-family: var(--font-numeric); font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+
+/* Seuils. Le remplissage reste neutre tant qu'il n'y a rien a signaler —
+   une cuve pleine n'est pas une bonne nouvelle, c'est la normale. */
+.pg-tank--warning  .pg-tank__fill { background: var(--amber-200); }
+.pg-tank--warning  .pg-tank__body { border-color: var(--status-warning-border); }
+.pg-tank--critical .pg-tank__fill { background: var(--red-200); }
+.pg-tank--critical .pg-tank__body { border-color: var(--status-critical-border); }
+.pg-tank--critical .pg-tank__pct  { color: var(--status-critical-text); }
+
+/* Rangee de cuves d'une station. */
+.pg-tanks { display: flex; gap: var(--space-6); flex-wrap: wrap; }
+
+
+/* --- Autonomie ------------------------------------------------------------
+   Jours de stock restants. Ce n'est PAS un niveau : une cuve a 40 % qui
+   debite peu tient plus longtemps qu'une cuve a 60 % tres sollicitee.
+   La version precedente melangeait les deux dans le meme graphique. */
+
+.pg-autonomy { display: flex; align-items: baseline; gap: var(--space-3); }
+.pg-autonomy__value { font-family: var(--font-numeric); font-size: var(--text-body-size); font-weight: var(--weight-medium); }
+.pg-autonomy__unit  { font-size: var(--text-caption-size); color: var(--text-muted); }
+.pg-autonomy--critical .pg-autonomy__value { color: var(--data-negative); }
+.pg-autonomy--warning  .pg-autonomy__value { color: var(--status-warning-text); }
+
+
+/* --- Bandeau d'alerte contextuel ------------------------------------------
+   Une alerte qui porte son action. C'etait deja le bon reflexe dans la
+   carte « Station Bobo » du tableau de bord — « Approvisionnement
+   necessaire · SUPER (12 %) » suivi du bouton « Demander un appro ».
+   On le generalise. */
+
+.pg-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--text-body-size);
+  line-height: 1.25rem;
+}
+.pg-banner__icon { flex: none; }
+.pg-banner__text { flex: 1; min-width: 0; }
+.pg-banner__title { font-weight: var(--weight-medium); }
+.pg-banner__sub   { font-size: var(--text-caption-size); opacity: .85; }
+.pg-banner__action { flex: none; }
+
+.pg-banner--critical { color: var(--status-critical-text); background: var(--status-critical-bg); border-color: var(--status-critical-border); }
+.pg-banner--warning  { color: var(--status-warning-text);  background: var(--status-warning-bg);  border-color: var(--status-warning-border); }
+.pg-banner--info     { color: var(--status-info-text);     background: var(--status-info-bg);     border-color: var(--status-info-border); }
+.pg-banner--success  { color: var(--status-success-text);  background: var(--status-success-bg);  border-color: var(--status-success-border); }
+.pg-banner--neutral  { color: var(--text-secondary);       background: var(--surface-page);       border-color: var(--border-default); }

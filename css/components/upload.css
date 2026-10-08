@@ -1,0 +1,113 @@
+/* ==========================================================================
+   PETROGEST · upload.css
+   --------------------------------------------------------------------------
+   Zone de depot et liste de fichiers. Presentes deux fois dans la version
+   precedente — sur Pieces et sur Comptabilite — avec le meme balisage
+   duplique.
+
+   Ce qu'on corrige : la zone etait VERTE au repos. Le vert est la couleur
+   du conforme ; une zone vide qui attend un fichier n'a rien de conforme,
+   elle n'a rien du tout. Ici le repos est neutre, et le vert n'apparait
+   qu'au moment ou un fichier valide survole la zone — la ou il signifie
+   reellement « oui, lachez ».
+   ========================================================================== */
+
+.pg-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 132px;
+  padding: var(--space-8);
+  background: var(--surface-page);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+}
+.pg-drop:hover { background: var(--surface-hover); border-color: var(--grey-400); }
+.pg-drop:focus-within { outline: none; box-shadow: var(--focus-ring); }
+
+.pg-drop__icon  { color: var(--text-disabled); }
+.pg-drop__title { font-size: var(--text-body-size); font-weight: var(--weight-medium); color: var(--text-primary); }
+.pg-drop__hint  { font-size: var(--text-caption-size); color: var(--text-muted); }
+.pg-drop__link  { color: var(--text-primary); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Survol d'un fichier valide : c'est ICI que le vert a un sens. */
+.pg-drop.is-dragover {
+  background: var(--status-success-bg);
+  border-color: var(--green-600);
+  border-style: solid;
+}
+.pg-drop.is-dragover .pg-drop__icon,
+.pg-drop.is-dragover .pg-drop__title { color: var(--status-success-text); }
+
+/* Fichier refuse : mauvais format, trop lourd. */
+.pg-drop.is-rejected {
+  background: var(--status-critical-bg);
+  border-color: var(--red-600);
+  border-style: solid;
+}
+.pg-drop.is-rejected .pg-drop__icon,
+.pg-drop.is-rejected .pg-drop__title { color: var(--status-critical-text); }
+
+.pg-drop--compact { min-height: 96px; padding: var(--space-6); }
+
+
+/* --- Liste de fichiers ---------------------------------------------------- */
+
+.pg-files { list-style: none; margin: var(--space-5) 0 0; padding: 0; }
+
+.pg-file {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  height: var(--row-height-read);
+  padding: 0 var(--space-4);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+}
+.pg-file:last-child { border-bottom: none; }
+.pg-file:hover { background: var(--surface-hover); }
+
+/* Le type de fichier : une etiquette neutre, pas un badge rouge. Un PDF
+   n'est pas une alerte — c'etait pourtant le rendu de la version
+   precedente, en rouge plein. */
+.pg-file__type {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: none;
+  min-width: 34px; height: 20px;
+  padding: 0 var(--space-3);
+  background: var(--surface-sunken);
+  border-radius: var(--radius-xs);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: .04em;
+  color: var(--text-secondary);
+}
+
+.pg-file__name {
+  flex: 1; min-width: 0;
+  font-size: var(--text-body-size);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pg-file__meta {
+  flex: none;
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.pg-file__actions { flex: none; display: flex; gap: var(--space-2); }
+
+/* Fichier en cours d'envoi. */
+.pg-file__progress { flex: none; width: 72px; }
+.pg-file.is-uploading .pg-file__name { color: var(--text-muted); }
+
+/* Fichier deja rattache a une ecriture comptable : il ne se supprime plus. */
+.pg-file.is-linked .pg-file__name { color: var(--text-secondary); }

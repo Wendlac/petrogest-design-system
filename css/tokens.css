@@ -1,0 +1,334 @@
+/* ==========================================================================
+   PETROGEST · Design System
+   tokens.css · Fondations
+   --------------------------------------------------------------------------
+   Deux couches :
+     1. PRIMITIVES  — les valeurs brutes. On ne les utilise jamais directement
+                      dans un composant.
+     2. SEMANTIQUES — les roles. C'est la seule couche que les composants
+                      consomment. Elle permet d'ajouter un theme sombre plus
+                      tard sans toucher une seule regle de composant.
+
+   Regle fondatrice : le chrome est achromatique. Toute teinte saturee
+   affichee a l'ecran porte un sens (statut, ecart, seuil, signe).
+   ========================================================================== */
+
+/* Les polices sont auto-hebergees : voir css/fonts.css, importe en premier
+   par petrogest.css. Aucune requete vers un domaine externe. */
+
+/* ==========================================================================
+   1 · PRIMITIVES
+   ========================================================================== */
+
+:root {
+
+  /* --- Neutres · « encre » -------------------------------------------------
+     Gris tres legerement bleutes. Assez froids pour ne pas concurrencer les
+     logos des compagnies, assez neutres pour accueillir n'importe lequel. */
+
+  --grey-0:   #FFFFFF;
+  --grey-25:  #FCFCFD;
+  --grey-50:  #F7F8FA;
+  --grey-100: #EFF1F4;
+  --grey-200: #E2E5EA;
+  --grey-300: #CFD4DB;
+  --grey-400: #9AA1AC;
+  --grey-500: #5F6673;   /* assombri : a #6B7280 le role --text-muted tombait a
+                            4,27:1 sur --surface-sunken, sous le seuil AA */
+  --grey-600: #4B5361;
+  --grey-700: #363D48;
+  --grey-800: #232932;
+  --grey-900: #12161C;
+  --grey-950: #090C10;
+
+  /* --- Rouge · critique ---------------------------------------------------
+     Ecart de jauge, solde du, creance en retard, suppression. */
+
+  --red-50:  #FEF3F2;
+  --red-100: #FEE4E2;
+  --red-200: #FECDCA;
+  --red-600: #D92D20;
+  --red-700: #B42318;
+  --red-800: #912018;
+
+  /* --- Ambre · vigilance --------------------------------------------------
+     Seuil approchant, cuve sous le point de commande, echeance proche. */
+
+  --amber-50:  #FFFAEB;
+  --amber-100: #FEF0C7;
+  --amber-200: #FEDF89;
+  --amber-600: #DC6803;
+  --amber-700: #B54708;
+  --amber-800: #93370D;
+
+  /* --- Vert · conforme ----------------------------------------------------
+     Declaration validee, livraison recue, solde crediteur, objectif atteint. */
+
+  --green-50:  #ECFDF3;
+  --green-100: #DCFAE6;
+  --green-200: #ABEFC6;
+  --green-600: #079455;
+  --green-700: #067647;
+  --green-800: #05603A;
+
+  /* --- Bleu · en cours ----------------------------------------------------
+     Demande emise, traitement en attente, information neutre. */
+
+  --blue-50:  #EFF8FF;
+  --blue-100: #D1E9FF;
+  --blue-200: #B2DDFF;
+  --blue-600: #1570EF;
+  --blue-700: #175CD3;
+  --blue-800: #1849A9;
+
+
+  /* --- Typographie · primitives ------------------------------------------- */
+
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* DM Mono — la compagne de DM Sans dans la meme superfamille.
+     Necessaire : DM Sans ne possede aucun jeu de chiffres tabulaires.
+     Verifie au navigateur : forcer font-variant-numeric ET
+     font-feature-settings 'tnum' ne change rien, les chasses vont de
+     10,33 px (le 1) a 26,77 px (le 0) a 40 px. Voir section « Chiffres ». */
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  /* Pas de --weight-bold. La graisse la plus lourde du systeme est 600 : sur
+     une interface dense, le gras plein tache la page et cesse de hierarchiser
+     des qu'on s'en sert deux fois. Le laisser disponible reviendrait a
+     l'inviter. Un titre se distingue par sa taille et son air, pas par son
+     poids. */
+}
+
+
+/* ==========================================================================
+   2 · SEMANTIQUES
+   ========================================================================== */
+
+:root {
+
+  /* --- Surfaces ----------------------------------------------------------- */
+
+  --surface-page:     var(--grey-50);   /* fond de l'application */
+  --surface-raised:   var(--grey-0);    /* cartes, tables, modales */
+  --surface-sunken:   var(--grey-100);  /* en-tete de tableau, puits */
+  --surface-hover:    var(--grey-50);   /* survol de ligne / d'item */
+  --surface-selected: var(--grey-100);  /* item de nav actif, ligne selectionnee */
+  --surface-inverse:  var(--grey-900);  /* barre d'action ancree, tooltip */
+  --surface-overlay:  rgba(9, 12, 16, .45); /* backdrop de modale */
+
+  /* --- Texte -------------------------------------------------------------- */
+
+  --text-primary:   var(--grey-900);  /* 18,1:1 · titres, valeurs, cellules */
+  --text-secondary: var(--grey-600);  /*  7,8:1 · libelles, texte courant */
+  --text-muted:     var(--grey-500);  /*  5,4:1 · meta, unites, aides */
+  --text-disabled:  var(--grey-400);  /*  2,6:1 · placeholder, desactive */
+  --text-inverse:   var(--grey-0);
+
+  /* --- Bordures ----------------------------------------------------------- */
+
+  --border-subtle:  var(--grey-100);  /* separateurs de lignes de tableau */
+  --border-default: var(--grey-200);  /* cartes, conteneurs */
+  --border-strong:  var(--grey-300);  /* champs, boutons secondaires */
+
+  /* --- Action ------------------------------------------------------------
+     Un seul bouton primaire par ecran. L'encre est la couleur d'action ;
+     aucune teinte n'est depensee pour l'interface elle-meme. */
+
+  --action-primary-bg:        var(--grey-900);
+  --action-primary-bg-hover:  var(--grey-800);
+  --action-primary-bg-active: var(--grey-950);
+  --action-primary-text:      var(--grey-0);
+
+  --action-secondary-bg:       var(--grey-0);
+  --action-secondary-bg-hover: var(--grey-50);
+  --action-secondary-border:   var(--grey-300);
+  --action-secondary-text:     var(--grey-800);
+
+  --action-ghost-bg-hover: var(--grey-100);
+  --action-ghost-text:     var(--grey-600);
+
+  --action-danger-bg:       var(--red-600);
+  --action-danger-bg-hover: var(--red-700);
+  --action-danger-text:     var(--grey-0);
+  --action-danger-quiet:    var(--red-700); /* texte seul, sans fond */
+
+  /* --- Statuts -----------------------------------------------------------
+     Cinq familles, pas une de plus. Tout etat metier de l'application
+     (Brouillon, Validee, Demandee, Livree, Active, En retard...) doit se
+     ranger dans l'une d'elles. */
+
+  --status-critical-text:   var(--red-700);
+  --status-critical-bg:     var(--red-50);
+  --status-critical-border: var(--red-200);
+
+  --status-warning-text:    var(--amber-700);
+  --status-warning-bg:      var(--amber-50);
+  --status-warning-border:  var(--amber-200);
+
+  --status-success-text:    var(--green-700);
+  --status-success-bg:      var(--green-50);
+  --status-success-border:  var(--green-200);
+
+  --status-info-text:       var(--blue-700);
+  --status-info-bg:         var(--blue-50);
+  --status-info-border:     var(--blue-200);
+
+  --status-neutral-text:    var(--grey-600);
+  --status-neutral-bg:      var(--grey-100);
+  --status-neutral-border:  var(--grey-200);
+
+  /* --- Donnees -----------------------------------------------------------
+     Le rapprochement est le metier de l'app : un chiffre porte un signe. */
+
+  --data-positive: var(--green-700);
+  --data-negative: var(--red-700);
+  --data-empty:    var(--text-muted);    /* la valeur « — », jamais « 0 ».
+     Etait --text-disabled (2,6:1) : un tiret illisible n'informe de rien, et
+     .pg-cell--empty porte aussi du vrai texte (« Chef station non attribue »). */
+
+  /* --- Focus -------------------------------------------------------------
+     Anneau achromatique a double trait : lisible sur clair comme sur fonce,
+     et ne consomme aucune teinte semantique. */
+
+  --focus-ring:         0 0 0 2px var(--surface-raised), 0 0 0 4px var(--grey-900);
+  --focus-ring-inverse: 0 0 0 2px var(--grey-900), 0 0 0 4px var(--grey-0);
+
+
+  /* --- Typographie · roles ------------------------------------------------
+     Taille en rem (le zoom navigateur doit fonctionner), racine a 16 px.
+     Six roles + deux specialises pour les chiffres. */
+
+  /* Titre de page */
+  --text-display-size:    1.75rem;  /* 28 px */
+  --text-display-line:    2.125rem; /* 34 px */
+  --text-display-weight:  var(--weight-semibold);
+  --text-display-spacing: -0.02em;
+
+  /* Titre de carte, de section */
+  --text-title-size:    1.125rem;  /* 18 px */
+  --text-title-line:    1.625rem;  /* 26 px */
+  --text-title-weight:  var(--weight-semibold);
+  --text-title-spacing: -0.01em;
+
+  /* Corps · defaut de l'application, cellules de tableau */
+  --text-body-size:    0.875rem;  /* 14 px */
+  --text-body-line:    1.25rem;   /* 20 px */
+  --text-body-weight:  var(--weight-regular);
+  --text-body-spacing: 0;
+
+  /* Libelle · champs, boutons, onglets */
+  --text-label-size:    0.8125rem; /* 13 px */
+  --text-label-line:    1.125rem;  /* 18 px */
+  --text-label-weight:  var(--weight-medium);
+  --text-label-spacing: 0;
+
+  /* Legende · meta, unites, texte d'aide */
+  --text-caption-size:    0.75rem;  /* 12 px */
+  --text-caption-line:    1rem;     /* 16 px */
+  --text-caption-weight:  var(--weight-regular);
+  --text-caption-spacing: 0;
+
+  /* Micro · en-tetes de colonne, sur-titres. Toujours en capitales. */
+  --text-micro-size:    0.6875rem; /* 11 px */
+  --text-micro-line:    0.875rem;  /* 14 px */
+  --text-micro-weight:  var(--weight-semibold);
+  --text-micro-spacing: 0.05em;
+
+  /* Metrique · la valeur d'une tuile KPI. Toujours en chiffres tabulaires. */
+  --text-metric-size:    1.5rem;   /* 24 px */
+  --text-metric-line:    1.875rem; /* 30 px */
+  /* Pas de --text-metric-weight ni de --text-metric-spacing : .pg-metric
+     prend --weight-medium et --numeric-tracking, parce qu'un chiffre en
+     DM Mono a ses propres besoins de graisse et de chasse. Deux tokens
+     declaraient ici des valeurs qu'aucun composant ne lisait — les
+     modifier n'aurait rien change a l'ecran. */
+
+  /* Police des donnees numeriques. Tout ce qui se compare en colonne
+     (montant, index, litre, solde, ecart, pourcentage) la porte. */
+  --font-numeric:      var(--font-mono);
+  --numeric-tracking:  -0.02em; /* DM Mono chasse large : on resserre */
+  --numeric-scale:     0.94;    /* et on l'accorde optiquement a DM Sans */
+
+  /* Metrique large · le chiffre unique d'un en-tete de rapport. */
+  --text-metric-lg-size:   2rem;     /* 32 px */
+  --text-metric-lg-line:   2.375rem; /* 38 px */
+
+
+  /* --- Espacement --------------------------------------------------------
+     Base 4 px, en pixels : la mise en page a besoin d'etre exacte, pas
+     zoomable. (La typographie, elle, reste en rem.) */
+
+  --space-0:  0;
+  --space-1:  2px;
+  --space-2:  4px;
+  --space-3:  6px;
+  --space-4:  8px;
+  --space-5:  12px;
+  --space-6:  16px;
+  --space-7:  20px;
+  --space-8:  24px;
+  --space-9:  32px;
+  --space-10: 40px;
+  --space-11: 48px;
+  --space-12: 64px;
+
+
+  /* --- Rayons ------------------------------------------------------------
+     Volontairement courts. Au-dela de 8 px, une interface de gestion se met
+     a ressembler a une application grand public. */
+
+  --radius-xs:   3px;   /* badges, pastilles */
+  --radius-sm:   4px;   /* cellule de saisie, chip */
+  --radius-md:   6px;   /* boutons, champs, selects */
+  --radius-lg:   8px;   /* cartes, tableaux, panneaux */
+  --radius-xl:   12px;  /* modales */
+  --radius-full: 999px; /* points de statut, avatars */
+
+
+  /* --- Elevation ---------------------------------------------------------
+     Trois niveaux. Par defaut, une surface se distingue par une bordure,
+     pas par une ombre. */
+
+  --shadow-xs:   0 1px 2px rgba(9, 12, 16, .05);
+  --shadow-sm:   0 4px 8px -2px rgba(9, 12, 16, .08),
+                 0 2px 4px -2px rgba(9, 12, 16, .04);
+  --shadow-md:   0 12px 24px -6px rgba(9, 12, 16, .12),
+                 0 4px 8px -4px rgba(9, 12, 16, .06);
+
+
+  /* --- Dimensions & densite ----------------------------------------------
+     Cible : laptop 1280 minimum, confort 1440. */
+
+  --control-height-sm: 28px;
+  --control-height-md: 34px;  /* defaut : boutons, champs, selects */
+  --control-height-lg: 40px;
+
+  --row-height-read:  40px;   /* tableau en lecture */
+  --row-height-entry: 48px;   /* tableau de saisie (contient un champ) */
+
+  --sidebar-width:           240px;
+  --sidebar-width-collapsed: 56px;
+  --topbar-height:           56px;
+  --page-padding:            24px;
+  --content-max-width:       1440px;
+
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+
+  --border-width: 1px;
+
+
+  /* --- Mouvement ----------------------------------------------------------
+     Court et discret. Un outil de saisie ne doit jamais faire attendre. */
+
+  --duration-instant: 80ms;
+  --duration-fast:    140ms;
+  --duration-base:    200ms;
+  --ease-standard:    cubic-bezier(.2, 0, .2, 1);
+  --ease-out:         cubic-bezier(0, 0, .2, 1);
+}

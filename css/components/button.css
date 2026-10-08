@@ -1,0 +1,156 @@
+/* ==========================================================================
+   PETROGEST · button.css
+   --------------------------------------------------------------------------
+   REGLE : un seul bouton primaire par ecran.
+   L'encre est la couleur d'action. Aucune teinte semantique n'est depensee
+   pour l'interface — le rouge du bouton destructeur est la seule exception,
+   et il ne s'utilise qu'apres confirmation.
+   ========================================================================== */
+
+.pg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  height: var(--control-height-md);
+  padding: 0 var(--space-5);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color     var(--duration-fast) var(--ease-standard),
+    color            var(--duration-fast) var(--ease-standard);
+}
+
+.pg-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+
+/* --- Variantes ------------------------------------------------------------ */
+
+/* Primaire — l'action principale de l'ecran. Un seul. */
+.pg-btn--primary {
+  background: var(--action-primary-bg);
+  color: var(--action-primary-text);
+}
+.pg-btn--primary:hover  { background: var(--action-primary-bg-hover); }
+.pg-btn--primary:active { background: var(--action-primary-bg-active); }
+
+/* Secondaire — les actions de meme niveau que le primaire mais moins
+   frequentes : Exporter, Annuler dans une barre, Filtrer. */
+.pg-btn--secondary {
+  background: var(--action-secondary-bg);
+  color: var(--action-secondary-text);
+  border-color: var(--action-secondary-border);
+}
+.pg-btn--secondary:hover  { background: var(--action-secondary-bg-hover); border-color: var(--grey-400); }
+.pg-btn--secondary:active { background: var(--grey-100); }
+
+/* Discret — actions de service : fermer, replier, options de ligne. */
+.pg-btn--ghost {
+  background: transparent;
+  color: var(--action-ghost-text);
+}
+.pg-btn--ghost:hover  { background: var(--action-ghost-bg-hover); color: var(--text-primary); }
+.pg-btn--ghost:active { background: var(--grey-200); }
+
+/* Destructeur discret — DEFAUT pour toute action destructrice.
+   Texte rouge, pas de fond : l'action reste accessible sans crier. */
+.pg-btn--danger {
+  background: transparent;
+  color: var(--action-danger-quiet);
+}
+.pg-btn--danger:hover  { background: var(--red-50); }
+.pg-btn--danger:active { background: var(--red-100); }
+
+/* Destructeur plein — RESERVE au bouton de confirmation d'un dialogue
+   destructeur. Jamais dans une liste, jamais dans une barre d'outils. */
+.pg-btn--danger-solid {
+  background: var(--action-danger-bg);
+  color: var(--action-danger-text);
+}
+.pg-btn--danger-solid:hover  { background: var(--action-danger-bg-hover); }
+.pg-btn--danger-solid:active { background: var(--red-800); }
+
+
+/* --- Tailles -------------------------------------------------------------- */
+
+.pg-btn--sm { height: var(--control-height-sm); padding: 0 var(--space-4); font-size: var(--text-caption-size); }
+.pg-btn--lg { height: var(--control-height-lg); padding: 0 var(--space-6); font-size: var(--text-body-size); }
+
+
+/* --- Modificateurs -------------------------------------------------------- */
+
+/* Bouton d'icone : carre, sans libelle. aria-label OBLIGATOIRE. */
+.pg-btn--icon { width: var(--control-height-md); padding: 0; }
+.pg-btn--icon.pg-btn--sm { width: var(--control-height-sm); }
+.pg-btn--icon.pg-btn--lg { width: var(--control-height-lg); }
+
+/* Pleine largeur : formulaires en colonne, modales etroites. */
+.pg-btn--full { width: 100%; }
+
+
+/* --- Etats ---------------------------------------------------------------- */
+
+.pg-btn:disabled,
+.pg-btn[aria-disabled="true"] {
+  background: var(--surface-sunken);
+  color: var(--text-disabled);
+  border-color: transparent;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Chargement : le libelle reste en place (la largeur ne saute pas), l'icone
+   est remplacee par le spinner, le bouton n'est plus cliquable. */
+.pg-btn[aria-busy="true"] { pointer-events: none; color: transparent; position: relative; }
+.pg-btn[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  width: 14px; height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--radius-full);
+  animation: pg-spin 600ms linear infinite;
+}
+.pg-btn--primary[aria-busy="true"]::after,
+.pg-btn--danger-solid[aria-busy="true"]::after { border-color: var(--grey-0); border-top-color: transparent; }
+.pg-btn--secondary[aria-busy="true"]::after,
+.pg-btn--ghost[aria-busy="true"]::after        { border-color: var(--grey-600); border-top-color: transparent; }
+
+@keyframes pg-spin { to { transform: rotate(360deg); } }
+
+
+/* --- Groupe de boutons ----------------------------------------------------
+   Une barre d'actions se lit de gauche a droite en priorite croissante :
+   le primaire est TOUJOURS a droite. */
+
+.pg-btn-group { display: inline-flex; align-items: center; gap: var(--space-4); }
+
+
+/* --- Icone ----------------------------------------------------------------
+   Jeu : Remix Icon (Apache 2.0), variantes « line », grille 24.
+
+   ATTENTION : Remix Icon dessine en TRACES REMPLIS, pas en contours. Une
+   icone se colore donc par `fill`, jamais par `stroke` — un design system
+   regle en stroke rendrait ces icones totalement invisibles.
+
+   L'icone herite toujours de la couleur du texte qui la porte ; elle n'est
+   jamais coloree independamment. */
+
+.pg-icon {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  flex: none;
+  fill: currentColor;
+  stroke: none;
+}
+.pg-icon--md { width: var(--icon-md); height: var(--icon-md); }
+.pg-icon--lg { width: var(--icon-lg); height: var(--icon-lg); }

@@ -1,0 +1,78 @@
+/* ==========================================================================
+   PETROGEST · touch.css
+   --------------------------------------------------------------------------
+   LA DENSITE EST PILOTEE PAR LE POINTEUR, PAS PAR LA LARGEUR.
+
+   Un iPad en paysage et une fenetre de navigateur a 1180 px sur un poste
+   fixe font la meme largeur, mais ne se manipulent pas pareil. C'est le
+   doigt ou la souris qui doit decider — et une tablette branchee a un
+   clavier avec trackpad retombe alors automatiquement en mode dense.
+
+   Comme tout le systeme consomme des tokens, ce seul bloc re-densifie les
+   16 composants sans qu'aucun d'eux ne soit touche. C'est le benefice de
+   l'architecture en deux couches posee a l'etape 3.
+   ========================================================================== */
+
+@media (pointer: coarse) {
+  :root {
+    /* 44 px est le minimum recommande pour une cible tactile. On monte le
+       defaut a 48 : les chefs de station saisissent debout, sur la piste,
+       parfois avec les mains sales ou mouillees. */
+    --control-height-sm: 40px;
+    --control-height-md: 48px;
+    --control-height-lg: 56px;
+
+    --row-height-read:  56px;
+    --row-height-entry: 64px;
+
+    --icon-sm: 18px;
+    --icon-md: 22px;
+    --icon-lg: 26px;
+
+    /* L'espace entre deux cibles compte autant que leur taille : un tap
+       rate coute plus cher qu'un clic rate, parce qu'on ne voit pas ou on
+       va appuyer. */
+    --space-4: 10px;
+    --space-5: 14px;
+    --space-6: 18px;
+  }
+
+  /* Une action revelee au survol n'existe pas au doigt : elle est
+     permanente. (Deja prevu dans menu.css, rappele ici.) */
+  .pg-row-action { opacity: 1; }
+
+  /* Les champs numeriques appellent le pave du systeme en secours, quand
+     le pave integre n'est pas utilise. Le balisage doit porter
+     inputmode="decimal" — voir la documentation. */
+  .pg-input--num { font-size: 1rem; }
+
+  /* La sidebar devient un panneau escamotable : 248 px sur une tablette,
+     c'est un quart de l'ecran pour de la navigation. */
+  .pg-app { grid-template-columns: minmax(0, 1fr); }
+  .pg-sidebar {
+    position: fixed; top: 0; bottom: 0; left: 0;
+    z-index: 60;
+    width: var(--sidebar-width);
+    transform: translateX(-100%);
+    transition: transform var(--duration-base) var(--ease-out);
+    box-shadow: var(--shadow-md);
+  }
+  .pg-app.is-nav-open .pg-sidebar { transform: none; }
+  .pg-sidebar-backdrop {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--surface-overlay);
+    opacity: 0; pointer-events: none;
+    transition: opacity var(--duration-base) var(--ease-standard);
+  }
+  .pg-app.is-nav-open .pg-sidebar-backdrop { opacity: 1; pointer-events: auto; }
+
+  /* Les modales occupent presque tout l'ecran. */
+  .pg-modal { width: min(720px, calc(100vw - var(--space-8))); }
+  .pg-modal--sm { width: min(560px, calc(100vw - var(--space-8))); }
+}
+
+/* Sur un ecran etroit en paysage, une modale prend toute la place. */
+@media (pointer: coarse) and (max-height: 620px) {
+  .pg-modal { max-height: calc(100vh - var(--space-6)); }
+  .pg-modal__form { max-height: calc(100vh - var(--space-6)); }
+}

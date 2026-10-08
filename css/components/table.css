@@ -1,0 +1,384 @@
+/* ==========================================================================
+   PETROGEST · table.css
+   --------------------------------------------------------------------------
+   Le tableau est present sur 8 ecrans sur 9. C'est le composant qui decide
+   de la densite de toute l'application.
+
+   REGLE : pas de filets verticaux. Les colonnes sont separees par
+   l'alignement et l'espace, pas par des traits. Un tableau quadrille ajoute
+   une ligne graphique par colonne et ecrase la donnee.
+
+   REGLE : les nombres a droite, les textes a gauche. Sans exception.
+
+   REGLE : « rien » et « zero » ne s'ecrivent pas pareil. Une valeur absente
+   est un tiret cadratin en gris, jamais un 0.
+   ========================================================================== */
+
+/* Le conteneur porte la bordure et le rayon ; la table elle-meme n'en a pas.
+   overflow-x permet a un tableau large de defiler sans casser la page. */
+.pg-table-wrap {
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+}
+
+.pg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+}
+
+
+/* --- En-tete -------------------------------------------------------------- */
+
+.pg-table thead th {
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface-sunken);
+  border-bottom: var(--border-width) solid var(--border-default);
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-line);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  /* --text-muted tombe a 4,27:1 sur --surface-sunken : sous le seuil AA pour
+     ces 11 px en capitales. --text-secondary remonte a 6,85 (clair) et 8,70
+     (sombre). Un en-tete de colonne se lit en diagonale : il a besoin de plus
+     de contraste que le texte courant, pas de moins. */
+  color: var(--text-secondary);
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* En-tete collant : indispensable des que la liste depasse un ecran. */
+.pg-table--sticky thead th { position: sticky; top: 0; z-index: 2; }
+
+/* Bouton de tri. L'indicateur est toujours present mais discret au repos —
+   la colonne triable doit s'annoncer sans crier. */
+.pg-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.pg-table__sort:hover { color: var(--text-primary); }
+.pg-table__sort::after {
+  content: "";
+  width: 12px; height: 12px;
+  opacity: .35;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 15 5 5 5-5M7 9l5-5 5 5'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 15 5 5 5-5M7 9l5-5 5 5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+[aria-sort="ascending"]  .pg-table__sort,
+[aria-sort="descending"] .pg-table__sort { color: var(--text-primary); }
+[aria-sort="ascending"]  .pg-table__sort::after,
+[aria-sort="descending"] .pg-table__sort::after { opacity: 1; }
+[aria-sort="ascending"]  .pg-table__sort::after {
+  -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m18 15-6-6-6 6'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m18 15-6-6-6 6'/%3E%3C/svg%3E");
+}
+[aria-sort="descending"] .pg-table__sort::after {
+  -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+
+/* --- Corps ---------------------------------------------------------------- */
+
+.pg-table tbody td {
+  height: var(--row-height-read);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  vertical-align: middle;
+}
+.pg-table tbody tr:last-child td { border-bottom: none; }
+
+/* Densite de saisie : la ligne contient un champ, elle respire un peu plus. */
+.pg-table--entry tbody td { height: var(--row-height-entry); }
+
+.pg-table tbody tr { transition: background var(--duration-instant) var(--ease-standard); }
+.pg-table tbody tr:hover { background: var(--surface-hover); }
+
+/* Ligne selectionnee (selection multiple). */
+.pg-table tbody tr.is-selected { background: var(--surface-selected); }
+
+/* Ligne signalee : une anomalie qui concerne toute la ligne, pas une cellule.
+   Cuve sous seuil, declaration en ecart, creance depassee. */
+.pg-table tbody tr.is-flagged    { background: var(--red-50); }
+.pg-table tbody tr.is-flagged:hover { background: var(--red-100); }
+.pg-table tbody tr.is-warned     { background: var(--amber-50); }
+.pg-table tbody tr.is-warned:hover  { background: var(--amber-100); }
+
+/* Ligne cliquable : toute la ligne ouvre le detail. C'est LA regle d'action
+   de ligne du design system — voir menu.css. */
+.pg-table--clickable tbody tr { cursor: pointer; }
+
+/* --------------------------------------------------------------------------
+   LE LIEN DE LA LIGNE
+   --------------------------------------------------------------------------
+   Une ligne cliquable DOIT contenir un vrai <a> dans sa cellule d'identite.
+
+   Le clic sur la ligne est un confort ; le lien est le chemin. Sans lui,
+   la ligne n'existe pas pour qui navigue au clavier — et ouvrir une
+   station, un journal ou un fournisseur en cliquant sa ligne est le geste
+   le plus frequent de l'application.
+
+   Pourquoi pas un <tr tabindex="0"> : un lecteur d'ecran annoncerait alors
+   toute la ligne comme un seul lien — « 11/08/2026 Anisogoma 2 sur 3 ecart
+   signale 12 480 300 moins 32 350 litres ». Le lien doit porter le libelle
+   qui identifie la ligne, et lui seul.
+
+   Le lien ne se distingue pas au repos : c'est la ligne entiere qui est
+   l'affordance. Il se souligne au survol et prend l'anneau au focus.
+   -------------------------------------------------------------------------- */
+
+.pg-cell--primary a {
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-xs);
+}
+.pg-cell--primary a:hover { text-decoration: underline; text-underline-offset: 2px; }
+.pg-cell--primary a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Toute la ligne se leve quand le lien a le focus : le rapport entre le lien
+   et sa ligne doit rester visible, sinon on ne sait pas ce qu'on va ouvrir. */
+.pg-table--clickable tbody tr:has(a:focus-visible) { background: var(--surface-hover); }
+
+
+/* --- Cellules ------------------------------------------------------------- */
+
+/* Identite de la ligne : la colonne qui dit « de quoi on parle ». */
+.pg-cell--primary { font-weight: var(--weight-medium); color: var(--text-primary); }
+
+/* Nombre. Aligne a droite, en DM Mono, sans retour a la ligne. */
+.pg-cell--num {
+  text-align: right;
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-body-size) * var(--numeric-scale));
+  letter-spacing: var(--numeric-tracking);
+  white-space: nowrap;
+}
+
+/* Valeur calculee : elle n'est pas saisissable, elle recule d'un cran. */
+.pg-cell--computed { color: var(--text-secondary); }
+
+/* Colonne d'actions : largeur minimale, collee a droite. */
+.pg-cell--actions { width: 1%; white-space: nowrap; text-align: right; padding-left: var(--space-3); }
+
+/* Cellule etroite : pour une pastille, une case a cocher, un rang. */
+.pg-cell--tight { width: 1%; white-space: nowrap; }
+
+/* Colonne de rang (classement des stations). */
+.pg-cell--rank {
+  width: 1%;
+  text-align: right;
+  font-family: var(--font-numeric);
+  color: var(--text-muted);
+  padding-right: var(--space-3);
+}
+
+
+/* --- Rendus de valeur ----------------------------------------------------- */
+
+/* Valeur + ligne secondaire dessous (station + ville, produit + capacite). */
+.pg-cell__sub { font-size: var(--text-caption-size); line-height: var(--text-caption-line); color: var(--text-muted); }
+
+/* Valeur + unite. L'unite recule : le chiffre porte l'information. */
+.pg-value__unit { color: var(--text-muted); font-size: var(--text-caption-size); margin-left: var(--space-2); }
+
+/* Ecart signe. C'est la cellule la plus importante de l'application :
+   c'est elle qui doit crier quand quelque chose ne colle pas. */
+.pg-delta--positive { color: var(--data-positive); font-weight: var(--weight-medium); }
+.pg-delta--negative { color: var(--data-negative); font-weight: var(--weight-medium); }
+.pg-delta--none     { color: var(--text-secondary); }
+
+/* Valeur absente. JAMAIS un 0. */
+.pg-cell--empty { color: var(--data-empty); }
+
+/* Entite avec logo : compagnie + nom de station. */
+.pg-entity { display: inline-flex; align-items: center; gap: var(--space-4); }
+
+
+/* ==========================================================================
+   TABLEAU DE SAISIE
+   --------------------------------------------------------------------------
+   Le composant central de PETROGEST, et le grand absent de la version
+   precedente : il y etait re-improvise TROIS FOIS sur le seul ecran
+   « Stocks » d'une declaration — cuves (8 colonnes), gaz (5), lubrifiant
+   (5) — pour une meme operation mentale : stock debut → entrees → sorties
+   → final.
+
+   Trois choses s'y reglent :
+
+   1. La cellule SAISISSABLE se distingue de la cellule CALCULEE. Dans la
+      version precedente, seul le fond beige les separait, et ce n'etait
+      dit nulle part. Ici le champ porte une bordure, le calcul n'en a pas
+      et recule d'un cran en couleur.
+
+   2. Le champ est dimensionne par SON CONTENU (voir .pg-input--w4 a w12),
+      pas par le nombre de colonnes.
+
+   3. L'ecart est SIGNALE. C'est la seule tache coloree de la ligne.
+   ========================================================================== */
+
+/* Champ pose dans une cellule : il remplit la cellule sans marge parasite. */
+.pg-table--entry .pg-input { height: 32px; }
+
+/* En-tete de groupe a l'interieur d'un tableau : « Gaz », « Lubrifiant ».
+   Remplace la multiplication de tableaux separes par un seul tableau
+   sectionne — une seule structure de colonnes, une seule lecture. */
+.pg-table__group td {
+  height: 32px !important;
+  padding: var(--space-2) var(--space-5) !important;
+  background: var(--surface-sunken);
+  border-bottom: var(--border-width) solid var(--border-default);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.pg-table__group:hover td { background: var(--surface-sunken); }
+
+/* Ligne repetable : « + Ajouter un produit » dans une demande d'appro. */
+.pg-repeat { display: flex; flex-direction: column; gap: var(--space-4); }
+.pg-repeat__row { display: flex; align-items: flex-end; gap: var(--space-4); }
+.pg-repeat__row > .pg-field { flex: 1; min-width: 0; }
+.pg-repeat__remove { flex: none; margin-bottom: 1px; }
+.pg-repeat__add { align-self: flex-start; margin-top: var(--space-2); }
+
+
+/* --- Avancement -----------------------------------------------------------
+   Complétude d'un objet en plusieurs etapes : les trois etapes d'une
+   declaration (Pompes, Stocks, Caisse), les blocs d'un dossier.
+
+   Remplace les colonnes mortes de la version precedente. Sur les 127
+   declarations, « TOTAL CA : 0 FCFA » et « CLIENTS : 0 » ne disaient rien
+   tant que rien n'etait saisi — et rendaient les 127 lignes identiques.
+   Ici la ligne annonce ou en est la saisie, ce qui est la seule chose que
+   l'utilisateur cherche.
+
+   Toujours accompagne d'un libelle textuel : une suite de barres n'est pas
+   lisible par un lecteur d'ecran. */
+
+.pg-steps { display: inline-flex; align-items: center; gap: var(--space-3); white-space: nowrap; }
+.pg-steps__track { display: inline-flex; gap: 3px; }
+.pg-steps__seg {
+  width: 16px; height: 4px;
+  border-radius: 2px;
+  background: var(--grey-200);
+}
+.pg-steps__seg.is-done { background: var(--grey-700); }
+.pg-steps__label {
+  font-family: var(--font-numeric);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+
+/* --- Jauge inline ---------------------------------------------------------
+   Remplit le fond de la cellule en proportion. Sert aux classements
+   (top debiteurs) et aux niveaux (autonomie par cuve). */
+
+.pg-bar { position: relative; display: block; height: 20px; }
+.pg-bar__fill {
+  position: absolute; inset: 0 auto 0 0;
+  background: var(--grey-200);
+  border-radius: var(--radius-xs);
+}
+.pg-bar__label { position: relative; display: block; padding: 0 var(--space-3); line-height: 20px; }
+.pg-bar--critical .pg-bar__fill { background: var(--red-100); }
+.pg-bar--warning  .pg-bar__fill { background: var(--amber-100); }
+
+
+/* --- Pied de tableau ------------------------------------------------------ */
+
+.pg-table tfoot td {
+  height: var(--row-height-read);
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface-sunken);
+  border-top: var(--border-width) solid var(--border-default);
+  font-weight: var(--weight-medium);
+}
+
+
+/* --- Barre de tableau -----------------------------------------------------
+   La ligne au-dessus du tableau : compteur de resultats a gauche,
+   actions a droite. */
+
+.pg-table-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+.pg-table-count { font-size: var(--text-caption-size); color: var(--text-muted); }
+.pg-table-count b { color: var(--text-primary); font-family: var(--font-numeric); font-weight: var(--weight-medium); }
+
+
+/* --- Etat vide ------------------------------------------------------------
+   Une cause et une sortie. « Aucun message » tout seul ne sert a personne. */
+
+.pg-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-12) var(--space-8);
+  text-align: center;
+}
+.pg-empty-state__icon  { color: var(--text-disabled); margin-bottom: var(--space-2); }
+.pg-empty-state__title { font-size: var(--text-body-size); font-weight: var(--weight-medium); color: var(--text-primary); }
+.pg-empty-state__text  { font-size: var(--text-caption-size); line-height: 1.125rem; color: var(--text-muted); max-width: 44ch; }
+.pg-empty-state__action { margin-top: var(--space-3); }
+
+
+/* --- Chargement -----------------------------------------------------------
+   Des lignes fantomes de la bonne hauteur : la page ne saute pas quand la
+   donnee arrive. */
+
+.pg-skeleton {
+  display: block;
+  height: 10px;
+  border-radius: var(--radius-xs);
+  background: linear-gradient(90deg, var(--grey-100) 25%, var(--grey-200) 37%, var(--grey-100) 63%);
+  background-size: 400% 100%;
+  animation: pg-shimmer 1.4s ease infinite;
+}
+.pg-skeleton--w40 { width: 40%; }
+.pg-skeleton--w60 { width: 60%; }
+.pg-skeleton--w80 { width: 80%; }
+@keyframes pg-shimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+
+
+/* --- Pagination ----------------------------------------------------------- */
+
+.pg-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  border-top: var(--border-width) solid var(--border-default);
+}
+.pg-pagination__info  { font-size: var(--text-caption-size); color: var(--text-muted); }
+.pg-pagination__pages { display: flex; align-items: center; gap: var(--space-2); }
+.pg-pagination__page {
+  min-width: var(--control-height-sm); height: var(--control-height-sm);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  font-family: var(--font-numeric);
+  font-size: var(--text-caption-size);
+  color: var(--text-secondary);
+}
+.pg-pagination__page:hover { background: var(--surface-hover); color: var(--text-primary); }
+.pg-pagination__page[aria-current="page"] { background: var(--grey-900); color: var(--grey-0); }

@@ -1,0 +1,123 @@
+/* ==========================================================================
+   PETROGEST · auth.css — ECRAN DE CONNEXION
+   --------------------------------------------------------------------------
+   C'est la seule page qui porte l'identite du PRODUIT, pas celle de
+   l'entreprise cliente. Deux raisons :
+
+   1. Avant l'authentification, on ne sait pas QUI se connecte.
+   2. Surtout : le branding de l'entreprise (petrogest_branding) vit dans
+      le localStorage et n'y est ecrit qu'APRES connexion. Sur un navigateur
+      neuf, il n'existe pas — afficher le logo de l'entreprise ici casserait
+      a la premiere visite.
+
+   Le logo de l'entreprise apparait donc des l'ecran SUIVANT, en haut de la
+   sidebar, ou il ne quitte plus l'ecran.
+
+   Deux couches ici :
+     1. Le produit   PETROGEST — grand, en haut
+     2. L'editeur    ESSINIS Group — mention legale, en pied
+
+   ---------------------------------------------------------------------------
+   CE QU'ON CORRIGE
+
+   La version actuelle utilise un QUATRIEME traitement de champ, apres les
+   deux beiges de l'application : fond bleu-lavande, bordure rouille. Ici,
+   c'est le meme champ que partout ailleurs. Une page de connexion n'a
+   aucune raison d'avoir ses propres composants.
+
+   Et son CSS est entierement INLINE dans la page — 11 000 caracteres, 63
+   regles, hors du systeme. C'est la seule page de l'application dans ce cas.
+   ========================================================================== */
+
+.pg-auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-8);
+  background: var(--surface-page);
+}
+
+.pg-auth__card {
+  width: 100%;
+  max-width: 380px;
+}
+
+/* --- Marque de l'entreprise ----------------------------------------------- */
+
+.pg-auth__brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-9);
+}
+/* Le wordmark fait 7,2 pour 1 : a 34 px de haut il occupe 245 px de large,
+   ce qui le rend lisible. Le fichier source etait un carre de 1000x1000
+   dont le dessin n occupait que 9 % de la hauteur — contraint a 26 px, il
+   etait illisible. */
+.pg-auth__logo { height: 34px; width: auto; color: var(--text-primary); }
+.pg-auth__brand img { height: 26px; max-width: 220px; object-fit: contain; }
+
+.pg-auth__title {
+  font-size: var(--text-title-size);
+  line-height: var(--text-title-line);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--text-title-spacing);
+  text-align: center;
+  margin-bottom: var(--space-3);
+}
+.pg-auth__sub {
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+/* --- Formulaire ----------------------------------------------------------- */
+
+.pg-auth__form {
+  display: flex; flex-direction: column; gap: var(--space-6);
+  padding: var(--space-8);
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+}
+
+/* Le lien « mot de passe oublie » vit A COTE de son libelle, pas dans un
+   panneau separe : c'est la que l'utilisateur constate qu'il l'a oublie. */
+.pg-auth__label-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); }
+.pg-auth__forgot { font-size: var(--text-caption-size); color: var(--text-muted); text-decoration: underline; text-underline-offset: 2px; }
+.pg-auth__forgot:hover { color: var(--text-primary); }
+
+/* --- Erreur ---------------------------------------------------------------
+   L'ecran de connexion est le SEUL endroit de l'application ou un etat
+   d'erreur existe aujourd'hui. Ailleurs, un champ refuse est pixel pour
+   pixel identique a un champ au repos. */
+
+.pg-auth__error {
+  display: flex; align-items: flex-start; gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--status-critical-bg);
+  border: var(--border-width) solid var(--status-critical-border);
+  border-radius: var(--radius-md);
+  color: var(--status-critical-text);
+  font-size: var(--text-body-size);
+  line-height: 1.25rem;
+}
+.pg-auth__error .pg-icon { flex: none; margin-top: 1px; }
+
+/* --- Pied ----------------------------------------------------------------- */
+
+.pg-auth__foot {
+  margin-top: var(--space-8);
+  text-align: center;
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  line-height: 1.25rem;
+}
+/* .pg-auth__product et .pg-auth__version ont ete retirees : elles servaient
+   a afficher la compagnie en tete de la page de connexion. Or on ne sait pas
+   qui va se connecter — le nom de la compagnie vit dans localStorage et n'y
+   est ecrit qu'APRES l'authentification. Sur un navigateur neuf, elles
+   n'auraient rien affiche du tout. */
+.pg-auth__legal { font-size: 11px; color: var(--text-muted); }
+.pg-auth__legal a { color: inherit; }

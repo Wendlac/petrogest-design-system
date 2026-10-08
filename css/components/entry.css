@@ -1,0 +1,399 @@
+/* ==========================================================================
+   PETROGEST · entry.css — MODE DE SAISIE FOCALISE
+   --------------------------------------------------------------------------
+   LE CONTEXTE REEL, mesure sur la plateforme le 07/09/2026 :
+
+     4 etapes    Pompes · Stocks · Caisse · Previsualisation
+     135 champs  sur un seul journal de station
+     ~30 lignes  reparties en 7 sections
+     3 types     nombre, texte (les « motifs »), case a cocher
+
+   Ma premiere version tablait sur 45 champs et 6 produits en liste plate.
+   C'etait trois fois trop petit, et a plat la ou la donnee est en arbre.
+
+   ---------------------------------------------------------------------------
+   LE PARTAGE N'EST PAS PAR SUPPORT, IL EST PAR TACHE
+
+   SAISIR est sequentiel : une valeur, on valide, la suivante. Ca ne change
+   pas selon qu'on ait une souris ou un doigt — un DG au bureau qui saisit
+   135 valeurs ne compare rien pendant qu'il tape.
+   RELIRE est comparatif : on lit en travers et en colonnes.
+
+     Etapes 1-3  → saisie    → ce composant, pour TOUT LE MONDE
+     Etape 4     → relecture → tableau condense (table.css)
+
+   L'application le fait deja : son etape « Previsualisation » ramene les
+   pompes de 10 colonnes a 5 et les stocks de 11 a 5.
+
+   Consequence : UN SEUL rendu de saisie a construire et a maintenir, pas
+   deux. @media (pointer: coarse) ne gere plus que les DIMENSIONS.
+
+   ---------------------------------------------------------------------------
+   L'ERGONOMIE : PAYSAGE, UNE MAIN
+
+   La main qui TIENT a son pouce sur le bord, arc d'environ 80 mm (~380 px
+   sur une dalle de 10 pouces). On lui donne le rail de navigation.
+   La main LIBRE arrive par le cote oppose. On lui donne la surface de
+   saisie. Rien d'important dans les coins hauts : on tient 450 g pendant
+   135 saisies.
+   ========================================================================== */
+
+.pg-entry {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 400px;
+  height: 100vh;
+  background: var(--surface-page);
+}
+
+/* Gaucher, ou tablette tenue a droite. */
+.pg-entry--mirror { grid-template-columns: 400px minmax(0, 1fr) 240px; }
+.pg-entry--mirror .pg-entry__rail  { order: 3; border-left: var(--border-width) solid var(--border-default); border-right: none; }
+.pg-entry--mirror .pg-entry__input { order: 1; border-right: var(--border-width) solid var(--border-default); border-left: none; }
+.pg-entry--mirror .pg-entry__panel { order: 2; }
+
+
+/* ==========================================================================
+   RAIL  ·  arbre etape → section → ligne
+   ========================================================================== */
+
+.pg-entry__rail {
+  display: flex; flex-direction: column;
+  background: var(--surface-raised);
+  border-right: var(--border-width) solid var(--border-default);
+  overflow: hidden;
+}
+
+.pg-entry__rail-head {
+  flex: none;
+  padding: var(--space-5);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+}
+.pg-entry__rail-title { font-size: var(--text-label-size); font-weight: var(--weight-semibold); }
+.pg-entry__rail-sub   { margin-top: var(--space-2); font-size: var(--text-caption-size); color: var(--text-muted); }
+
+/* Avancement global : 135 champs, il faut savoir ou on en est. */
+.pg-entry__progress { margin-top: var(--space-4); }
+.pg-entry__progress-bar { height: 4px; background: var(--surface-sunken); border-radius: var(--radius-full); overflow: hidden; }
+.pg-entry__progress-fill { height: 100%; background: var(--grey-900); border-radius: var(--radius-full); transition: width var(--duration-base) var(--ease-out); }
+.pg-entry__progress-text { margin-top: var(--space-3); font-family: var(--font-numeric); font-size: 11px; color: var(--text-muted); }
+
+.pg-entry__rail-list { flex: 1; overflow-y: auto; padding: var(--space-3); }
+
+/* --- Etape ---------------------------------------------------------------- */
+
+.pg-entry__step {
+  display: flex; align-items: center; gap: var(--space-4);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.pg-entry__step:hover { background: var(--surface-hover); }
+.pg-entry__step[aria-expanded="true"] { color: var(--text-primary); }
+.pg-entry__step-num {
+  flex: none;
+  display: flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px;
+  border-radius: var(--radius-xs);
+  background: var(--surface-sunken);
+  font-family: var(--font-numeric);
+  font-size: 11px;
+  letter-spacing: 0;
+}
+.pg-entry__step[aria-expanded="true"] .pg-entry__step-num { background: var(--grey-900); color: var(--grey-0); }
+.pg-entry__step-name { flex: 1; text-align: left; overflow: hidden; text-overflow: ellipsis; }
+.pg-entry__step-count { flex: none; font-family: var(--font-numeric); font-size: 11px; letter-spacing: 0; color: var(--text-muted); }
+.pg-entry__step.is-complete .pg-entry__step-count { color: var(--data-positive); }
+
+/* Seule l'etape en cours est depliee : 30 lignes ne tiennent pas a l'ecran. */
+.pg-entry__step-body { display: none; padding-left: var(--space-4); }
+.pg-entry__step[aria-expanded="true"] + .pg-entry__step-body { display: block; }
+
+/* --- Section -------------------------------------------------------------- */
+
+.pg-entry__section {
+  padding: var(--space-5) var(--space-4) var(--space-2);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* --- Ligne ---------------------------------------------------------------- */
+
+.pg-entry__item {
+  display: flex; align-items: center; gap: var(--space-4);
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  text-align: left;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.pg-entry__item:hover { background: var(--surface-hover); }
+.pg-entry__item[aria-current="true"] { background: var(--grey-900); color: var(--grey-0); }
+.pg-entry__item-name { flex: 1; min-width: 0; font-size: var(--text-label-size); font-weight: var(--weight-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* L'etat d'une ligne est porte par SA VALEUR, pas par une pastille.
+   « — » = pas saisi · un nombre = saisi · un nombre rouge = ecart. */
+.pg-entry__item-value {
+  flex: none;
+  font-family: var(--font-numeric);
+  font-size: var(--text-caption-size);
+  letter-spacing: var(--numeric-tracking);
+  color: var(--text-muted);   /* la ligne porte « — » mais aussi de vraies valeurs */
+  white-space: nowrap;
+}
+.pg-entry__item.is-done    .pg-entry__item-value { color: var(--text-secondary); }
+.pg-entry__item.is-flagged .pg-entry__item-value { color: var(--data-negative); font-weight: var(--weight-medium); }
+.pg-entry__item[aria-current="true"] .pg-entry__item-value            { color: var(--grey-400); }
+.pg-entry__item[aria-current="true"].is-done    .pg-entry__item-value { color: var(--grey-300); }
+.pg-entry__item[aria-current="true"].is-flagged .pg-entry__item-value { color: var(--red-200); }
+
+
+/* --- Ajout de ligne dans le rail -----------------------------------------
+   Depenses, Credits clients, Manquants pompistes : des listes ouvertes.
+   Le bouton vit en fin de section, la ou l utilisateur constate qu il lui
+   manque une ligne. */
+
+.pg-entry__add {
+  display: flex; align-items: center; gap: var(--space-4);
+  width: 100%; min-height: 40px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-label-size);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.pg-entry__add:hover { background: var(--surface-hover); color: var(--text-primary); }
+.pg-entry__add .pg-icon { width: 14px; height: 14px; }
+
+
+/* ==========================================================================
+   PANNEAU  ·  la ligne en cours
+   ========================================================================== */
+
+.pg-entry__panel { display: flex; flex-direction: column; overflow: hidden; }
+
+.pg-entry__head {
+  flex: none;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--space-7);
+  background: var(--surface-raised);
+  border-bottom: var(--border-width) solid var(--border-default);
+}
+.pg-entry__product { font-size: var(--text-display-size); line-height: var(--text-display-line); font-weight: var(--text-display-weight); letter-spacing: var(--text-display-spacing); }
+.pg-entry__meta { margin-top: var(--space-2); font-size: var(--text-caption-size); color: var(--text-muted); }
+
+.pg-entry__fields { flex: 1; overflow-y: auto; padding: var(--space-6) var(--space-7); }
+
+
+/* --- Champ ---------------------------------------------------------------- */
+
+.pg-entry__field {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-6);
+  width: 100%;
+  min-height: 64px;
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface-raised);
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+.pg-entry__field + .pg-entry__field,
+.pg-entry__field + .pg-entry__computed,
+.pg-entry__computed + .pg-entry__field { margin-top: var(--space-4); }
+.pg-entry__field:hover { border-color: var(--grey-400); }
+
+/* Actif : bordure epaisse. A bout de bras, sur une piste ensoleillee, un
+   filet de 1 px ne se voit pas. */
+.pg-entry__field.is-active { border-color: var(--grey-900); box-shadow: 0 0 0 4px var(--grey-100); }
+
+/* Erreur. Cet etat N'EXISTE PAS dans la version actuelle : mesure au
+   navigateur, un champ refuse y est pixel pour pixel identique a un champ
+   au repos — meme classe, meme bordure #1B0F05, meme fond #F7E3D5, et pas
+   d'aria-invalid. Un lecteur d'ecran n'annonce rien. */
+.pg-entry__field[aria-invalid="true"] { border-color: var(--red-600); }
+.pg-entry__field[aria-invalid="true"].is-active { box-shadow: 0 0 0 4px var(--red-100); }
+.pg-entry__error { display: block; margin-top: var(--space-3); font-size: var(--text-caption-size); color: var(--status-critical-text); }
+
+.pg-entry__label { font-size: var(--text-body-size); font-weight: var(--weight-medium); color: var(--text-secondary); }
+.pg-entry__hint  { display: block; font-size: var(--text-caption-size); color: var(--text-muted); font-weight: var(--weight-regular); }
+
+.pg-entry__value {
+  font-family: var(--font-numeric);
+  font-size: 1.5rem;
+  letter-spacing: var(--numeric-tracking);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.pg-entry__value:empty::before { content: "—"; color: var(--text-muted); }
+.pg-entry__unit { font-family: var(--font-sans); font-size: var(--text-caption-size); color: var(--text-muted); margin-left: var(--space-3); }
+
+.pg-entry__field.is-active .pg-entry__value::after {
+  content: "";
+  display: inline-block;
+  width: 2px; height: 1.2em;
+  margin-left: 2px;
+  background: var(--grey-900);
+  vertical-align: -0.15em;
+  animation: pg-caret 1s step-end infinite;
+}
+@keyframes pg-caret { 50% { opacity: 0; } }
+
+/* --- Champ texte ----------------------------------------------------------
+   Les « Motif du retour en cuve », « Motif du remplacement », « Motif des
+   sorties diverses ». Ils cassent l'hypothese d'une saisie 100 % numerique :
+   le pave laisse la place au clavier du systeme. */
+
+.pg-entry__field--text { flex-direction: column; align-items: stretch; gap: var(--space-4); }
+.pg-entry__field--text .pg-entry__label { width: 100%; }
+.pg-entry__field--text .pg-input { font-size: 1rem; height: var(--control-height-lg); }
+
+/* --- Case a cocher --------------------------------------------------------
+   « Compteur remplace ». Deux grandes cibles valent mieux qu'une case de
+   16 px au doigt. */
+
+.pg-entry__field--check .pg-entry__choices { display: flex; gap: var(--space-4); flex: none; }
+.pg-entry__choice {
+  min-width: 84px; height: 48px;
+  padding: 0 var(--space-6);
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  font-size: var(--text-body-size);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.pg-entry__choice[aria-pressed="true"] { background: var(--grey-900); border-color: var(--grey-900); color: var(--grey-0); }
+
+/* --- Valeur calculee ------------------------------------------------------
+   L'app encode DEJA la distinction sans la montrer : type="number" pour ce
+   qui se saisit, type="text" en lecture seule pour ce qui se calcule.
+   La correspondance pour l'integrateur est directe. */
+
+.pg-entry__computed {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-5);
+}
+.pg-entry__computed .pg-entry__label { color: var(--text-muted); font-weight: var(--weight-regular); }
+.pg-entry__computed .pg-entry__value { font-size: var(--text-body-size); color: var(--text-secondary); }
+
+
+/* --- L'ecart --------------------------------------------------------------
+   Il y en a DEUX dans un journal : l'ecart de jauge (etape Stocks) et
+   l'ecart de caisse (etape Caisse). Meme composant. */
+
+.pg-entry__delta {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+}
+.pg-entry__delta-label { font-size: var(--text-body-size); font-weight: var(--weight-medium); }
+.pg-entry__delta-value { font-family: var(--font-numeric); font-size: 1.75rem; letter-spacing: var(--numeric-tracking); }
+.pg-entry__delta.is-ok       { border-color: var(--status-success-border);  background: var(--status-success-bg); }
+.pg-entry__delta.is-ok       .pg-entry__delta-value { color: var(--status-success-text); }
+.pg-entry__delta.is-warning  { border-color: var(--status-warning-border);  background: var(--status-warning-bg); }
+.pg-entry__delta.is-warning  .pg-entry__delta-value { color: var(--status-warning-text); }
+.pg-entry__delta.is-critical { border-color: var(--status-critical-border); background: var(--status-critical-bg); }
+.pg-entry__delta.is-critical .pg-entry__delta-value { color: var(--status-critical-text); }
+.pg-entry__delta-note { font-size: var(--text-caption-size); }
+
+
+/* ==========================================================================
+   SURFACE DE SAISIE  ·  sous la main libre
+   --------------------------------------------------------------------------
+   Elle change selon le type du champ actif. C'est la correction principale
+   de cette version : ma premiere mouture supposait 100 % de numerique.
+   ========================================================================== */
+
+.pg-entry__input {
+  display: flex; flex-direction: column;
+  padding: var(--space-5);
+  background: var(--surface-raised);
+  border-left: var(--border-width) solid var(--border-default);
+}
+
+/* Une seule surface est visible a la fois, pilotee par data-mode. */
+.pg-entry__surface { display: none; flex: 1; flex-direction: column; }
+.pg-entry[data-mode="num"]   .pg-entry__surface--num   { display: flex; }
+.pg-entry[data-mode="text"]  .pg-entry__surface--text  { display: flex; }
+.pg-entry[data-mode="check"] .pg-entry__surface--check { display: flex; }
+
+.pg-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); flex: 1; }
+.pg-keypad__key {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 64px;
+  background: var(--surface-page);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-numeric);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  cursor: pointer; user-select: none;
+  transition: background var(--duration-instant) var(--ease-standard),
+              transform  var(--duration-instant) var(--ease-standard);
+}
+.pg-keypad__key:active { background: var(--grey-200); transform: scale(.97); }
+.pg-keypad__key--util { background: var(--surface-raised); color: var(--text-secondary); font-size: 1.125rem; }
+
+/* Message affiche quand le clavier du systeme prend le relais. */
+.pg-entry__surface--text { align-items: center; justify-content: center; gap: var(--space-4); text-align: center; color: var(--text-muted); }
+.pg-entry__surface--text .pg-icon { color: var(--text-disabled); }
+
+/* Valider et passer au suivant : la touche la plus utilisee de l'ecran. */
+.pg-keypad__next {
+  display: flex; align-items: center; justify-content: center; gap: var(--space-4);
+  min-height: 64px;
+  margin-top: var(--space-4);
+  background: var(--action-primary-bg);
+  color: var(--action-primary-text);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-body-size);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+.pg-keypad__next:active { background: var(--action-primary-bg-active); }
+
+/* Bascule droitier / gaucher. On demande, on ne devine pas : se tromper
+   mettrait le rail sous la main libre et le pave sous la main qui tient. */
+.pg-entry__hand {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.pg-entry__hand:hover { background: var(--surface-hover); color: var(--text-primary); }
+.pg-entry__hand .pg-icon { width: 14px; height: 14px; }
+
+.pg-entry__input-foot {
+  flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--border-width) solid var(--border-subtle);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+}

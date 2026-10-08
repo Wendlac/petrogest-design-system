@@ -1,0 +1,115 @@
+/* ==========================================================================
+   PETROGEST · kpi.css
+   --------------------------------------------------------------------------
+   Des cellules separees par un filet, PAS des cartes bordees.
+
+   La version precedente empilait jusqu'a 14 tuiles a bordure doree sur le
+   seul ecran Rapports (Synthese 5, Comptabilite et encaissement 5,
+   Approvisionnements 2, Fournisseurs 2), 15 sur le tableau de bord, 6 sur
+   Clients. Toutes identiques, que la valeur dise « tout va bien » ou
+   « 2 cuves sous seuil ». La bordure etait decorative ; le regard n'etait
+   attire nulle part.
+
+   Ici la bordure entoure le GROUPE, les cellules sont separees par un
+   filet, et seule la valeur porte le signal.
+   ========================================================================== */
+
+.pg-kpi {
+  display: grid;
+  grid-template-columns: repeat(var(--kpi-cols, 4), minmax(0, 1fr));
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.pg-kpi--2 { --kpi-cols: 2; }
+.pg-kpi--3 { --kpi-cols: 3; }
+.pg-kpi--4 { --kpi-cols: 4; }
+.pg-kpi--5 { --kpi-cols: 5; }
+
+.pg-kpi__cell {
+  padding: var(--space-6) var(--space-7);
+  border-left: var(--border-width) solid var(--border-subtle);
+  min-width: 0;
+}
+/* Le premier de chaque rangee n'a pas de filet a gauche.
+   Une variable CSS ne peut pas servir dans un selecteur :nth-child, il faut
+   donc une regle par variante. */
+.pg-kpi--2 .pg-kpi__cell:nth-child(2n + 1),
+.pg-kpi--3 .pg-kpi__cell:nth-child(3n + 1),
+.pg-kpi--4 .pg-kpi__cell:nth-child(4n + 1),
+.pg-kpi--5 .pg-kpi__cell:nth-child(5n + 1),
+.pg-kpi:not([class*="pg-kpi--"]) .pg-kpi__cell:nth-child(4n + 1) { border-left: none; }
+
+/* Les rangees suivantes sont separees du groupe precedent. */
+.pg-kpi--2 .pg-kpi__cell:nth-child(n + 3),
+.pg-kpi--3 .pg-kpi__cell:nth-child(n + 4),
+.pg-kpi--4 .pg-kpi__cell:nth-child(n + 5),
+.pg-kpi--5 .pg-kpi__cell:nth-child(n + 6) { border-top: var(--border-width) solid var(--border-subtle); }
+
+.pg-kpi__label {
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-line);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pg-kpi__value {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-metric-size) * var(--numeric-scale));
+  line-height: var(--text-metric-line);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--numeric-tracking);
+  color: var(--text-primary);
+}
+.pg-kpi__value .pg-value__unit { font-family: var(--font-sans); }
+
+/* Seule la valeur porte le signal — jamais la bordure de la cellule. */
+.pg-kpi__value--critical { color: var(--data-negative); }
+.pg-kpi__value--positive { color: var(--data-positive); }
+.pg-kpi__value--warning  { color: var(--status-warning-text); }
+/* Aucune donnee : un tiret discret, et le pied dit pourquoi. */
+.pg-kpi__value--empty    { color: var(--data-empty); }
+
+.pg-kpi__foot {
+  margin-top: var(--space-3);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+  color: var(--text-muted);
+}
+
+/* Cellule actionnable : sur le tableau de bord, un indicateur qui appelle
+   un clic doit se comporter comme un lien. Sur Rapports, aucune cellule
+   n'est cliquable — on ne pilote pas depuis un rapport. */
+.pg-kpi__cell--link { display: block; text-decoration: none; color: inherit; cursor: pointer; transition: background var(--duration-fast) var(--ease-standard); }
+.pg-kpi__cell--link:hover { background: var(--surface-hover); }
+.pg-kpi__cell--link .pg-kpi__foot { display: flex; align-items: center; gap: var(--space-2); color: var(--text-secondary); }
+.pg-kpi__cell--link:hover .pg-kpi__foot { color: var(--text-primary); }
+
+
+/* --- Variation ------------------------------------------------------------
+   Evolution par rapport a la periode precedente. */
+
+.pg-trend {
+  display: inline-flex; align-items: center; gap: 2px;
+  font-family: var(--font-numeric);
+  font-size: var(--text-caption-size);
+  font-weight: var(--weight-medium);
+}
+.pg-trend--up   { color: var(--data-positive); }
+.pg-trend--down { color: var(--data-negative); }
+/* Une variation n'est pas toujours bonne quand elle monte : un encours
+   client qui augmente est une mauvaise nouvelle. La classe dit le SENS
+   METIER, pas la direction de la fleche. */
+.pg-trend--bad  { color: var(--data-negative); }
+.pg-trend--good { color: var(--data-positive); }
+.pg-trend .pg-icon { width: 12px; height: 12px; }

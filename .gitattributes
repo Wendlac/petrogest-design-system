@@ -1,0 +1,28 @@
+# ==========================================================================
+# PETROGEST · Design System — normalisation des fichiers
+# --------------------------------------------------------------------------
+# Sans ces regles, Git convertit les fins de ligne selon le systeme : le
+# depot apparait alors entierement modifie des qu'on le clone sur une autre
+# machine, et chaque difference reelle se perd dans le bruit.
+#
+# On stocke tout en LF dans le depot ; Windows peut continuer a travailler
+# en CRLF dans sa copie de travail, c'est transparent.
+# ==========================================================================
+
+* text=auto eol=lf
+
+# Formats texte, explicitement
+*.html   text eol=lf
+*.css    text eol=lf
+*.js     text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.svg    text eol=lf
+*.txt    text eol=lf
+
+# Formats binaires : jamais de conversion, sous peine de les corrompre
+*.woff2  binary
+*.png    binary
+*.jpg    binary
+*.pdf    binary
+*.pptx   binary

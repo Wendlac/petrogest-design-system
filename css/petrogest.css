@@ -1,0 +1,64 @@
+/* ==========================================================================
+   PETROGEST · Design System — point d'entree unique
+   --------------------------------------------------------------------------
+   EN DEVELOPPEMENT, c'est le seul fichier a lier :
+
+       <link rel="stylesheet" href="css/petrogest.css">
+
+   EN PRODUCTION, servir la version concatenee :
+
+       node tools/build-css.js        →  css/petrogest.build.css
+       <link rel="stylesheet" href="css/petrogest.build.css">
+
+   POURQUOI DEUX FICHIERS
+   Les @import ne se paralellisent pas : le navigateur doit lire chaque
+   fichier pour decouvrir le suivant. Vingt fichiers, c'est vingt allers-
+   retours en serie avant le premier pixel. Sur un laptop en filaire cela ne
+   se voit pas ; sur une tablette a la station, si.
+
+   La concatenation ne change rien au resultat visuel : le script se contente
+   de recopier les fichiers dans cet ordre exact. Les fichiers separes
+   restent la reference pour travailler.
+
+   L'ORDRE N'EST PAS ARBITRAIRE
+   Il n'y a aucune couche de specificite artificielle dans ce systeme : la
+   cascade fait le travail. Trois fichiers doivent donc rester a leur place.
+   Elles sont signalees ci-dessous.
+   ========================================================================== */
+
+/* Les @font-face en premier : une police declaree apres son utilisation
+   provoque un reflow au moment ou elle arrive. */
+@import url("fonts.css");
+
+@import url("tokens.css");
+@import url("base.css");
+
+@import url("components/button.css");
+@import url("components/field.css");
+@import url("components/badge.css");
+@import url("components/table.css");
+@import url("components/ledger.css");
+@import url("components/shell.css");
+@import url("components/menu.css");
+@import url("components/filters.css");
+@import url("components/modal.css");
+@import url("components/kpi.css");
+@import url("components/gauge.css");
+@import url("components/upload.css");
+@import url("components/entry.css");
+@import url("components/chart.css");
+@import url("components/feedback.css");
+@import url("components/overlay.css");
+@import url("components/auth.css");
+
+/* 1 · touch.css redensifie les composants ci-dessus : il doit venir APRES
+       eux. La densite est pilotee par le pointeur, pas par la largeur. */
+@import url("components/touch.css");
+
+/* 2 · theme-dark.css surcharge les primitives ET les roles : apres tout ce
+       qui les consomme. */
+@import url("theme-dark.css");
+
+/* 3 · print.css a le dernier mot, y compris sur le theme sombre — on
+       n'imprime jamais un fond noir. */
+@import url("print.css");

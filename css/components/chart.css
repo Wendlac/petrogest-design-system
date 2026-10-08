@@ -1,0 +1,166 @@
+/* ==========================================================================
+   PETROGEST · chart.css
+   --------------------------------------------------------------------------
+   Graphiques en SVG, ecrits a la main. Le design system remplace Chart.js :
+   plus de dependance a habiller, plus de mise a jour a subir, et les
+   graphiques consomment exactement les memes tokens que le reste.
+
+   ---------------------------------------------------------------------------
+   LA COULEUR DANS UN GRAPHIQUE
+
+   Le principe du systeme est que toute couleur porte du sens. Dans un
+   graphique, la couleur d'une serie EST le sens : elle identifie le produit
+   ou le mode de reglement. C'est donc le seul endroit ou une palette
+   categorielle est legitime.
+
+   Deux regles la tiennent :
+
+   1. UNE SEULE SERIE = ENCRE. Pas de couleur du tout. Un graphique a une
+      courbe n'a rien a distinguer.
+
+   2. AU-DELA DE QUATRE SERIES, LE GRAPHIQUE EST LE MAUVais OUTIL. La palette
+      en compte six, mais les deux dernieres sont un aveu d'echec : a ce
+      stade il faut un tableau, ou regrouper en « Autres ».
+
+   La palette est volontairement peu saturee pour ne pas concurrencer les
+   couleurs SEMANTIQUES (rouge critique, ambre vigilance, vert conforme).
+   Un ecart de jauge doit rester la tache la plus vive de l'ecran, meme a
+   cote d'un graphique.
+   ========================================================================== */
+
+:root {
+  --cat-1: #2F5D8C;  /* bleu profond */
+  --cat-2: #C97B4A;  /* terre cuite  */
+  --cat-3: #4E8A6B;  /* vert         */
+  --cat-4: #8B6BA8;  /* prune        */
+  --cat-5: #3E8E92;  /* sarcelle     */
+  --cat-6: #6B7280;  /* gris — reserve a « Autres » */
+
+  --chart-grid:  var(--border-subtle);
+  --chart-axis:  var(--text-disabled);
+  --chart-ink:   var(--grey-900);
+}
+
+
+/* --- Conteneur ------------------------------------------------------------ */
+
+.pg-chart { margin: 0; }
+.pg-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.pg-chart__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+.pg-chart__title { font-size: var(--text-body-size); font-weight: var(--weight-semibold); }
+.pg-chart__total {
+  font-family: var(--font-numeric);
+  font-size: calc(var(--text-metric-size) * var(--numeric-scale));
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--numeric-tracking);
+}
+
+
+/* --- Grille et axes -------------------------------------------------------
+   La grille est un repere, pas un dessin : elle doit s'effacer derriere la
+   donnee. Pas de lignes verticales — elles n'aident jamais a lire une
+   courbe temporelle et ajoutent une ligne graphique par point. */
+
+.pg-chart__grid  { stroke: var(--chart-grid); stroke-width: 1; }
+.pg-chart__axis  { fill: var(--chart-axis); font-family: var(--font-numeric); font-size: 10px; }
+.pg-chart__axis--cat { font-family: var(--font-sans); }
+.pg-chart__base  { stroke: var(--border-default); stroke-width: 1; }
+
+
+/* --- Courbe --------------------------------------------------------------- */
+
+.pg-chart__line {
+  fill: none;
+  stroke: var(--chart-ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.pg-chart__area { fill: var(--chart-ink); opacity: .06; stroke: none; }
+.pg-chart__dot  { fill: var(--surface-raised); stroke: var(--chart-ink); stroke-width: 2; }
+
+
+/* --- Barres --------------------------------------------------------------- */
+
+.pg-chart__bar {
+  fill: var(--chart-ink);
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+.pg-chart:hover .pg-chart__bar { opacity: .45; }
+.pg-chart .pg-chart__bar:hover,
+.pg-chart__bar.is-active { opacity: 1 !important; }
+
+/* Barre horizontale : classements, top debiteurs, activite par station. */
+.pg-chart__hbar-label { fill: var(--text-secondary); font-size: 12px; font-family: var(--font-sans); }
+.pg-chart__hbar-value { fill: var(--text-primary); font-size: 12px; font-family: var(--font-numeric); text-anchor: end; }
+
+
+/* --- Anneau ---------------------------------------------------------------
+   Le total au centre : c'est ce que les gens lisent en premier. */
+
+.pg-chart__arc { stroke: var(--surface-raised); stroke-width: 2; transition: opacity var(--duration-fast) var(--ease-standard); }
+.pg-chart:hover .pg-chart__arc { opacity: .45; }
+.pg-chart .pg-chart__arc:hover { opacity: 1 !important; }
+.pg-chart__center-value { fill: var(--text-primary); font-family: var(--font-numeric); font-size: 18px; font-weight: 500; text-anchor: middle; }
+.pg-chart__center-label { fill: var(--text-muted); font-family: var(--font-sans); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; text-anchor: middle; }
+
+
+/* --- Legende --------------------------------------------------------------
+   Elle porte la VALEUR, pas seulement le nom. Une legende qui n'affiche que
+   « Super » oblige a revenir au graphique pour lire le chiffre. */
+
+.pg-chart__legend { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-5); }
+.pg-chart__legend--inline { flex-direction: row; flex-wrap: wrap; gap: var(--space-6); }
+
+.pg-chart__key {
+  display: flex; align-items: center; gap: var(--space-4);
+  font-size: var(--text-caption-size);
+  color: var(--text-secondary);
+}
+.pg-chart__key-swatch { flex: none; width: 10px; height: 10px; border-radius: 2px; }
+.pg-chart__key-name   { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pg-chart__key-value  { flex: none; font-family: var(--font-numeric); letter-spacing: var(--numeric-tracking); color: var(--text-primary); }
+.pg-chart__key-pct    { flex: none; font-family: var(--font-numeric); color: var(--text-muted); min-width: 38px; text-align: right; }
+
+
+/* --- Lecture au survol ----------------------------------------------------
+   Pas d'infobulle flottante qui suit le curseur : au doigt elle est
+   inatteignable, et a la souris elle masque la donnee voisine. La valeur
+   s'affiche a place fixe, au-dessus du graphique. */
+
+.pg-chart__readout {
+  display: flex; align-items: baseline; gap: var(--space-4);
+  min-height: 20px;
+  margin-bottom: var(--space-3);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+}
+.pg-chart__readout-value { font-family: var(--font-numeric); font-size: var(--text-body-size); color: var(--text-primary); font-weight: var(--weight-medium); }
+.pg-chart__cursor { stroke: var(--border-strong); stroke-width: 1; stroke-dasharray: 3 3; }
+
+
+/* --- Sparkline ------------------------------------------------------------
+   Dans une cellule de tableau ou une tuile KPI. Pas d'axe, pas de grille :
+   seule la forme compte. */
+
+.pg-spark { display: inline-block; width: 72px; height: 20px; vertical-align: middle; }
+.pg-spark path { fill: none; stroke: var(--chart-ink); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.pg-spark--positive path { stroke: var(--data-positive); }
+.pg-spark--negative path { stroke: var(--data-negative); }
+
+
+/* --- Etat vide ------------------------------------------------------------ */
+
+.pg-chart__empty {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 160px;
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  background: var(--surface-page);
+  border-radius: var(--radius-md);
+}

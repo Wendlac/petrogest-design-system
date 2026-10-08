@@ -1,0 +1,157 @@
+/* ==========================================================================
+   PETROGEST · theme-dark.css
+   --------------------------------------------------------------------------
+   LA STRATEGIE
+
+   L'audit a trouve 104 references directes aux primitives dans 14
+   composants — var(--grey-900), var(--red-50)… au lieu de passer par un
+   role. C'est une fuite de mon architecture : un composant ne devrait
+   connaitre que des roles.
+
+   Les reecrire une par une aurait ete long et risque. On fait l'inverse :
+   la rampe de gris est une ECHELLE DE CLARTE, et le theme sombre en
+   renverse le sens. --grey-900 « l'encre la plus dense » devient « la plus
+   claire ». Les 104 usages redeviennent corrects d'un coup, et la couche
+   semantique, qui reference les primitives, suit toute seule.
+
+   Ce n'est pas un miroir mecanique : les pas percus ne sont pas
+   symetriques, et surtout l'ELEVATION s'inverse. En clair, une surface
+   surelevee est plus CLAIRE que le fond ; en sombre elle doit rester plus
+   claire que le fond, alors que l'inversion la rendrait plus foncee. Les
+   quelques roles concernes sont donc redefinis explicitement, apres.
+
+   ---------------------------------------------------------------------------
+   UN SEUL BLOC, PAS DEUX
+
+   Pas de @media (prefers-color-scheme) duplique ici : sans etape de build,
+   il faudrait ecrire deux fois les memes 90 declarations. Le script de
+   demarrage lit la preference systeme quand l'utilisateur n'a rien choisi
+   et pose data-theme en consequence. Une seule source de verite.
+   ========================================================================== */
+
+/* TOUT CE FICHIER EST SOUS @media screen.
+   On n'imprime jamais un fond noir : a l'impression, ces surcharges ne
+   s'appliquent pas et les roles clairs de tokens.css reprennent la main.
+   Aucune valeur n'a donc a etre redeclaree dans print.css. */
+@media screen {
+
+[data-theme="dark"] {
+
+  /* --- Rampe inversee ---------------------------------------------------- */
+
+  --grey-0:   #0E1116;
+  --grey-25:  #12161C;
+  --grey-50:  #171B22;
+  --grey-100: #1E232B;
+  --grey-200: #2A313B;
+  --grey-300: #39424E;
+  --grey-400: #5C6675;
+  --grey-500: #8B94A3;
+  --grey-600: #A9B2BF;
+  --grey-700: #C3CAD4;
+  --grey-800: #DDE2E8;
+  --grey-900: #ECEFF3;
+  --grey-950: #FFFFFF;
+
+  /* --- Familles semantiques ----------------------------------------------
+     Meme logique : le niveau 700 sert au TEXTE, il doit donc s'eclaircir ;
+     le niveau 50 sert au FOND, il doit s'assombrir. Contrastes verifies sur
+     la surface surelevee du theme. */
+
+  --red-50:  #2C1516;   --red-100: #3A1A1B;  --red-200: #55201F;
+  --red-600: #F97066;   --red-700: #FDA29B;  --red-800: #FECDCA;
+
+  --amber-50:  #2C2013; --amber-100: #3D2B14; --amber-200: #5A3D14;
+  --amber-600: #FDB022; --amber-700: #FEC84B; --amber-800: #FEDF89;
+
+  --green-50:  #12241C; --green-100: #16301F; --green-200: #1D4633;
+  --green-600: #47CD89; --green-700: #75E0A7; --green-800: #ABEFC6;
+
+  --blue-50:  #131F2E;  --blue-100: #16283C; --blue-200: #1E3A5C;
+  --blue-600: #53B1FD;  --blue-700: #84CAFF; --blue-800: #B2DDFF;
+
+
+  /* --- Roles que l'inversion ne suffit pas a donner -----------------------
+     L'ELEVATION. En clair : le fond est gris, la carte est blanche — la
+     carte est plus claire. En sombre, la carte doit rester plus claire que
+     le fond, alors que l'inversion la rendrait plus foncee. */
+
+  --surface-page:     #12161C;   /* le fond */
+  --surface-raised:   #1A1F27;   /* au-dessus : plus clair */
+  --surface-sunken:   #0F1319;   /* en creux : plus foncé */
+  --surface-hover:    #212832;
+  --surface-selected: #262E39;
+  --surface-inverse:  #ECEFF3;   /* toast, barre groupee : clair sur sombre */
+  --surface-overlay:  rgba(0, 0, 0, .66);
+
+  --text-inverse: #12161C;       /* texte SUR une surface inversee */
+
+  /* Les bordures gagnent un cran : sur fond sombre, un filet trop discret
+     disparait completement. */
+  --border-subtle:  #232932;
+  --border-default: #2E3641;
+  --border-strong:  #414B58;
+
+
+  /* --- Graphiques --------------------------------------------------------
+     La palette categorielle s'eclaircit : les teintes du theme clair, posees
+     sur du sombre, tombent sous le seuil de lisibilite. */
+
+  --cat-1: #7FA8D4;
+  --cat-2: #E5A87C;
+  --cat-3: #86BFA0;
+  --cat-4: #B79ED0;
+  --cat-5: #78BFC2;
+  --cat-6: #9AA1AC;
+
+  --chart-grid: #232932;
+  --chart-axis: #7C8595;
+  --chart-ink:  #ECEFF3;
+
+
+  /* --- Elevation ----------------------------------------------------------
+     Une ombre ne se voit quasiment pas sur du sombre. On la garde pour ce
+     qui flotte reellement, mais c'est la BORDURE qui porte la separation —
+     ce qui etait deja le principe du systeme en clair. */
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-sm: 0 4px 10px -2px rgba(0, 0, 0, .5);
+  --shadow-md: 0 16px 32px -8px rgba(0, 0, 0, .6);
+}
+
+
+/* --- Ce que l'inversion casse et qu'il faut rattraper --------------------- */
+
+/* La pastille compagnie : les logos des compagnies sont fournis pour un
+   fond CLAIR. Sur fond sombre, un logo noir disparait. On lui garde donc
+   un contenant clair — l'application peut aussi servir logo_sombre, que le
+   branding expose deja. */
+[data-theme="dark"] .pg-company { background: #E8EBEF; border-color: #E8EBEF; }
+
+/* L'aire sous une courbe : 6 % d'encre sur du blanc se voit, 6 % de blanc
+   sur du sombre ne se voit pas. */
+[data-theme="dark"] .pg-chart__area { opacity: .12; }
+
+/* Le remplissage d'une cuve doit rester plus clair que le reservoir vide. */
+[data-theme="dark"] .pg-tank__fill { background: #4A5461; }
+
+/* La zone de depot au repos : le pointille doit rester perceptible. */
+[data-theme="dark"] .pg-drop { background: var(--surface-sunken); }
+
+/* Le wordmark et les logos inline suivent currentColor : rien a faire.
+   Les logos en <img> non transparents, eux, doivent etre servis en
+   variante sombre par l'application (branding.logo_sombre). */
+
+
+/* --- Transition de theme --------------------------------------------------
+   Uniquement sur les surfaces et le texte, et seulement 140 ms : animer
+   des dizaines de proprietes au basculement fait ramer une page dense. */
+
+.pg-theme-switching,
+.pg-theme-switching * {
+  transition: background-color 140ms var(--ease-standard),
+              border-color     140ms var(--ease-standard),
+              color            140ms var(--ease-standard) !important;
+}
+
+} /* fin @media screen */

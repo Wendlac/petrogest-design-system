@@ -1,0 +1,408 @@
+/* ==========================================================================
+   PETROGEST · shell.css
+   --------------------------------------------------------------------------
+   Sidebar, topbar, en-tete de page.
+
+   Trois decisions y sont prises :
+
+   1. La sidebar passe en CLAIR. Le brun fonce precedent concurrencait le
+      logo de l'entreprise cliente et absorbait 260 px de largeur pour une
+      liste plate de douze entrees. Ici : 240 px, groupes nommes, et le logo
+      de l'entreprise a la place d'honneur.
+
+   2. La barre de classement QUITTE le shell. C'etait un widget de tableau
+      de bord occupant une bande permanente sur onze ecrans qui n'en avaient
+      que faire. Elle redescend dans le tableau de bord.
+      Gain : 110 px de chrome permanent ramenes a 56.
+
+   3. Le produit signe, l'entreprise s'affiche. Le logo de l'entreprise est
+      en haut de la sidebar ; le wordmark PETROGEST et la mention de
+      l'editeur sont en pied, discrets.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   OSSATURE
+   ========================================================================== */
+
+.pg-app {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--surface-page);
+}
+.pg-app.is-collapsed { grid-template-columns: var(--sidebar-width-collapsed) minmax(0, 1fr); }
+
+.pg-main { display: flex; flex-direction: column; min-width: 0; }
+
+.pg-page {
+  flex: 1;
+  padding: var(--space-8) var(--page-padding) var(--space-12);
+  max-width: var(--content-max-width);
+  width: 100%;
+}
+
+
+/* ==========================================================================
+   SIDEBAR
+   ========================================================================== */
+
+.pg-sidebar {
+  display: flex;
+  flex-direction: column;
+  position: sticky; top: 0;
+  height: 100vh;
+  background: var(--surface-raised);
+  border-right: var(--border-width) solid var(--border-default);
+  overflow: hidden;
+}
+
+/* --- Marque de l'entreprise cliente --------------------------------------- */
+
+.pg-sidebar__brand {
+  display: flex;
+  align-items: center;
+  height: var(--topbar-height);
+  padding: 0 var(--space-6);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  flex: none;
+}
+.pg-sidebar__brand img { max-height: 24px; max-width: 100%; object-fit: contain; }
+
+/* --- Navigation ----------------------------------------------------------- */
+
+.pg-sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-5) var(--space-4);
+}
+
+.pg-nav-group + .pg-nav-group { margin-top: var(--space-6); }
+
+.pg-nav-group__title {
+  padding: 0 var(--space-4);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-line);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  /* Un titre de groupe de navigation est du contenu, pas un controle
+     desactive : il lui faut le contraste du contenu. */
+  color: var(--text-muted);
+}
+
+.pg-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: 34px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--duration-fast) var(--ease-standard),
+              color      var(--duration-fast) var(--ease-standard);
+}
+.pg-nav-item:hover { background: var(--surface-hover); color: var(--text-primary); }
+
+/* Actif : une surface pleine et l'encre. Pas de pastille qui deborde du
+   rail comme dans la version precedente. */
+.pg-nav-item.is-active {
+  background: var(--surface-selected);
+  color: var(--text-primary);
+  font-weight: var(--weight-semibold);
+}
+.pg-nav-item.is-active .pg-icon { color: var(--text-primary); }
+
+.pg-nav-item .pg-icon { color: var(--text-muted); }
+.pg-nav-item:hover .pg-icon { color: var(--text-secondary); }
+
+.pg-nav-item__label { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+.pg-nav-item .pg-count { margin-left: auto; }
+
+/* --- Zone basse ----------------------------------------------------------- */
+
+.pg-sidebar__foot {
+  flex: none;
+  padding: var(--space-4);
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+/* Signature produit : discrete, achromatique, au pied. */
+.pg-sidebar__product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+}
+.pg-sidebar__product img,
+.pg-sidebar__logo { height: 11px; width: auto; opacity: .55; color: var(--text-primary); }
+.pg-sidebar__version {
+  font-family: var(--font-numeric);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* --- Etat replie ----------------------------------------------------------
+   56 px : l'icone seule, centree. Le libelle passe en infobulle. */
+
+.is-collapsed .pg-sidebar__brand   { padding: 0; justify-content: center; }
+.is-collapsed .pg-nav-group__title { visibility: hidden; height: var(--text-micro-line); }
+.is-collapsed .pg-nav-item         { justify-content: center; padding: 0; }
+.is-collapsed .pg-nav-item__label,
+.is-collapsed .pg-sidebar__product,
+.is-collapsed .pg-nav-item .pg-count { display: none; }
+
+
+/* ==========================================================================
+   TOPBAR
+   --------------------------------------------------------------------------
+   56 px, une seule barre. Elle porte le contexte a gauche et les outils de
+   l'utilisateur a droite. Rien d'autre.
+   ========================================================================== */
+
+.pg-topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  height: var(--topbar-height);
+  padding: 0 var(--page-padding);
+  background: var(--surface-raised);
+  border-bottom: var(--border-width) solid var(--border-default);
+  position: sticky; top: 0; z-index: 20;
+}
+.pg-topbar__context { flex: 1; min-width: 0; }
+.pg-topbar__tools   { display: flex; align-items: center; gap: var(--space-2); }
+
+/* Fil d'Ariane */
+.pg-crumbs { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-label-size); }
+.pg-crumbs a { color: var(--text-muted); text-decoration: none; }
+.pg-crumbs a:hover { color: var(--text-primary); }
+.pg-crumbs__sep { color: var(--text-muted); }
+.pg-crumbs__current { color: var(--text-primary); font-weight: var(--weight-medium); }
+
+/* Bloc utilisateur */
+.pg-user {
+  display: flex; align-items: center; gap: var(--space-4);
+  height: var(--control-height-md);
+  padding: 0 var(--space-3) 0 var(--space-2);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.pg-user:hover { background: var(--surface-hover); }
+.pg-avatar {
+  display: flex; align-items: center; justify-content: center;
+  flex: none;
+  width: 26px; height: 26px;
+  border-radius: var(--radius-full);
+  background: var(--grey-900);
+  color: var(--grey-0);
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: .02em;
+}
+.pg-user__name { font-size: var(--text-label-size); font-weight: var(--weight-medium); line-height: 1.1; }
+.pg-user__role { font-size: 11px; color: var(--text-muted); line-height: 1.2; }
+
+
+/* ==========================================================================
+   EN-TETE DE PAGE
+   --------------------------------------------------------------------------
+   REGLE : le titre nomme l'OBJET, pas la section. La section est deja dans
+   la sidebar, surlignee, a 240 px de la. « Declaration du 11/08/2026 », pas
+   « Declarations ». Sur une page de liste, le titre est la section, et c'est
+   la meta qui porte l'information (le compte, la periode).
+
+   Et le sous-titre ne ment pas : la version precedente affichait
+   « Fiche 360° » au-dessus d'une LISTE de stations.
+   ========================================================================== */
+
+.pg-page-header { margin-bottom: var(--space-8); }
+
+.pg-page-header__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-8);
+}
+
+.pg-page-header__back {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-label-size);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.pg-page-header__back:hover { color: var(--text-primary); }
+
+.pg-page-header__title {
+  font-size: var(--text-display-size);
+  line-height: var(--text-display-line);
+  font-weight: var(--text-display-weight);
+  letter-spacing: var(--text-display-spacing);
+  color: var(--text-primary);
+}
+
+/* La meta remplace le sous-titre decoratif : elle porte de l'information
+   reelle — entite, statut, compte, derniere modification. */
+.pg-page-header__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+}
+.pg-page-header__meta-sep { color: var(--text-muted); }
+
+.pg-page-header__actions { display: flex; align-items: center; gap: var(--space-4); flex: none; }
+
+/* Etat discret aligne a droite (sauvegarde auto, derniere modification). */
+.pg-page-header__status { font-size: var(--text-caption-size); color: var(--text-muted); }
+
+
+/* --- Onglets --------------------------------------------------------------
+   Une seule implementation pour les trois de la version precedente :
+   Comptabilite (5), Administration (8), Messages (2). */
+
+.pg-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-top: var(--space-7);
+  border-bottom: var(--border-width) solid var(--border-default);
+  overflow-x: auto;
+}
+.pg-tab {
+  position: relative;
+  padding: 0 0 var(--space-4);
+  font-size: var(--text-label-size);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+  white-space: nowrap;
+  background: none;
+  cursor: pointer;
+}
+.pg-tab:hover { color: var(--text-primary); }
+.pg-tab[aria-selected="true"] { color: var(--text-primary); }
+.pg-tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--grey-900);
+}
+
+
+/* ==========================================================================
+   SECTION
+   --------------------------------------------------------------------------
+   Le titre de section perd la barre verticale d'accent de la version
+   precedente : c'etait un ornement, et il coexistait avec un second
+   traitement sans regle. Un libelle et un filet suffisent.
+   ========================================================================== */
+
+.pg-section { margin-bottom: var(--space-10); }
+.pg-section__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-5);
+}
+.pg-section__title {
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-line);
+  font-weight: var(--text-micro-weight);
+  letter-spacing: var(--text-micro-spacing);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   CARTE
+   ========================================================================== */
+
+.pg-card {
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+}
+.pg-card__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+}
+.pg-card__title { font-size: var(--text-body-size); font-weight: var(--weight-semibold); }
+.pg-card__body { padding: var(--space-6); }
+
+/* Carte a etat : la bordure et l'en-tete portent le signal. C'etait le bon
+   reflexe de la carte « Station Bobo » du tableau de bord — sauf qu'il etait
+   noye au milieu de dix cartes a bordure doree DECORATIVE. Ici la bordure
+   n'est coloree que si elle signifie quelque chose. */
+.pg-card--critical { border-color: var(--status-critical-border); }
+.pg-card--warning  { border-color: var(--status-warning-border); }
+.pg-card--success  { border-color: var(--status-success-border); }
+
+
+/* ==========================================================================
+   BARRE D'ACTIONS ANCREE
+   --------------------------------------------------------------------------
+   Sur l'etape « Stocks » d'une declaration, il faut aujourd'hui derouler
+   trois cartes et quinze lignes de saisie pour atteindre le bouton Suivant.
+   ========================================================================== */
+
+.pg-actionbar {
+  position: sticky; bottom: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  padding: var(--space-5) var(--space-6);
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+.pg-actionbar__info { font-size: var(--text-caption-size); color: var(--text-muted); }
+
+
+/* ==========================================================================
+   INDICATEUR DE SAUVEGARDE
+   --------------------------------------------------------------------------
+   La version precedente annoncait « Sauvegarde auto activee » en gris 12 px
+   en haut a droite, ET affichait trois boutons « Enregistrer » en bas.
+   Une seule des deux affirmations peut etre vraie.
+
+   Ici la sauvegarde automatique est le comportement, et cet indicateur en
+   est le seul temoin. Il n'y a plus de bouton Enregistrer sur un formulaire
+   a sauvegarde auto — seulement des boutons qui font AVANCER (Suivant,
+   Soumettre a validation).
+   ========================================================================== */
+
+.pg-autosave {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+}
+.pg-autosave__dot {
+  width: 6px; height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--grey-300);
+  flex: none;
+}
+.pg-autosave[data-state="saving"] .pg-autosave__dot { background: var(--amber-600); animation: pg-pulse 1s var(--ease-standard) infinite; }
+.pg-autosave[data-state="saved"]  .pg-autosave__dot { background: var(--green-600); }
+.pg-autosave[data-state="error"]  .pg-autosave__dot { background: var(--red-600); }
+.pg-autosave[data-state="error"]  { color: var(--status-critical-text); }
+
+/* Hors ligne : la saisie est en file locale, rien n est perdu. C est un
+   etat d ATTENTE, pas une erreur — il ne doit pas alarmer le chef de
+   station qui saisit sur une piste sans reseau. */
+.pg-autosave[data-state="queued"] .pg-autosave__dot { background: var(--blue-600); }
+.pg-autosave[data-state="queued"] { color: var(--status-info-text); }

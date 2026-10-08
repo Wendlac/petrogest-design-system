@@ -1,0 +1,124 @@
+/* ==========================================================================
+   PETROGEST · filters.css
+   --------------------------------------------------------------------------
+   UNE grammaire de filtre pour les neuf ecrans. La version precedente en
+   avait quatre :
+
+     Messages      → carte dediee DU/AU + « Appliquer » + lien de reinit
+     Clients       → selects etiquetes en grille + champ de recherche
+     Declarations  → la carte de dates ET les selects, empiles
+     Historique    → tout en ligne + boutons « Filtrer » et « Reinitialiser »
+
+   A elles seules, sur Declarations, ces deux barres consommaient ~200 px
+   avant la premiere ligne de donnee.
+
+   Ici : une seule ligne de chips. Un chip inactif annonce sa dimension
+   (« Station »), un chip actif annonce sa valeur (« Station · Bobo ») et
+   change d'aspect. Le filtre s'applique au choix — pas de bouton
+   « Appliquer », qui ne fait qu'ajouter une etape.
+   ========================================================================== */
+
+.pg-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+/* La recherche prend la place disponible, les chips suivent. */
+.pg-search { position: relative; display: flex; align-items: center; min-width: 220px; flex: 1 1 240px; max-width: 380px; }
+.pg-search .pg-icon { position: absolute; left: var(--space-4); color: var(--text-muted); pointer-events: none; }
+.pg-search__input {
+  width: 100%;
+  height: var(--control-height-md);
+  padding: 0 var(--space-4) 0 var(--space-9);
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-body-size);
+  color: var(--text-primary);
+}
+.pg-search__input::placeholder { color: var(--text-disabled); }
+.pg-search__input:hover { border-color: var(--grey-400); }
+.pg-search__input:focus { outline: none; border-color: var(--grey-900); box-shadow: var(--focus-ring); }
+
+
+/* --- Chip de filtre ------------------------------------------------------- */
+
+.pg-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--control-height-md);
+  padding: 0 var(--space-4);
+  background: var(--surface-raised);
+  border: var(--border-width) solid var(--border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-label-size);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+}
+.pg-filter:hover { background: var(--surface-hover); border-color: var(--grey-400); }
+.pg-filter .pg-icon { color: var(--text-muted); width: 14px; height: 14px; }
+
+/* Chevron qui bascule a l'ouverture. */
+.pg-filter[aria-expanded="true"] { border-color: var(--grey-900); }
+.pg-filter[aria-expanded="true"] .pg-filter__chevron { transform: rotate(180deg); }
+.pg-filter__chevron { transition: transform var(--duration-fast) var(--ease-standard); }
+
+/* Filtre applique : encre pleine. Il doit se voir depuis l'autre bout de
+   l'ecran, sinon l'utilisateur cherche pourquoi sa liste est vide. */
+.pg-filter.is-applied {
+  background: var(--grey-900);
+  border-color: var(--grey-900);
+  color: var(--grey-0);
+}
+.pg-filter.is-applied:hover { background: var(--grey-800); }
+.pg-filter.is-applied .pg-icon { color: var(--grey-400); }
+.pg-filter__value { font-weight: var(--weight-regular); opacity: .75; }
+
+/* Compteur de valeurs multiples : « Station · 3 ». */
+.pg-filter__count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 16px; height: 16px; padding: 0 4px;
+  border-radius: var(--radius-full);
+  background: var(--grey-700);
+  color: var(--grey-0);
+  font-family: var(--font-numeric);
+  font-size: 10px;
+}
+
+
+/* --- Panneau de filtre ----------------------------------------------------
+   Reutilise .pg-menu pour le positionnement et le clavier. */
+
+.pg-filter-panel { min-width: 240px; padding: var(--space-4); }
+.pg-filter-panel__list { display: flex; flex-direction: column; gap: var(--space-4); max-height: 260px; overflow-y: auto; }
+.pg-filter-panel__foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+/* Plage de dates : deux champs cote a cote, dans le panneau. */
+.pg-daterange { display: flex; align-items: center; gap: var(--space-3); }
+.pg-daterange .pg-input { width: 128px; }
+
+
+/* --- Ligne de resultat ----------------------------------------------------
+   Remplace « 127 resultats sur 127 », qui n'apprend rien. Quand un filtre
+   est actif, la ligne dit ce qui est filtre et propose la sortie. */
+
+.pg-results {
+  display: flex; align-items: center; gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+}
+.pg-results b { color: var(--text-primary); font-family: var(--font-numeric); font-weight: var(--weight-medium); }
