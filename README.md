@@ -13,6 +13,15 @@ HTML, CSS et JavaScript natifs. Aucun framework, aucune dépendance.
 | **2** | **[correspondance.html](correspondance.html)** | La migration : 445 classes de la plateforme actuelle reliées à celles-ci, et les huit endroits où les deux couches JavaScript se recouvrent |
 | **3** | ce fichier | Comment lancer, construire, vérifier |
 
+## En ligne
+
+**<https://wendlac.github.io/petrogest-design-system/design-system.html>**
+
+C'est l'adresse à donner : rien à installer, rien à lancer.
+La table de correspondance est [ici](https://wendlac.github.io/petrogest-design-system/correspondance.html).
+
+## En local
+
 Servir le dossier par HTTP — les deux pages chargent des `.woff2` et un
 sprite SVG, que le protocole `file://` bloque.
 
@@ -20,7 +29,8 @@ sprite SVG, que le protocole `file://` bloque.
 node .server.js
 ```
 
-Puis <http://localhost:4173/design-system.html>.
+Puis `http://localhost:4173/design-system.html` (adresse locale : elle ne
+fonctionne que sur la machine où le serveur tourne).
 
 ---
 
