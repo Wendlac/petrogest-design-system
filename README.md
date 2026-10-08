@@ -89,7 +89,7 @@ plancher, et c'est le poste où le système travaille le plus.
 
 ```bash
 node tools/build-css.js      # concatène les 24 feuilles → css/petrogest.build.css
-node tools/verifier.js       # 18 contrôles ; sort 1 si l'un échoue
+node tools/verifier.js       # 19 contrôles ; sort 1 si l'un échoue
 node tools/build-icons.js    # régénère assets/icons.svg depuis assets/icons/
 ```
 
@@ -109,6 +109,7 @@ livraison**, idéalement en intégration continue. Il vérifie :
 10  aucune entité HTML dans un bloc JSON
 11  aucun @import distant
 12  version concordante entre VERSION, la doc et la feuille construite
+13  feuille concaténée à jour avec les sources
 ```
 
 Il n'a pas de dépendance et tourne en une seconde. Ajouter `-v` pour le détail.

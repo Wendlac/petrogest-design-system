@@ -538,6 +538,58 @@ function controlerVersion() {
   else ok("v" + v, "(VERSION, documentation, feuille concatenee)");
 }
 
+/* ==========================================================================
+   13 · FRAICHEUR DE LA FEUILLE CONCATENEE
+   --------------------------------------------------------------------------
+   css/petrogest.build.css est genere, mais il est versionne : c'est lui que
+   la production lie, et un integrateur doit pouvoir cloner le depot et s'en
+   servir sans rien executer.
+
+   Le prix de ce confort est qu'il peut mentir. Quelqu'un modifie un
+   composant, oublie « node tools/build-css.js », et commet une feuille
+   perimee : rien ne proteste, et la production sert l'ancienne version
+   pendant des semaines. Le controle 12 ne verrait rien — il ne compare que
+   des numeros de version.
+
+   On regenere donc la concatenation en memoire, avec la fonction meme du
+   script de construction, et on compare. L'en-tete porte la date de
+   generation : on ne compare que le corps.
+   ========================================================================== */
+function controlerFeuilleConstruite() {
+  titre("13 · Feuille concatenee");
+  if (!existe("css/petrogest.build.css")) {
+    ok("absente", "(optionnelle : node tools/build-css.js)");
+    return;
+  }
+
+  let attendu;
+  try {
+    attendu = require(path.join(RACINE, "tools", "build-css.js")).concatener().css;
+  } catch (e) {
+    ko("regeneration impossible", e.message);
+    return;
+  }
+
+  /* Fins de ligne normalisees des deux cotes : apres un clonage sous Windows
+     la copie de travail peut etre en CRLF sans que rien soit perime. */
+  const net = s => s.replace(/\r\n/g, "\n").replace(/\n+$/, "");
+  const reel = lire("css/petrogest.build.css");
+  const i = reel.indexOf("*/");
+  const corps = net(i < 0 ? reel : reel.slice(i + 2).replace(/^\n+/, ""));
+  const vise = net(attendu);
+
+  if (corps === vise) { ok("a jour", "(" + Math.round(vise.length / 1024) + " Ko)"); return; }
+
+  const a = corps.split("\n"), b = vise.split("\n");
+  let n = 0;
+  while (n < a.length && n < b.length && a[n] === b[n]) n++;
+  ko("perimee par rapport aux sources",
+     "premiere difference a la ligne " + (n + 1) + " du corps\n" +
+     "  construite : " + (a[n] === undefined ? "(fin du fichier)" : a[n].trim().slice(0, 70)) + "\n" +
+     "  sources    : " + (b[n] === undefined ? "(fin du fichier)" : b[n].trim().slice(0, 70)) + "\n" +
+     "→ node tools/build-css.js");
+}
+
 /* ========================================================================== */
 
 console.log("PETROGEST · controle du design system");
@@ -553,6 +605,7 @@ controlerLignesCliquables();
 controlerJson();
 controlerImports();
 controlerVersion();
+controlerFeuilleConstruite();
 
 console.log("");
 if (echecs) {

@@ -53,44 +53,61 @@ const SORTIE = path.join(RACINE, "css", "petrogest.build.css");
    d'etre avale silencieusement. */
 const RE_IMPORT = /^\s*@import\s+url\(\s*["']?([^"')]+)["']?\s*\)\s*;?\s*$/;
 
-const vus = new Set();
-const ordre = [];
-let distants = 0;
+/* La concatenation vit dans une fonction, et non au fil du fichier, parce que
+   tools/verifier.js l'appelle pour verifier que css/petrogest.build.css est
+   bien a jour. Une seule logique, donc : si elle changeait ici sans changer
+   la-bas, le controle validerait une feuille fausse.
 
-function resoudre(fichier) {
-  const abs = path.resolve(fichier);
-  if (vus.has(abs)) return "";          /* deja inclus : la cascade a garde la 1re place */
-  vus.add(abs);
+   L'etat appartient a l'appel et non au module — deux appels de suite
+   doivent rendre exactement le meme resultat. */
+function concatener() {
+  const vus = new Set();
+  const ordre = [];
+  let distants = 0;
 
-  if (!fs.existsSync(abs)) {
-    console.error("!! introuvable : " + path.relative(RACINE, abs));
-    process.exit(1);
-  }
+  function resoudre(fichier) {
+    const abs = path.resolve(fichier);
+    if (vus.has(abs)) return "";          /* deja inclus : la cascade a garde la 1re place */
+    vus.add(abs);
 
-  ordre.push(path.relative(RACINE, abs).replace(/\\/g, "/"));
+    /* On leve plutot que de sortir du processus : l'appelant peut etre le
+       controleur, qui doit pouvoir rapporter la panne au lieu de mourir. */
+    if (!fs.existsSync(abs)) throw new Error("introuvable : " + path.relative(RACINE, abs));
 
-  const dossier = path.dirname(abs);
-  const lignes = fs.readFileSync(abs, "utf8").split(/\r?\n/);
-  const sortie = [];
+    ordre.push(path.relative(RACINE, abs).replace(/\\/g, "/"));
 
-  for (const ligne of lignes) {
-    const m = ligne.match(RE_IMPORT);
-    if (!m) { sortie.push(ligne); continue; }
+    const dossier = path.dirname(abs);
+    const lignes = fs.readFileSync(abs, "utf8").split(/\r?\n/);
+    const sortie = [];
 
-    const cible = m[1];
-    if (/^(https?:)?\/\//.test(cible)) {
-      distants++;
-      sortie.push(ligne);               /* on laisse passer, mais on previendra */
-      continue;
+    for (const ligne of lignes) {
+      const m = ligne.match(RE_IMPORT);
+      if (!m) { sortie.push(ligne); continue; }
+
+      const cible = m[1];
+      if (/^(https?:)?\/\//.test(cible)) {
+        distants++;
+        sortie.push(ligne);               /* on laisse passer, mais on previendra */
+        continue;
+      }
+      sortie.push(resoudre(path.join(dossier, cible)));
     }
-    sortie.push(resoudre(path.join(dossier, cible)));
+
+    return "/* ====== " + path.relative(RACINE, abs).replace(/\\/g, "/") +
+           " ====== */\n" + sortie.join("\n");
   }
 
-  return "/* ====== " + path.relative(RACINE, abs).replace(/\\/g, "/") +
-         " ====== */\n" + sortie.join("\n");
+  return { css: resoudre(ENTREE), ordre: ordre, distants: distants };
 }
 
-const css = resoudre(ENTREE);
+module.exports = { concatener: concatener, SORTIE: SORTIE };
+
+/* Ce qui suit ne s'execute qu'en ligne de commande : require() de ce fichier
+   ne doit rien ecrire sur le disque. */
+if (require.main !== module) return;
+
+const r = concatener();
+const css = r.css, ordre = r.ordre, distants = r.distants;
 
 /* Les url() relatives ne survivent que si la sortie reste dans css/. */
 if (path.dirname(SORTIE) !== path.join(RACINE, "css")) {
@@ -107,7 +124,11 @@ const entete =
   "/* PETROGEST · Design System v" + VERSION + " — feuille concatenee\n" +
   "   GENERE PAR tools/build-css.js — NE PAS MODIFIER A LA MAIN.\n" +
   "   Editer les fichiers de css/ puis relancer : node tools/build-css.js\n" +
-  "   " + ordre.length + " fichiers · " + new Date().toISOString().slice(0, 10) + " */\n\n";
+  /* Pas de date de generation : elle ferait differer le fichier a chaque
+     reconstruction, meme sans un seul changement de source. Sur un fichier
+     versionne, cela veut dire un diff de bruit a chaque fois et des conflits
+     de fusion gratuits. Le nombre de fichiers, lui, dit quelque chose. */
+  "   " + ordre.length + " fichiers */\n\n";
 
 fs.writeFileSync(SORTIE, entete + css + "\n");
 
